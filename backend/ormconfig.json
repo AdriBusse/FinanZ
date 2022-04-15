@@ -1,0 +1,14 @@
+{
+  "name": "default",
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "admin",
+  "password": "admin",
+  "database": "finanz",
+  "synchronize": true,
+  "logging": true,
+  "entities": ["src/entity/*.*"],
+  "migrations": ["src/migrations/*.*"],
+  "seeds": ["src/seeds/*.*"]
+}
