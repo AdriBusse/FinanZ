@@ -2,8 +2,10 @@
 import {useQuery} from '@apollo/client';
 import {useIsFocused} from '@react-navigation/native';
 import React from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import FlatButton from '../components/Button';
+import {Colors} from '../styles/color';
 import {globalStyles} from '../styles/global';
 
 export default function Home(props: {
@@ -16,9 +18,11 @@ export default function Home(props: {
   };
   // changeToTagesgeld();
 
-  return (
-    <View style={globalStyles.container}>
-      <FlatButton title={'Zum Konto'} onPress={changeToTagesgeld} />
-    </View>
-  );
+  return <FlatButton title={'Zum Konto'} onPress={changeToTagesgeld} />;
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    display: 'flex',
+  },
+});

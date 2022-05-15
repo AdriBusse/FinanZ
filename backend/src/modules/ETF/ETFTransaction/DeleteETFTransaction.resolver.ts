@@ -12,7 +12,10 @@ export class DeleteETFTransactionResolver {
     @Ctx() ctx: MyContext
   ): Promise<boolean> {
     const user = ctx.res.locals.user;
-    const etfTransaction = await ETFTransaction.findOneOrFail({ id, user });
+    console.log(id);
+    console.log(user);
+
+    const etfTransaction = await ETFTransaction.findOne({ id, user });
 
     if (!etfTransaction) {
       throw new Error("Transaction not found");

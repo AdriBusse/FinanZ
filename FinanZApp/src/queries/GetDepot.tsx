@@ -1,7 +1,7 @@
 import {gql} from '@apollo/client';
 
 export const GETDEPOT = gql`
-  query run($id: String!) {
+  query getSavingDepot($id: String!) {
     getSavingDepot(id: $id) {
       name
       id

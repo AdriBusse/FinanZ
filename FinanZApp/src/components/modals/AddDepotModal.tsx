@@ -4,7 +4,6 @@ import React from 'react';
 import {
   Keyboard,
   Modal,
-  Text,
   TextInput,
   TouchableWithoutFeedback,
   View,
@@ -14,6 +13,8 @@ import {GETDEPOTS} from '../../queries/GetDepots';
 import {CREATESAVINGDEPOT} from '../../queries/mutations/CreateSavingDepot';
 import {globalStyles} from '../../styles/global';
 import FlatButton from '../Button';
+import ErrorAlert from '../shared/ErrorAlert';
+import FText from '../shared/FText';
 
 const transSchema = yup.object({
   name: yup.string().required(),
@@ -29,76 +30,78 @@ function AddDepotModal({visible, toggle}: Props) {
     refetchQueries: [{query: GETDEPOTS}],
   });
   return (
-    <Modal visible={visible} animationType="slide">
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={globalStyles.modalContent}>
-          <View style={globalStyles.container}>
-            <Formik
-              initialValues={{name: '', short: ''}}
-              validationSchema={transSchema}
-              onSubmit={values => {
-                addDepot({
-                  variables: {
-                    name: values.name,
-                    short: values.short.toUpperCase(),
-                  },
-                });
-                toggle(false);
-              }}>
-              {formikProps => {
-                return (
-                  <View style={globalStyles.container}>
-                    <Text style={globalStyles.heading}>Add a Transaction:</Text>
-                    <TextInput
-                      style={globalStyles.Input}
-                      placeholder="Name"
-                      onChangeText={formikProps.handleChange('name')}
-                      value={formikProps.values.name}
-                      onBlur={
-                        formikProps.handleBlur(
-                          'name',
-                        ) /*with out text will show just when press button*/
-                      }
-                    />
-                    <Text style={globalStyles.errorText}>
-                      {
-                        formikProps.touched.name &&
-                          formikProps.errors
-                            .name /*that error just showed when form was selected already*/
-                      }
-                    </Text>
+    <Modal
+      visible={visible}
+      animationType="slide"
+      transparent={true}
+      onRequestClose={() => toggle(false)}>
+      <View style={globalStyles.modal}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={globalStyles.modalContent}>
+            <View style={globalStyles.container}>
+              <Formik
+                initialValues={{name: '', short: ''}}
+                validationSchema={transSchema}
+                onSubmit={values => {
+                  addDepot({
+                    variables: {
+                      name: values.name,
+                      short: values.short.toUpperCase(),
+                    },
+                  });
+                  toggle(false);
+                }}>
+                {formikProps => {
+                  return (
+                    <View style={globalStyles.container}>
+                      <FText heading={true}>Add a Transaction:</FText>
+                      <TextInput
+                        style={globalStyles.Input}
+                        placeholder="Name"
+                        placeholderTextColor={'#fdfeff'}
+                        onChangeText={formikProps.handleChange('name')}
+                        value={formikProps.values.name}
+                        onBlur={
+                          formikProps.handleBlur(
+                            'name',
+                          ) /*with out text will show just when press button*/
+                        }
+                      />
+                      {formikProps.errors.name && formikProps.touched.name && (
+                        <ErrorAlert>{formikProps.errors.name}</ErrorAlert>
+                      )}
 
-                    <TextInput
-                      style={globalStyles.Input}
-                      placeholder="Kürzel 3 Zeichen"
-                      onChangeText={formikProps.handleChange('short')}
-                      value={formikProps.values.short}
-                      onBlur={
-                        formikProps.handleBlur(
-                          'short',
-                        ) /*with out text will show just when press button*/
-                      }
-                    />
-                    <Text style={globalStyles.errorText}>
-                      {
-                        formikProps.touched.short &&
-                          formikProps.errors
-                            .short /*that error just showed when form was selected already*/
-                      }
-                    </Text>
-                    <FlatButton
-                      title="Depot Hinzufügen"
-                      onPress={formikProps.handleSubmit}
-                    />
-                  </View>
-                );
-              }}
-            </Formik>
+                      <TextInput
+                        style={globalStyles.Input}
+                        placeholder="Kürzel 3 Zeichen"
+                        placeholderTextColor={'#fdfeff'}
+                        onChangeText={formikProps.handleChange('short')}
+                        value={formikProps.values.short}
+                        onBlur={
+                          formikProps.handleBlur(
+                            'short',
+                          ) /*with out text will show just when press button*/
+                        }
+                      />
+                      {formikProps.errors.short &&
+                        formikProps.touched.short && (
+                          <ErrorAlert>{formikProps.errors.short}</ErrorAlert>
+                        )}
+
+                      <FlatButton
+                        title="Depot Hinzufügen"
+                        onPress={formikProps.handleSubmit}
+                      />
+                    </View>
+                  );
+                }}
+              </Formik>
+            </View>
+
+            <FlatButton title="X" onPress={() => toggle(false)} />
           </View>
-
-          <FlatButton title="X" onPress={() => toggle(false)} />
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </View>
     </Modal>
   );
 }

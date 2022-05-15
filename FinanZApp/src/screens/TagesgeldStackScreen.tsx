@@ -1,7 +1,7 @@
 import {useIsFocused} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {Text} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import Tagesgeld from './TagesgeldStack/Tagesgeld';
 import TagesgeldDetails from './TagesgeldStack/TagesgeldDetails';
 
