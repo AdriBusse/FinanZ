@@ -16,6 +16,8 @@ import {CREATESAVINGTRANSACTION} from '../../queries/mutations/CreateSavingTrans
 import {GETDEPOTS} from '../../queries/GetDepots';
 import ErrorAlert from '../shared/ErrorAlert';
 import FText from '../shared/FText';
+import CloseModal from './helper/CloseModal';
+import {Colors1} from '../../styles/color';
 
 interface Props {
   visible: boolean;
@@ -47,7 +49,9 @@ function AddSavingTransactionModal({visible, toggle, depotId}: Props) {
       <View style={globalStyles.modal}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.modalContent}>
-            <View style={globalStyles.container}>
+            <CloseModal closeFunktion={() => toggle(false)} />
+
+            <View style={[globalStyles.container, globalStyles.scroll]}>
               <Formik
                 initialValues={{describtion: '', amount: '', id: depotId}}
                 onSubmit={values => {
@@ -68,7 +72,7 @@ function AddSavingTransactionModal({visible, toggle, depotId}: Props) {
                       <TextInput
                         style={globalStyles.Input}
                         placeholder="for what is this transaction"
-                        placeholderTextColor={'#fdfeff'}
+                        placeholderTextColor={Colors1.secondaryText}
                         onChangeText={formikProps.handleChange('describtion')}
                         value={formikProps.values.describtion}
                         onBlur={
@@ -88,7 +92,7 @@ function AddSavingTransactionModal({visible, toggle, depotId}: Props) {
                       <TextInput
                         style={globalStyles.Input}
                         placeholder="Add a negativ or positiv Number "
-                        placeholderTextColor={'#fdfeff'}
+                        placeholderTextColor={Colors1.secondaryText}
                         onChangeText={formikProps.handleChange('amount')}
                         value={formikProps.values.amount}
                         onBlur={
@@ -111,12 +115,6 @@ function AddSavingTransactionModal({visible, toggle, depotId}: Props) {
                 }}
               </Formik>
             </View>
-            <FlatButton
-              title="X"
-              onPress={() => {
-                toggle(false);
-              }}
-            />
           </View>
         </TouchableWithoutFeedback>
       </View>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Colors} from '../styles/color';
+import {Colors1} from '../styles/color';
 
 export default function Card(props) {
   return (
@@ -13,7 +13,7 @@ export default function Card(props) {
 const styles = StyleSheet.create({
   card: {
     borderRadius: 5,
-    backgroundColor: Colors.lighter,
+    backgroundColor: Colors1.lighter,
     marginHorizontal: 4,
     marginVertical: 6,
   },

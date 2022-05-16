@@ -19,6 +19,8 @@ import AddETFSnapshotModal from '../../components/modals/AddETFSnapshotModal';
 import {DELETEETFSNAPSHOT} from '../../queries/mutations/DeleteETFSnapshot';
 import ErrorAlert from '../../components/shared/ErrorAlert';
 import FText from '../../components/shared/FText';
+import {Colors1} from '../../styles/color';
+import moment from 'moment';
 
 const ETFDetail = ({route}: any) => {
   const {item: etfId} = route.params;
@@ -97,12 +99,14 @@ const ETFDetail = ({route}: any) => {
             <Card>
               <View style={globalStyles.transCard}>
                 <FText>{`${transaction.amount} €`}</FText>
-                <FText>{transaction.createdAt.substring(0, 10)}</FText>
+                <FText>
+                  {moment(transaction.createdAt).format('DD MMM, YY')}
+                </FText>
                 <TouchableOpacity
                   onPress={() => {
                     handleTransDelete(transaction.id);
                   }}>
-                  <Icon name="trash" size={20} color="#c8cbd6" />
+                  <Icon name="trash" size={20} color={Colors1.secondaryText} />
                 </TouchableOpacity>
               </View>
             </Card>
@@ -116,12 +120,12 @@ const ETFDetail = ({route}: any) => {
             <Card>
               <View style={globalStyles.transCard}>
                 <FText>{`${snapshot.value} €`}</FText>
-                <FText>{snapshot.createdAt.substring(0, 10)}</FText>
+                <FText>{moment(snapshot.createdAt).format('DD MMM, YY')}</FText>
                 <TouchableOpacity
                   onPress={() => {
                     handleSnapDelete(snapshot.id);
                   }}>
-                  <Icon name="trash" size={20} color="#c8cbd6" />
+                  <Icon name="trash" size={20} color={Colors1.secondaryText} />
                 </TouchableOpacity>
               </View>
             </Card>

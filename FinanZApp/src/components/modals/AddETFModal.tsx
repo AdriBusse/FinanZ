@@ -11,10 +11,12 @@ import {
 import * as yup from 'yup';
 import {GETETFDATA} from '../../queries/GetETFData';
 import {CREATEETF} from '../../queries/mutations/CreateETF';
+import {Colors1} from '../../styles/color';
 import {globalStyles} from '../../styles/global';
 import FlatButton from '../Button';
 import ErrorAlert from '../shared/ErrorAlert';
 import FText from '../shared/FText';
+import CloseModal from './helper/CloseModal';
 
 const transSchema = yup.object({
   name: yup.string().required(),
@@ -38,6 +40,7 @@ function AddETFModal({visible, toggle}: Props) {
       <View style={globalStyles.modal}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={globalStyles.modalContent}>
+            <CloseModal closeFunktion={() => toggle(false)} />
             <View style={globalStyles.container}>
               <Formik
                 initialValues={{name: '', short: ''}}
@@ -53,12 +56,12 @@ function AddETFModal({visible, toggle}: Props) {
                 }}>
                 {formikProps => {
                   return (
-                    <View style={globalStyles.container}>
+                    <View style={[globalStyles.container, globalStyles.scroll]}>
                       <FText heading={true}>Add a new ETF:</FText>
                       <TextInput
                         style={globalStyles.Input}
                         placeholder="Name"
-                        placeholderTextColor={'#fdfeff'}
+                        placeholderTextColor={Colors1.secondaryText}
                         onChangeText={formikProps.handleChange('name')}
                         value={formikProps.values.name}
                         onBlur={
@@ -74,7 +77,7 @@ function AddETFModal({visible, toggle}: Props) {
                       <TextInput
                         style={globalStyles.Input}
                         placeholder="Short Display Name"
-                        placeholderTextColor={'#fdfeff'}
+                        placeholderTextColor={Colors1.secondaryText}
                         onChangeText={formikProps.handleChange('short')}
                         value={formikProps.values.short}
                         onBlur={
@@ -96,8 +99,6 @@ function AddETFModal({visible, toggle}: Props) {
                 }}
               </Formik>
             </View>
-
-            <FlatButton title="X" onPress={() => toggle(false)} />
           </View>
         </TouchableWithoutFeedback>
       </View>

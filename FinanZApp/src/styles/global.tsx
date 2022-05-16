@@ -1,9 +1,10 @@
 import {StyleSheet} from 'react-native';
-import {Colors} from './color';
+import {Colors1} from './color';
 
 export const globalStyles = StyleSheet.create({
   container: {
     padding: 20,
+    marginBottom: 70,
     flex: 1,
   },
   modalContent: {
@@ -12,17 +13,17 @@ export const globalStyles = StyleSheet.create({
   modal: {
     height: '70%',
     marginTop: 'auto',
-    backgroundColor: Colors.modal2,
+    backgroundColor: Colors1.modal2,
     borderRadius: 20,
   },
   Input: {
     borderWidth: 1,
-    borderColor: Colors.primary,
-    backgroundColor: Colors.modal2,
+    borderColor: Colors1.primary,
+    backgroundColor: Colors1.modal2,
     padding: 10,
     fontSize: 18,
     borderRadius: 6,
-    color: Colors.primaryText,
+    color: Colors1.primaryText,
     marginBottom: 10,
   },
   errorText: {
@@ -44,5 +45,8 @@ export const globalStyles = StyleSheet.create({
   transCard: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  scroll: {
+    overflow: 'scroll',
   },
 });

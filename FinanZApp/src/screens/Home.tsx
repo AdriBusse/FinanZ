@@ -5,7 +5,7 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import FlatButton from '../components/Button';
-import {Colors} from '../styles/color';
+import {Colors1} from '../styles/color';
 import {globalStyles} from '../styles/global';
 
 export default function Home(props: {

@@ -16,6 +16,9 @@ import {useMutation} from '@apollo/client';
 import {GETETFDETAIL} from '../../queries/GetETFDetails';
 import {CREATEETFSNAPSHOT} from '../../queries/mutations/CreateETFSnapshot';
 import FText from '../shared/FText';
+import CloseModal from './helper/CloseModal';
+import {Colors1} from '../../styles/color';
+import ErrorAlert from '../shared/ErrorAlert';
 
 interface Props {
   visible: boolean;
@@ -46,6 +49,7 @@ function AddETFSnapshotModal({visible, toggle, etfId}: Props) {
       <View style={globalStyles.modal}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.modalContent}>
+            <CloseModal closeFunktion={() => toggle(false)} />
             <View style={globalStyles.container}>
               <Formik
                 initialValues={{value: '', id: etfId}}
@@ -61,13 +65,13 @@ function AddETFSnapshotModal({visible, toggle, etfId}: Props) {
                 validationSchema={inputSchema}>
                 {formikProps => {
                   return (
-                    <View style={globalStyles.container}>
+                    <View style={[globalStyles.container, globalStyles.scroll]}>
                       <FText heading={true}>Add a Snapshot:</FText>
 
                       <TextInput
                         style={globalStyles.Input}
                         placeholder="Actual Value"
-                        placeholderTextColor={'#fdfeff'}
+                        placeholderTextColor={Colors1.secondaryText}
                         onChangeText={formikProps.handleChange('value')}
                         value={formikProps.values.value}
                         onBlur={
@@ -76,13 +80,11 @@ function AddETFSnapshotModal({visible, toggle, etfId}: Props) {
                           ) /*with out text will show just when press button*/
                         }
                       />
-                      <Text style={globalStyles.errorText}>
-                        {
-                          formikProps.touched.value &&
-                            formikProps.errors
-                              .value /*that error just showed when form was selected already*/
-                        }
-                      </Text>
+                      {formikProps.touched.value &&
+                        formikProps.errors.value && (
+                          <ErrorAlert>{formikProps.errors.value}</ErrorAlert>
+                        )}
+                      <Text style={globalStyles.errorText}></Text>
                       <FlatButton
                         title="add Snapshot"
                         onPress={formikProps.handleSubmit}
@@ -92,12 +94,6 @@ function AddETFSnapshotModal({visible, toggle, etfId}: Props) {
                 }}
               </Formik>
             </View>
-            <FlatButton
-              title="X"
-              onPress={() => {
-                toggle(false);
-              }}
-            />
           </View>
         </TouchableWithoutFeedback>
       </View>

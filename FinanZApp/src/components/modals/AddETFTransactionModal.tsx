@@ -16,6 +16,8 @@ import {CREATEETFTRANSACTION} from '../../queries/mutations/CreateETFTransaction
 import {GETETFDETAIL} from '../../queries/GetETFDetails';
 import FText from '../shared/FText';
 import ErrorAlert from '../shared/ErrorAlert';
+import CloseModal from './helper/CloseModal';
+import {Colors1} from '../../styles/color';
 
 interface Props {
   visible: boolean;
@@ -48,6 +50,7 @@ function AddETFTransactionModal({visible, toggle, etfId}: Props) {
       <View style={globalStyles.modal}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.modalContent}>
+            <CloseModal closeFunktion={() => toggle(false)} />
             <View style={globalStyles.container}>
               <Formik
                 initialValues={{amount: '', id: etfId}}
@@ -63,13 +66,13 @@ function AddETFTransactionModal({visible, toggle, etfId}: Props) {
                 validationSchema={inputSchema}>
                 {formikProps => {
                   return (
-                    <View style={globalStyles.container}>
+                    <View style={[globalStyles.container, globalStyles.scroll]}>
                       <FText heading={true}>Add a Transaction:</FText>
 
                       <TextInput
                         style={globalStyles.Input}
                         placeholder="Amount of Investment"
-                        placeholderTextColor={'#fdfeff'}
+                        placeholderTextColor={Colors1.secondaryText}
                         onChangeText={formikProps.handleChange('amount')}
                         value={formikProps.values.amount}
                         onBlur={
@@ -92,12 +95,6 @@ function AddETFTransactionModal({visible, toggle, etfId}: Props) {
                 }}
               </Formik>
             </View>
-            <FlatButton
-              title="X"
-              onPress={() => {
-                toggle(false);
-              }}
-            />
           </View>
         </TouchableWithoutFeedback>
       </View>

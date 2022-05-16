@@ -10,6 +10,7 @@ import AddSavingTransactionModal from '../../components/modals/AddSavingTransact
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ErrorAlert from '../../components/shared/ErrorAlert';
 import FText from '../../components/shared/FText';
+import moment from 'moment';
 
 export default function TagesgeldDetails({route}: any) {
   const {item: depotId} = route.params;
@@ -71,8 +72,8 @@ export default function TagesgeldDetails({route}: any) {
             <Card>
               <View style={[globalStyles.transCard, {opacity: opac}]}>
                 <FText bold={true}>{item.describtion}</FText>
-                <FText>{item.amount}</FText>
-                <FText>{item.createdAt.substring(0, 10)}</FText>
+                <FText>{`${item.amount} €`}</FText>
+                <FText>{moment(item.createdAt).format('DD MMM, YY')}</FText>
                 <TouchableOpacity onPress={() => clickDeleteTrans(item.id)}>
                   <Icon name="trash" size={20} color="#c8cbd6" />
                 </TouchableOpacity>

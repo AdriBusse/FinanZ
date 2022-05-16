@@ -10,7 +10,7 @@ import {globalStyles} from '../../styles/global';
 import AddETFModal from '../../components/modals/AddETFModal';
 import FlatButton from '../../components/Button';
 import FText from '../../components/shared/FText';
-import {Colors} from '../../styles/color';
+import {Colors1} from '../../styles/color';
 import ErrorAlert from '../../components/shared/ErrorAlert';
 
 export default function ETFs(props) {
@@ -74,7 +74,7 @@ export default function ETFs(props) {
                   onPress={() => handleDelete(etf.id)}
                   name="trash"
                   size={20}
-                  color={Colors.secondaryText}
+                  color={Colors1.secondaryText}
                 />
               </View>
             </Card>

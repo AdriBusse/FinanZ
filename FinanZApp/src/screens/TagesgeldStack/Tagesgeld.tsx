@@ -9,6 +9,7 @@ import ErrorAlert from '../../components/shared/ErrorAlert';
 import FText from '../../components/shared/FText';
 import {GETDEPOTS} from '../../queries/GetDepots';
 import {DELETESAVINGDEPOT} from '../../queries/mutations/DeleteDepot';
+import {Colors1} from '../../styles/color';
 import {globalStyles} from '../../styles/global';
 
 export default function Tagesgeld(props: {
@@ -72,7 +73,7 @@ export default function Tagesgeld(props: {
                       onPress={() => handleDelete(item.id)}
                       name="trash"
                       size={20}
-                      color="#c8cbd6"
+                      color={Colors1.secondaryText}
                     />
                   </View>
                 </Card>

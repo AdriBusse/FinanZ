@@ -11,10 +11,12 @@ import {
 import * as yup from 'yup';
 import {GETDEPOTS} from '../../queries/GetDepots';
 import {CREATESAVINGDEPOT} from '../../queries/mutations/CreateSavingDepot';
+import {Colors1} from '../../styles/color';
 import {globalStyles} from '../../styles/global';
 import FlatButton from '../Button';
 import ErrorAlert from '../shared/ErrorAlert';
 import FText from '../shared/FText';
+import CloseModal from './helper/CloseModal';
 
 const transSchema = yup.object({
   name: yup.string().required(),
@@ -38,7 +40,8 @@ function AddDepotModal({visible, toggle}: Props) {
       <View style={globalStyles.modal}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={globalStyles.modalContent}>
-            <View style={globalStyles.container}>
+            <CloseModal closeFunktion={() => toggle(false)} />
+            <View style={[globalStyles.container, globalStyles.scroll]}>
               <Formik
                 initialValues={{name: '', short: ''}}
                 validationSchema={transSchema}
@@ -58,7 +61,7 @@ function AddDepotModal({visible, toggle}: Props) {
                       <TextInput
                         style={globalStyles.Input}
                         placeholder="Name"
-                        placeholderTextColor={'#fdfeff'}
+                        placeholderTextColor={Colors1.secondaryText}
                         onChangeText={formikProps.handleChange('name')}
                         value={formikProps.values.name}
                         onBlur={
@@ -74,7 +77,7 @@ function AddDepotModal({visible, toggle}: Props) {
                       <TextInput
                         style={globalStyles.Input}
                         placeholder="Kürzel 3 Zeichen"
-                        placeholderTextColor={'#fdfeff'}
+                        placeholderTextColor={Colors1.secondaryText}
                         onChangeText={formikProps.handleChange('short')}
                         value={formikProps.values.short}
                         onBlur={
@@ -97,8 +100,6 @@ function AddDepotModal({visible, toggle}: Props) {
                 }}
               </Formik>
             </View>
-
-            <FlatButton title="X" onPress={() => toggle(false)} />
           </View>
         </TouchableWithoutFeedback>
       </View>

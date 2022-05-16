@@ -1,6 +1,6 @@
 import {StyleSheet, Text} from 'react-native';
 import React from 'react';
-import {Colors} from '../../styles/color';
+import {Colors1} from '../../styles/color';
 
 interface Props {
   type: 'primary' | 'secondary';
@@ -31,7 +31,7 @@ FText.defaultProps = {
 };
 const styles = StyleSheet.create({
   primaryText: {
-    color: Colors.primaryText,
+    color: Colors1.primaryText,
   },
   heading: {
     fontWeight: 'bold',
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   secondaryText: {
-    color: Colors.secondaryText,
+    color: Colors1.secondaryText,
   },
   boldText: {
     fontWeight: 'bold',
