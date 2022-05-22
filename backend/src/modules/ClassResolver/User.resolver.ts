@@ -1,3 +1,6 @@
+import { ExpenseCategory } from "./../../entity/ExpenseCategory";
+import { ExpenseTransaction } from "./../../entity/ExpenseTransaction";
+import { Expense } from "./../../entity/Expense";
 import { ETFTransaction } from "./../../entity/ETFTransaction";
 import { ETFSnapshot } from "./../../entity/ETFSnapshot";
 import { SavingTransaction } from "../../entity/SavingTransaction";
@@ -47,5 +50,31 @@ export class UserResolver implements ResolverInterface<User> {
     });
 
     return userRec.savingTransactions;
+  }
+
+  @FieldResolver()
+  async expenseDepots(@Root() user: User): Promise<Expense[]> {
+    const userRec = await User.findOneOrFail(user.id, {
+      relations: ["expenseDepots"],
+    });
+
+    return userRec.expenseDepots;
+  }
+  @FieldResolver()
+  async expenseTransactions(@Root() user: User): Promise<ExpenseTransaction[]> {
+    const userRec = await User.findOneOrFail(user.id, {
+      relations: ["expenseTransactions"],
+    });
+
+    return userRec.expenseTransactions;
+  }
+
+  @FieldResolver()
+  async expenseCategory(@Root() user: User): Promise<ExpenseCategory[]> {
+    const userRec = await User.findOneOrFail(user.id, {
+      relations: ["expenseCategory"],
+    });
+
+    return userRec.expenseCategory;
   }
 }

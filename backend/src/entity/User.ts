@@ -1,3 +1,5 @@
+import { ExpenseCategory } from "./ExpenseCategory";
+import { Expense } from "./Expense";
 import { SavingTransaction } from "./SavingTransaction";
 import { SavingDepot } from "./SavingDepot";
 import { ETFTransaction } from "./ETFTransaction";
@@ -17,6 +19,7 @@ import {
 } from "typeorm";
 import bcrypt from "bcrypt";
 import { Exclude } from "class-transformer";
+import { ExpenseTransaction } from "./ExpenseTransaction";
 
 @ObjectType()
 @Entity({ name: "Users" })
@@ -76,6 +79,18 @@ export class User extends BaseEntity {
   @Field(() => [SavingTransaction])
   @OneToMany(() => SavingTransaction, (savingT) => savingT.user)
   savingTransactions: SavingTransaction[];
+
+  @Field(() => [Expense])
+  @OneToMany(() => Expense, (savingD) => savingD.user)
+  expenseDepots: Expense[];
+
+  @Field(() => [ExpenseTransaction])
+  @OneToMany(() => ExpenseTransaction, (savingT) => savingT.user)
+  expenseTransactions: ExpenseTransaction[];
+
+  @Field(() => [ExpenseCategory])
+  @OneToMany(() => ExpenseCategory, (expenseCategory) => expenseCategory.user)
+  expenseCategory: ExpenseCategory[];
 
   @BeforeInsert()
   async hashPassword() {

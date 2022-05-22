@@ -1,3 +1,16 @@
+import { UpdateExpenseCategoryResolver } from "./../modules/Expense/Category/UpdateExpenseCategory.resolver";
+import { GetExpensesResolver } from "./../modules/Expense/Expense/GetExpenses.resolver";
+import { UpdateExpenseTransactionResolver } from "./../modules/Expense/Transaction/UpdateExpenseTransactions.resolver";
+import { GetExpenseCategoriesResolver } from "./../modules/Expense/Category/GetCategories.resolver";
+import { DeleteExpenseCategoryResolver } from "./../modules/Expense/Category/DeleteExpenseCategory.resolver";
+import { CreateExpenseCategoryResolver } from "./../modules/Expense/Category/CreateExpenseCategory.resolver";
+import { ExpenseCategoryResolver } from "./../modules/ClassResolver/ExpenseCategory.resolver";
+import { CreateExpenseTransactionResolver } from "./../modules/Expense/Transaction/CreateExpenseTransaction.resolver";
+import { GetExpenseResolver } from "./../modules/Expense/Expense/GetExpense.resolver";
+import { DeleteExpenseResolver } from "./../modules/Expense/Expense/DeleteExpense.resolver";
+import { CreateExpenseResolver } from "./../modules/Expense/Expense/CreateExpense.resolver";
+import { ExpenseTransactionResolver } from "./../modules/ClassResolver/ExpenseTransaction.resolver";
+import { ExpenseResolver } from "./../modules/ClassResolver/Expense.resolver";
 import { MeResolver } from "./../modules/User/me";
 import { LogoutResolver } from "./../modules/User/logout";
 import { SignupResolver } from "./../modules/User/signup";
@@ -25,6 +38,7 @@ import { CreateSavingTransactionResolver } from "../modules/Saving/Transaction/C
 import { CreateSavingDepotResolver } from "../modules/Saving/Depot/CreateSavingDepot.resolver";
 import { GetSavingDepotsResolver } from "../modules/Saving/Depot/GetSavingDepots.resolver";
 import { buildSchema } from "type-graphql";
+import { DeleteExpenseTransactionResolver } from "../modules/Expense/Transaction/DeleteExpenseTransaction.resolver";
 
 export const createSchema = () => {
   return buildSchema({
@@ -57,6 +71,23 @@ export const createSchema = () => {
       DeleteETFResolver,
       DeleteETFSnapshotResolver,
       DeleteETFTransactionResolver,
+
+      ExpenseResolver,
+      CreateExpenseResolver,
+      DeleteExpenseResolver,
+      GetExpenseResolver,
+      GetExpensesResolver,
+
+      ExpenseTransactionResolver,
+      CreateExpenseTransactionResolver,
+      DeleteExpenseTransactionResolver,
+      UpdateExpenseTransactionResolver,
+
+      ExpenseCategoryResolver,
+      CreateExpenseCategoryResolver,
+      DeleteExpenseCategoryResolver,
+      GetExpenseCategoriesResolver,
+      UpdateExpenseCategoryResolver,
     ],
   });
 };
