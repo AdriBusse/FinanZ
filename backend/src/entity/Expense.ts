@@ -13,6 +13,7 @@ import {
 import { Field, ID, ObjectType } from "type-graphql";
 import { User } from "./User";
 import { ExpenseTransaction } from "./ExpenseTransaction";
+import ExpenseByCategory from "./gql/ExpenseByCategory";
 
 @Entity()
 @ObjectType()
@@ -35,6 +36,9 @@ export class Expense extends BaseEntity {
   @Field(() => [ExpenseTransaction], { nullable: true })
   @OneToMany(() => ExpenseTransaction, (trans) => trans.expense)
   transactions: ExpenseTransaction[];
+
+  @Field(() => [ExpenseByCategory])
+  expenseByCategory: ExpenseByCategory[];
 
   @Field()
   @CreateDateColumn()
