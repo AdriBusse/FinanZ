@@ -10,13 +10,13 @@ import {useMutation, useQuery} from '@apollo/client';
 import {GETETFDETAIL} from '../../queries/GetETFDetails';
 import {IGetETFDetails} from '../../queries/types/IGetETFDetails';
 import {globalStyles} from '../../styles/global';
-import FlatButton from '../../components/Button';
-import Card from '../../components/Card';
+import CustomButton from '../../components/shared/Button';
+import Card from '../../components/shared/Card';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {DELETEETFTRANSACTION} from '../../queries/mutations/DeleteETFTransaction';
-import AddETFTransactionModal from '../../components/modals/AddETFTransactionModal';
-import AddETFSnapshotModal from '../../components/modals/AddETFSnapshotModal';
-import {DELETEETFSNAPSHOT} from '../../queries/mutations/DeleteETFSnapshot';
+import {DELETEETFTRANSACTION} from '../../queries/mutations/ETF/DeleteETFTransaction';
+import AddETFTransactionModal from '../../components/modals/ETF/AddETFTransactionModal';
+import AddETFSnapshotModal from '../../components/modals/ETF/AddETFSnapshotModal';
+import {DELETEETFSNAPSHOT} from '../../queries/mutations/ETF/DeleteETFSnapshot';
 import ErrorAlert from '../../components/shared/ErrorAlert';
 import FText from '../../components/shared/FText';
 import {Colors1} from '../../styles/color';
@@ -81,11 +81,11 @@ const ETFDetail = ({route}: any) => {
       />
       <FText heading={true}>{`ETFDetail for ${data?.getETF.name}`}</FText>
       <View style={styles.buttonRow}>
-        <FlatButton
+        <CustomButton
           title={'Add Transaction'}
           onPress={() => setVisibleModalTrans(true)}
         />
-        <FlatButton
+        <CustomButton
           title={'Add Snapshot'}
           onPress={() => setVisibleModalSnap(true)}
         />

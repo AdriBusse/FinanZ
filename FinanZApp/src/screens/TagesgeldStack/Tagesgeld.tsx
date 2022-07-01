@@ -2,13 +2,13 @@ import {useMutation, useQuery} from '@apollo/client';
 import React from 'react';
 import {Text, View, TouchableOpacity, FlatList, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import FlatButton from '../../components/Button';
-import Card from '../../components/Card';
-import AddDepotModal from '../../components/modals/AddDepotModal';
+import CustomButton from '../../components/shared/Button';
+import Card from '../../components/shared/Card';
+import AddDepotModal from '../../components/modals/Savings/AddDepotModal';
 import ErrorAlert from '../../components/shared/ErrorAlert';
 import FText from '../../components/shared/FText';
 import {GETDEPOTS} from '../../queries/GetDepots';
-import {DELETESAVINGDEPOT} from '../../queries/mutations/DeleteDepot';
+import {DELETESAVINGDEPOT} from '../../queries/mutations/Savings/DeleteDepot';
 import {Colors1} from '../../styles/color';
 import {globalStyles} from '../../styles/global';
 
@@ -26,7 +26,7 @@ export default function Tagesgeld(props: {
   const handleDelete = (id: string) => {
     Alert.alert(
       'Delete a Depot',
-      'Ae you sure you want delete the Depot? Maybe some Transactions get lost',
+      'Are you sure you want delete the Depot? Maybe some Transactions get lost',
       [
         {
           text: "yes, i'm sure",
@@ -54,7 +54,7 @@ export default function Tagesgeld(props: {
     return (
       <View style={[globalStyles.container]}>
         <AddDepotModal toggle={setVisibleModal} visible={visibleModal} />
-        <FlatButton title="add Depot" onPress={() => setVisibleModal(true)} />
+        <CustomButton title="add Depot" onPress={() => setVisibleModal(true)} />
         <FlatList
           data={data.getSavingDepots}
           renderItem={({item}) => {

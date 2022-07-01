@@ -1,14 +1,14 @@
 import {useMutation, useQuery} from '@apollo/client';
 import React from 'react';
 import {View, Text, Alert, TouchableOpacity} from 'react-native';
-import Card from '../../components/Card';
+import Card from '../../components/shared/Card';
 import {GETETFDATA} from '../../queries/GetETFData';
-import {DELETEETF} from '../../queries/mutations/DeleteETF';
+import {DELETEETF} from '../../queries/mutations/ETF/DeleteETF';
 import {IGetEtfData} from '../../queries/types/IGetETFData';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {globalStyles} from '../../styles/global';
-import AddETFModal from '../../components/modals/AddETFModal';
-import FlatButton from '../../components/Button';
+import AddETFModal from '../../components/modals/ETF/AddETFModal';
+import CustomButton from '../../components/shared/Button';
 import FText from '../../components/shared/FText';
 import {Colors1} from '../../styles/color';
 import ErrorAlert from '../../components/shared/ErrorAlert';
@@ -58,7 +58,7 @@ export default function ETFs(props) {
       </FText>
 
       <AddETFModal toggle={setVisibleModal} visible={visibleModal} />
-      <FlatButton title="add ETF" onPress={() => setVisibleModal(true)} />
+      <CustomButton title="add ETF" onPress={() => setVisibleModal(true)} />
       {data!.getETFs.map(etf => {
         return (
           <TouchableOpacity
