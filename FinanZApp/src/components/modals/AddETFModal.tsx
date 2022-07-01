@@ -33,6 +33,7 @@ function AddETFModal({visible, toggle}: Props) {
   });
   return (
     <Modal
+      statusBarTranslucent={true}
       visible={visible}
       animationType="slide"
       transparent={true}

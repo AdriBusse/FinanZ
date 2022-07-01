@@ -33,6 +33,7 @@ function AddDepotModal({visible, toggle}: Props) {
   });
   return (
     <Modal
+      statusBarTranslucent={true}
       visible={visible}
       animationType="slide"
       transparent={true}
@@ -57,7 +58,7 @@ function AddDepotModal({visible, toggle}: Props) {
                 {formikProps => {
                   return (
                     <View style={globalStyles.container}>
-                      <FText heading={true}>Add a Transaction:</FText>
+                      <FText heading={true}>Add a new Saving Depot:</FText>
                       <TextInput
                         style={globalStyles.Input}
                         placeholder="Name"

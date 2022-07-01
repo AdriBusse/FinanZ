@@ -13,7 +13,7 @@ export class CreateExpenseTransactionResolver {
     @Arg("describtion") describtion: string,
     @Arg("amount") amount: number,
     @Arg("expenseId") expenseId: string,
-    @Arg("categoryId") categoryId: string,
+    @Arg("categoryId", { nullable: true }) categoryId: string,
     @Arg("date", { nullable: true, defaultValue: new Date() }) date: number,
     @Ctx() ctx: MyContext
   ): Promise<ExpenseTransaction> {
@@ -23,17 +23,20 @@ export class CreateExpenseTransactionResolver {
     if (!expense) {
       throw new Error("Cannot find Expense!");
     }
-    const cat = await ExpenseCategory.findOne({ id: categoryId, user });
-    if (!cat) {
-      throw new Error("Cannot find Category!");
-    }
     const newTransaction = new ExpenseTransaction();
+
+    if (categoryId) {
+      const cat = await ExpenseCategory.findOne({ id: categoryId, user });
+      if (cat) {
+        newTransaction.category = cat;
+      }
+    }
+
     newTransaction.describtion = describtion;
     newTransaction.amount = amount;
     newTransaction.expense = expense;
     newTransaction.createdAt = new Date(date);
     newTransaction.user = user;
-    newTransaction.category = cat;
 
     await newTransaction.save();
     return newTransaction;

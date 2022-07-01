@@ -43,7 +43,7 @@ const AuthModal = ({visible, toggle, navigation}: Props) => {
     );
   };
   return (
-    <Modal visible={visible} animationType="slide">
+    <Modal statusBarTranslucent={true} visible={visible} animationType="slide">
       <View style={styles.modalContent}>
         {authData ? renderLogout() : renderLogin()}
         <Text>Modal</Text>

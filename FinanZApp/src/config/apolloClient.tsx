@@ -4,7 +4,7 @@ import {AuthData} from '../types/AuthTypes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const httpLink = createHttpLink({
-  uri: 'http://192.168.178.90:4000/graphql',
+  uri: 'http://192.168.1.96:4000/graphql',
   //uri: 'http://192.168.80.143:4000/graphql',
 });
 const authLink = setContext(async (_, {headers}) => {

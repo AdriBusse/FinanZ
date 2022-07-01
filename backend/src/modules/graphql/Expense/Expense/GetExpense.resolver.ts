@@ -18,5 +18,6 @@ export class GetExpenseResolver {
   catch(error: { message: string | undefined }) {
     console.log(error);
     throw new Error(error.message);
+    console.log("________________Backend error_______________");
   }
 }

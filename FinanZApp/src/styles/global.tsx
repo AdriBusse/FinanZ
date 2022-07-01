@@ -16,6 +16,12 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: Colors1.modal2,
     borderRadius: 20,
   },
+  modalFull: {
+    height: '100%',
+    marginTop: 'auto',
+    backgroundColor: Colors1.modal2,
+    borderRadius: 20,
+  },
   Input: {
     borderWidth: 1,
     borderColor: Colors1.primary,

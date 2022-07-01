@@ -26,7 +26,7 @@ export default function Tagesgeld(props: {
   const handleDelete = (id: string) => {
     Alert.alert(
       'Delete a Depot',
-      'Ae you sure you want delete the Depot? Maybe some Transactions get lost',
+      'Are you sure you want delete the Depot? Maybe some Transactions get lost',
       [
         {
           text: "yes, i'm sure",

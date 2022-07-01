@@ -43,6 +43,7 @@ function AddETFTransactionModal({visible, toggle, etfId}: Props) {
   });
   return (
     <Modal
+      statusBarTranslucent={true}
       visible={visible}
       transparent={true}
       animationType="slide"
