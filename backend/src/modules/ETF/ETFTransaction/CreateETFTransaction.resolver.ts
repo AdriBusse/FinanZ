@@ -20,6 +20,7 @@ export class CreateETFTransactionResolver {
     etfTransaction.amount = amount;
     etfTransaction.etf = etf;
     etfTransaction.createdAt = new Date(date);
+    etfTransaction.user = user;
 
     await etfTransaction.save();
     return etfTransaction;

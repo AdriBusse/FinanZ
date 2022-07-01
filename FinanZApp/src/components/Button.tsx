@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {Colors1} from '../styles/color';
 
 export default function FlatButton({
   title,
@@ -22,11 +23,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 14,
     paddingHorizontal: 10,
-    backgroundColor: 'royalblue',
+    backgroundColor: Colors1.button,
     margin: 20,
   },
   buttonText: {
-    color: 'white',
+    color: Colors1.primaryText,
     fontWeight: 'bold',
     textTransform: 'uppercase',
     fontSize: 16,

@@ -8,6 +8,9 @@ import {DELETESAVINGTRANSACTION} from '../../queries/mutations/DeleteTransaction
 import {globalStyles} from '../../styles/global';
 import AddSavingTransactionModal from '../../components/modals/AddSavingTransactionModal.tsx';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import ErrorAlert from '../../components/shared/ErrorAlert';
+import FText from '../../components/shared/FText';
+import moment from 'moment';
 
 export default function TagesgeldDetails({route}: any) {
   const {item: depotId} = route.params;
@@ -35,12 +38,7 @@ export default function TagesgeldDetails({route}: any) {
 
   if (error) {
     console.log(error);
-    return (
-      <View>
-        <Text>Error</Text>
-        <Text>{error.message}</Text>
-      </View>
-    );
+    return <ErrorAlert>{error.message}</ErrorAlert>;
   }
   if (loading) {
     return (
@@ -58,10 +56,8 @@ export default function TagesgeldDetails({route}: any) {
         toggle={setShowSeeAdd}
         visible={showSeeAdd}
       />
-      <Text style={globalStyles.heading}>
-        Details for {name} ({short})
-      </Text>
-      <Text style={globalStyles.heading}>{sum} €</Text>
+      <FText heading={true}>{`Details for ${name} (${short})`}</FText>
+      <FText heading={true}>{`${sum} €`}</FText>
       <FlatButton
         title="add Transaction"
         onPress={() => {
@@ -75,9 +71,9 @@ export default function TagesgeldDetails({route}: any) {
           return (
             <Card>
               <View style={[globalStyles.transCard, {opacity: opac}]}>
-                <Text style={globalStyles.boldText}>{item.describtion}</Text>
-                <Text>{item.amount}</Text>
-                <Text>{item.createdAt.substring(0, 10)}</Text>
+                <FText bold={true}>{item.describtion}</FText>
+                <FText>{`${item.amount} €`}</FText>
+                <FText>{moment(item.createdAt).format('DD MMM, YY')}</FText>
                 <TouchableOpacity onPress={() => clickDeleteTrans(item.id)}>
                   <Icon name="trash" size={20} color="#c8cbd6" />
                 </TouchableOpacity>

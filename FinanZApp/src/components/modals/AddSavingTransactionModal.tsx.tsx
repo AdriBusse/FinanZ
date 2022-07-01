@@ -3,7 +3,6 @@ import {
   Keyboard,
   Modal,
   StyleSheet,
-  Text,
   TextInput,
   TouchableWithoutFeedback,
   View,
@@ -15,6 +14,10 @@ import {globalStyles} from '../../styles/global';
 import {useMutation} from '@apollo/client';
 import {CREATESAVINGTRANSACTION} from '../../queries/mutations/CreateSavingTransaction';
 import {GETDEPOTS} from '../../queries/GetDepots';
+import ErrorAlert from '../shared/ErrorAlert';
+import FText from '../shared/FText';
+import CloseModal from './helper/CloseModal';
+import {Colors1} from '../../styles/color';
 
 interface Props {
   visible: boolean;
@@ -41,81 +44,80 @@ function AddSavingTransactionModal({visible, toggle, depotId}: Props) {
     <Modal
       visible={visible}
       animationType="slide"
+      transparent={true}
       onRequestClose={() => toggle(false)}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.modalContent}>
-          <View style={globalStyles.container}>
-            <Formik
-              initialValues={{describtion: '', amount: '', id: depotId}}
-              onSubmit={values => {
-                addTransaction({
-                  variables: {
-                    describtion: values.describtion,
-                    amount: parseFloat(values.amount),
-                    depotId: values.id,
-                  },
-                });
-                toggle(false);
-              }}
-              validationSchema={inputSchema}>
-              {formikProps => {
-                return (
-                  <View style={globalStyles.container}>
-                    <Text style={globalStyles.heading}>Add a Transaction:</Text>
-                    <TextInput
-                      style={globalStyles.Input}
-                      placeholder="for what is this transaction"
-                      onChangeText={formikProps.handleChange('describtion')}
-                      value={formikProps.values.describtion}
-                      onBlur={
-                        formikProps.handleBlur(
-                          'describtion',
-                        ) /*with out text will show just when press button*/
-                      }
-                    />
-                    <Text style={globalStyles.errorText}>
-                      {
-                        formikProps.touched.describtion &&
-                          formikProps.errors
-                            .describtion /*that error just showed when form was selected already*/
-                      }
-                    </Text>
+      <View style={globalStyles.modal}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.modalContent}>
+            <CloseModal closeFunktion={() => toggle(false)} />
 
-                    <TextInput
-                      style={globalStyles.Input}
-                      placeholder="Add a negativ or positiv Number | use ."
-                      onChangeText={formikProps.handleChange('amount')}
-                      value={formikProps.values.amount}
-                      onBlur={
-                        formikProps.handleBlur(
-                          'amount',
-                        ) /*with out text will show just when press button*/
-                      }
-                    />
-                    <Text style={globalStyles.errorText}>
-                      {
-                        formikProps.touched.amount &&
-                          formikProps.errors
-                            .amount /*that error just showed when form was selected already*/
-                      }
-                    </Text>
-                    <FlatButton
-                      title="add Transaction"
-                      onPress={formikProps.handleSubmit}
-                    />
-                  </View>
-                );
-              }}
-            </Formik>
+            <View style={[globalStyles.container, globalStyles.scroll]}>
+              <Formik
+                initialValues={{describtion: '', amount: '', id: depotId}}
+                onSubmit={values => {
+                  addTransaction({
+                    variables: {
+                      describtion: values.describtion,
+                      amount: parseFloat(values.amount),
+                      depotId: values.id,
+                    },
+                  });
+                  toggle(false);
+                }}
+                validationSchema={inputSchema}>
+                {formikProps => {
+                  return (
+                    <View style={globalStyles.container}>
+                      <FText heading={true}>Add a Transaction:</FText>
+                      <TextInput
+                        style={globalStyles.Input}
+                        placeholder="for what is this transaction"
+                        placeholderTextColor={Colors1.secondaryText}
+                        onChangeText={formikProps.handleChange('describtion')}
+                        value={formikProps.values.describtion}
+                        onBlur={
+                          formikProps.handleBlur(
+                            'describtion',
+                          ) /*with out text will show just when press button*/
+                        }
+                      />
+                      {formikProps.errors.describtion &&
+                        formikProps.touched.describtion && (
+                          <ErrorAlert>
+                            {formikProps.touched.describtion &&
+                              formikProps.errors.describtion}
+                          </ErrorAlert>
+                        )}
+
+                      <TextInput
+                        style={globalStyles.Input}
+                        placeholder="Add a negativ or positiv Number "
+                        placeholderTextColor={Colors1.secondaryText}
+                        onChangeText={formikProps.handleChange('amount')}
+                        value={formikProps.values.amount}
+                        onBlur={
+                          formikProps.handleBlur(
+                            'amount',
+                          ) /*with out text will show just when press button*/
+                        }
+                      />
+                      {formikProps.touched.amount &&
+                        formikProps.errors.amount && (
+                          <ErrorAlert>{formikProps.errors.amount}</ErrorAlert>
+                        )}
+
+                      <FlatButton
+                        title="add Transaction"
+                        onPress={formikProps.handleSubmit}
+                      />
+                    </View>
+                  );
+                }}
+              </Formik>
+            </View>
           </View>
-          <FlatButton
-            title="X"
-            onPress={() => {
-              toggle(false);
-            }}
-          />
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </View>
     </Modal>
   );
 }

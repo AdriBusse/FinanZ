@@ -20,6 +20,7 @@ export class CreateETFSnapshotResolver {
     etfSnapshot.value = value;
     etfSnapshot.etf = etf;
     etfSnapshot.createdAt = new Date(date);
+    etfSnapshot.user = user;
 
     await etfSnapshot.save();
     return etfSnapshot;

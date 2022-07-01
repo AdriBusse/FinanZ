@@ -1,14 +1,15 @@
 import {useMutation, useQuery} from '@apollo/client';
-import {useFocusEffect, useIsFocused} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Text, View, TouchableOpacity, FlatList, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FlatButton from '../../components/Button';
 import Card from '../../components/Card';
 import AddDepotModal from '../../components/modals/AddDepotModal';
-import {useAuth} from '../../hooks/useAuth';
+import ErrorAlert from '../../components/shared/ErrorAlert';
+import FText from '../../components/shared/FText';
 import {GETDEPOTS} from '../../queries/GetDepots';
 import {DELETESAVINGDEPOT} from '../../queries/mutations/DeleteDepot';
+import {Colors1} from '../../styles/color';
 import {globalStyles} from '../../styles/global';
 
 export default function Tagesgeld(props: {
@@ -41,20 +42,7 @@ export default function Tagesgeld(props: {
   };
 
   if (error) {
-    return (
-      <View>
-        <Text>Error</Text>
-        <Text>{error.message}</Text>
-        <FlatButton
-          title="retry"
-          onPress={() => {
-            console.log('retry');
-
-            props.navigation.navigate('Sparen', {item: null});
-          }}
-        />
-      </View>
-    );
+    return <ErrorAlert>{error.message}</ErrorAlert>;
   }
   if (loading) {
     return (
@@ -64,7 +52,7 @@ export default function Tagesgeld(props: {
     );
   } else {
     return (
-      <View style={globalStyles.container}>
+      <View style={[globalStyles.container]}>
         <AddDepotModal toggle={setVisibleModal} visible={visibleModal} />
         <FlatButton title="add Depot" onPress={() => setVisibleModal(true)} />
         <FlatList
@@ -78,14 +66,14 @@ export default function Tagesgeld(props: {
                 }>
                 <Card>
                   <View style={globalStyles.transCard}>
-                    <Text style={globalStyles.boldText}>{item.name}</Text>
+                    <FText bold={true}>{item.name}</FText>
 
-                    <Text>{item.sum} €</Text>
+                    <FText>{`${item.sum} €`}</FText>
                     <Icon
                       onPress={() => handleDelete(item.id)}
                       name="trash"
                       size={20}
-                      color="#c8cbd6"
+                      color={Colors1.secondaryText}
                     />
                   </View>
                 </Card>
