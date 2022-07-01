@@ -1,8 +1,8 @@
 import {useMutation, useQuery} from '@apollo/client';
 import React from 'react';
 import {Text, View, FlatList, TouchableOpacity, Pressable} from 'react-native';
-import FlatButton from '../../components/Button';
-import Card from '../../components/Card';
+import CustomButton from '../../components/shared/Button';
+import Card from '../../components/shared/Card';
 import {globalStyles} from '../../styles/global';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ErrorAlert from '../../components/shared/ErrorAlert';
@@ -10,10 +10,10 @@ import FText from '../../components/shared/FText';
 import moment from 'moment';
 import {GETEXPENSE} from '../../queries/GetExpense';
 import {IGetExpense} from '../../queries/types/IGetExpense';
-import AddExpenseTransactionModal from '../../components/modals/AddExpenseTransactionModal';
-import {DELETEEXPENSETRANSACTION} from '../../queries/mutations/DeleteExpenseTransaction';
+import AddExpenseTransactionModal from '../../components/modals/Expenses/AddExpenseTransactionModal';
+import {DELETEEXPENSETRANSACTION} from '../../queries/mutations/Expenses/DeleteExpenseTransaction';
 import {GETEXPENSES} from '../../queries/GetExpenses';
-import UpdateExpenseTransactionModal from '../../components/modals/UpdateExpenseTransactionModal';
+import UpdateExpenseTransactionModal from '../../components/modals/Expenses/UpdateExpenseTransactionModal';
 
 export default function ExpenseDetails({route}: any) {
   const {expenseId} = route.params;
@@ -82,7 +82,7 @@ export default function ExpenseDetails({route}: any) {
       )}
       <FText heading={true}>{`Details for ${title}`}</FText>
       <FText heading={true}>{`${sum} €`}</FText>
-      <FlatButton
+      <CustomButton
         title="add Transaction"
         onPress={() => {
           setShowSeeAdd(true);

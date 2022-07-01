@@ -4,7 +4,7 @@ import {useIsFocused} from '@react-navigation/native';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import FlatButton from '../components/Button';
+import CustomButton from '../components/shared/Button';
 import {Colors1} from '../styles/color';
 import {globalStyles} from '../styles/global';
 
@@ -18,7 +18,7 @@ export default function Home(props: {
   };
   // changeToTagesgeld();
 
-  return <FlatButton title={'Zum Konto'} onPress={changeToTagesgeld} />;
+  return <CustomButton title={'Zum Konto'} onPress={changeToTagesgeld} />;
 }
 const styles = StyleSheet.create({
   container: {

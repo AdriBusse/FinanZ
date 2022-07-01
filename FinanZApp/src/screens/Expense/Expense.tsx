@@ -4,14 +4,14 @@ import {useMutation, useQuery} from '@apollo/client';
 import ErrorAlert from '../../components/shared/ErrorAlert';
 import {GETEXPENSES} from '../../queries/GetExpenses';
 import {IGetExpenses} from '../../queries/types/IGetExpenses';
-import {DELETEEXPENSE} from '../../queries/mutations/DeleteExpense';
-import FlatButton from '../../components/Button';
+import {DELETEEXPENSE} from '../../queries/mutations/Expenses/DeleteExpense';
+import CustomButton from '../../components/shared/Button';
 import {globalStyles} from '../../styles/global';
-import Card from '../../components/Card';
+import Card from '../../components/shared/Card';
 import FText from '../../components/shared/FText';
 import Icon from 'react-native-vector-icons/Feather';
 import {Colors1} from '../../styles/color';
-import AddExpenseModal from '../../components/modals/AddExpenseModal';
+import AddExpenseModal from '../../components/modals/Expenses/AddExpenseModal';
 
 const Expense = (props: {
   navigation: {navigate: (arg0: string, arg1: {expenseId: any}) => void};
@@ -54,7 +54,7 @@ const Expense = (props: {
   return (
     <View style={[globalStyles.container]}>
       <AddExpenseModal toggle={setVisibleModal} visible={visibleModal} />
-      <FlatButton title="add a Topic" onPress={() => setVisibleModal(true)} />
+      <CustomButton title="add a Topic" onPress={() => setVisibleModal(true)} />
       <FlatList
         data={data!.getExpenses}
         renderItem={({item}) => {

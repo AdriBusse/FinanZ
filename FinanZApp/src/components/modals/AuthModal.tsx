@@ -1,9 +1,10 @@
-import {View, Modal, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 import React, {useEffect} from 'react';
-import FlatButton from '../Button';
+import CustomButton from '../shared/Button';
 import {useAuth} from '../../hooks/useAuth';
 import {globalStyles} from '../../styles/global';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CModal from '../shared/Modal';
 
 interface Props {
   visible: boolean;
@@ -24,14 +25,14 @@ const AuthModal = ({visible, toggle, navigation}: Props) => {
   const renderLogout = () => {
     return (
       <View style={globalStyles.container}>
-        <FlatButton title={'Logout'} onPress={() => logout()} />
+        <CustomButton title={'Logout'} onPress={() => logout()} />
       </View>
     );
   };
   const renderLogin = () => {
     return (
       <View style={globalStyles.container}>
-        <FlatButton
+        <CustomButton
           title={'Login'}
           onPress={() => {
             login('AdriBusse', '123456');
@@ -43,28 +44,21 @@ const AuthModal = ({visible, toggle, navigation}: Props) => {
     );
   };
   return (
-    <Modal statusBarTranslucent={true} visible={visible} animationType="slide">
-      <View style={styles.modalContent}>
-        {authData ? renderLogout() : renderLogin()}
-        <Text>Modal</Text>
-        <FlatButton
-          title={'print storage'}
-          onPress={async () => {
-            const data = await AsyncStorage.getItem('@AuthDataFinanZ');
-            console.log('storage data');
-            console.log(data);
-            console.log('autdata:');
-            console.log(authData);
-          }}
-        />
-      </View>
-    </Modal>
+    <CModal size="full" visible={visible} onClose={toggle}>
+      {authData ? renderLogout() : renderLogin()}
+      <Text>Modal</Text>
+      <CustomButton
+        title={'print storage'}
+        onPress={async () => {
+          const data = await AsyncStorage.getItem('@AuthDataFinanZ');
+          console.log('storage data');
+          console.log(data);
+          console.log('autdata:');
+          console.log(authData);
+        }}
+      />
+    </CModal>
   );
 };
-const styles = StyleSheet.create({
-  container: {},
-  modalContent: {
-    flex: 1,
-  },
-});
+
 export default AuthModal;

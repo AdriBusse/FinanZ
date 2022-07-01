@@ -2,7 +2,7 @@
 import {useQuery} from '@apollo/client';
 import React from 'react';
 import {Button, TouchableOpacity, Text, View} from 'react-native';
-import FlatButton from '../components/Button';
+import CustomButton from '../components/shared/Button';
 import {globalStyles} from '../styles/global';
 import {useAuth} from '../hooks/useAuth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -19,7 +19,7 @@ export default function Auth(props: {
   const renderLogin = () => {
     return (
       <View style={globalStyles.container}>
-        <FlatButton
+        <CustomButton
           title={'Login'}
           onPress={() => login('AdriBusse', '123456')}
         />
@@ -30,7 +30,11 @@ export default function Auth(props: {
   const renderLogout = () => {
     return (
       <View style={globalStyles.container}>
-        <FlatButton title={'Logout'} onPress={() => logout()} />
+        <CustomButton
+          outline={true}
+          title={'Logout'}
+          onPress={() => logout()}
+        />
       </View>
     );
   };
@@ -38,7 +42,7 @@ export default function Auth(props: {
   return (
     <>
       {authData ? renderLogout() : renderLogin()}
-      <FlatButton
+      <CustomButton
         title={'print storage'}
         onPress={async () => {
           const data = await AsyncStorage.getItem('@AuthDataFinanZ');

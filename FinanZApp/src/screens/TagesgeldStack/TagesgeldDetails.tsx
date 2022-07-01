@@ -1,12 +1,12 @@
 import {useMutation, useQuery} from '@apollo/client';
 import React from 'react';
 import {Text, View, FlatList, TouchableOpacity} from 'react-native';
-import FlatButton from '../../components/Button';
-import Card from '../../components/Card';
+import CustomButton from '../../components/shared/Button';
+import Card from '../../components/shared/Card';
 import {GETDEPOT} from '../../queries/GetDepot';
-import {DELETESAVINGTRANSACTION} from '../../queries/mutations/DeleteTransaction';
+import {DELETESAVINGTRANSACTION} from '../../queries/mutations/Savings/DeleteTransaction';
 import {globalStyles} from '../../styles/global';
-import AddSavingTransactionModal from '../../components/modals/AddSavingTransactionModal.tsx';
+import AddSavingTransactionModal from '../../components/modals/Savings/AddSavingTransactionModal.tsx';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ErrorAlert from '../../components/shared/ErrorAlert';
 import FText from '../../components/shared/FText';
@@ -58,7 +58,7 @@ export default function TagesgeldDetails({route}: any) {
       />
       <FText heading={true}>{`Details for ${name} (${short})`}</FText>
       <FText heading={true}>{`${sum} €`}</FText>
-      <FlatButton
+      <CustomButton
         title="add Transaction"
         onPress={() => {
           setShowSeeAdd(true);
