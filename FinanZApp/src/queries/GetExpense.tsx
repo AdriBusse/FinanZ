@@ -6,11 +6,16 @@ export const GETEXPENSE = gql`
       id
       title
       sum
+      createdAt
       transactions {
         id
         describtion
         amount
         createdAt
+        category {
+          id
+          name
+        }
       }
       expenseByCategory {
         name

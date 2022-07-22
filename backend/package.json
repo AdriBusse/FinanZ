@@ -7,8 +7,10 @@
     "start:build": "node dist/index.js",
     "compile": "tsc",
     "dev": "nodemon --ext 'ts,json' --exec ts-node-dev src/index",
-    "dbup": "docker compose -f docker-compose-dev.yml up -d",
-    "dbdown": "docker-compose -f docker-compose-dev.yml down",
+    "dbup:dev": "docker compose -f docker-compose-dev.yml up -d",
+    "dbdown:dev": "docker-compose -f docker-compose-dev.yml down",
+    "dbup:prod": "docker compose -f docker-compose-prod.yml up -d",
+    "dbdown:prod": "docker-compose -f docker-compose-prod.yml down",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

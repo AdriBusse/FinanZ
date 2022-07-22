@@ -1,21 +1,15 @@
 import {useMutation} from '@apollo/client';
 import {Formik} from 'formik';
 import React from 'react';
-import {
-  Keyboard,
-  Modal,
-  TextInput,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import {Keyboard, Modal, TouchableWithoutFeedback, View} from 'react-native';
 import * as yup from 'yup';
 import {GETDEPOTS} from '../../../queries/GetDepots';
 import {CREATESAVINGDEPOT} from '../../../queries/mutations/Savings/CreateSavingDepot';
-import {Colors1} from '../../../styles/color';
 import {globalStyles} from '../../../styles/global';
 import CustomButton from '../../shared/Button';
 import ErrorAlert from '../../shared/ErrorAlert';
 import FText from '../../shared/FText';
+import CTextInput from '../../shared/TextInput';
 import CloseModal from '../helper/CloseModal';
 
 const transSchema = yup.object({
@@ -59,33 +53,24 @@ function AddDepotModal({visible, toggle}: Props) {
                   return (
                     <View style={globalStyles.container}>
                       <FText heading={true}>Add a new Saving Depot:</FText>
-                      <TextInput
-                        style={globalStyles.Input}
-                        placeholder="Name"
-                        placeholderTextColor={Colors1.secondaryText}
-                        onChangeText={formikProps.handleChange('name')}
+                      <CTextInput
                         value={formikProps.values.name}
-                        onBlur={
-                          formikProps.handleBlur(
-                            'name',
-                          ) /*with out text will show just when press button*/
-                        }
+                        onChangeText={formikProps.handleChange('name')}
+                        placeholder={'Name'}
+                        selectTextOnFocus={false}
+                        keyboardType={'default'}
+                        onBlur={() => formikProps.handleBlur('name')}
                       />
                       {formikProps.errors.name && formikProps.touched.name && (
                         <ErrorAlert>{formikProps.errors.name}</ErrorAlert>
                       )}
-
-                      <TextInput
-                        style={globalStyles.Input}
-                        placeholder="Kürzel 3 Zeichen"
-                        placeholderTextColor={Colors1.secondaryText}
-                        onChangeText={formikProps.handleChange('short')}
+                      <CTextInput
                         value={formikProps.values.short}
-                        onBlur={
-                          formikProps.handleBlur(
-                            'short',
-                          ) /*with out text will show just when press button*/
-                        }
+                        onChangeText={formikProps.handleChange('short')}
+                        placeholder={'Kürzel 3 Zeichen'}
+                        selectTextOnFocus={false}
+                        keyboardType={'default'}
+                        onBlur={() => formikProps.handleBlur('short')}
                       />
                       {formikProps.errors.short &&
                         formikProps.touched.short && (

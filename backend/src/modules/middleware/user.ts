@@ -19,6 +19,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     return next();
   } catch (error) {
     console.log(error);
-    return res.status(401).json({ error: "Unauthenticated" });
+    return res.status(401).json({ error: "User not Found" });
   }
 };

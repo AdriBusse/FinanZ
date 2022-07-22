@@ -9,6 +9,8 @@ export class CreateExpenseCategoryResolver {
   @UseMiddleware(isAuth)
   async createExpenseCategory(
     @Arg("name") name: string,
+    @Arg("color", { nullable: true }) color: string,
+    @Arg("icon", { nullable: true }) icon: string,
     @Ctx() ctx: MyContext
   ): Promise<ExpenseCategory | null> {
     const user = ctx.res.locals.user;
@@ -20,6 +22,8 @@ export class CreateExpenseCategoryResolver {
     }
     const expenseCat = new ExpenseCategory();
     expenseCat.name = name;
+    expenseCat.color = color;
+    expenseCat.icon = icon;
     expenseCat.user = user;
 
     await expenseCat.save();

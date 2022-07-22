@@ -25,6 +25,14 @@ export class ExpenseCategory extends BaseEntity {
   @Column()
   name: string;
 
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  color: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  icon: string;
+
   @Field(() => [ExpenseTransaction], { nullable: true })
   @OneToMany(() => ExpenseTransaction, (trans) => trans.category)
   transactions: ExpenseTransaction[];

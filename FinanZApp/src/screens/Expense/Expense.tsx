@@ -1,4 +1,11 @@
-import {Alert, FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {useMutation, useQuery} from '@apollo/client';
 import ErrorAlert from '../../components/shared/ErrorAlert';
@@ -54,6 +61,19 @@ const Expense = (props: {
   return (
     <View style={[globalStyles.container]}>
       <AddExpenseModal toggle={setVisibleModal} visible={visibleModal} />
+      <View style={styles.options}>
+        <Icon
+          style={styles.icon}
+          onPress={() =>
+            props.navigation.navigate('CategorySettings', {
+              expenseId: undefined,
+            })
+          }
+          name="settings"
+          size={20}
+          color={Colors1.secondaryText}
+        />
+      </View>
       <CustomButton title="add a Topic" onPress={() => setVisibleModal(true)} />
       <FlatList
         data={data!.getExpenses}
@@ -87,4 +107,11 @@ const Expense = (props: {
   );
 };
 
+const styles = StyleSheet.create({
+  options: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  icon: {},
+});
 export default Expense;
