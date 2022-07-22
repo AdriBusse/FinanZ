@@ -59,9 +59,10 @@ export default function ETFs(props) {
 
       <AddETFModal toggle={setVisibleModal} visible={visibleModal} />
       <CustomButton title="add ETF" onPress={() => setVisibleModal(true)} />
-      {data!.getETFs.map(etf => {
+      {data!.getETFs.map((etf, i) => {
         return (
           <TouchableOpacity
+            key={i}
             onPress={() =>
               props.navigation.navigate('ETFDetails', {item: etf.id})
             }>

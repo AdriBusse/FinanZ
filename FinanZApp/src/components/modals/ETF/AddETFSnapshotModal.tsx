@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextInput, View} from 'react-native';
+import {View} from 'react-native';
 import CustomButton from '../../shared/Button';
 import * as yup from 'yup';
 import {Formik} from 'formik';
@@ -8,9 +8,9 @@ import {useMutation} from '@apollo/client';
 import {GETETFDETAIL} from '../../../queries/GetETFDetails';
 import {CREATEETFSNAPSHOT} from '../../../queries/mutations/ETF/CreateETFSnapshot';
 import FText from '../../shared/FText';
-import {Colors1} from '../../../styles/color';
 import ErrorAlert from '../../shared/ErrorAlert';
 import CModal from '../../shared/Modal';
+import CTextInput from '../../shared/TextInput';
 
 interface Props {
   visible: boolean;
@@ -51,19 +51,15 @@ function AddETFSnapshotModal({visible, toggle, etfId}: Props) {
             return (
               <View style={[globalStyles.container, globalStyles.scroll]}>
                 <FText heading={true}>Add a Snapshot:</FText>
-
-                <TextInput
-                  style={globalStyles.Input}
-                  placeholder="Actual Value"
-                  placeholderTextColor={Colors1.secondaryText}
-                  onChangeText={formikProps.handleChange('value')}
+                <CTextInput
                   value={formikProps.values.value}
-                  onBlur={
-                    formikProps.handleBlur(
-                      'value',
-                    ) /*with out text will show just when press button*/
-                  }
+                  onChangeText={formikProps.handleChange('value')}
+                  placeholder={'Actual Value'}
+                  selectTextOnFocus={false}
+                  keyboardType={'default'}
+                  onBlur={() => formikProps.handleBlur('value')}
                 />
+
                 {formikProps.touched.value && formikProps.errors.value && (
                   <ErrorAlert>{formikProps.errors.value}</ErrorAlert>
                 )}

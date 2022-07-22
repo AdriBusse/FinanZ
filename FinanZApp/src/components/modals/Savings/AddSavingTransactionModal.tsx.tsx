@@ -3,7 +3,6 @@ import {
   Keyboard,
   Modal,
   StyleSheet,
-  TextInput,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
@@ -17,7 +16,7 @@ import {GETDEPOTS} from '../../../queries/GetDepots';
 import ErrorAlert from '../../shared/ErrorAlert';
 import FText from '../../shared/FText';
 import CloseModal from '../helper/CloseModal';
-import {Colors1} from '../../../styles/color';
+import CTextInput from '../../shared/TextInput';
 
 interface Props {
   visible: boolean;
@@ -70,17 +69,13 @@ function AddSavingTransactionModal({visible, toggle, depotId}: Props) {
                   return (
                     <View style={globalStyles.container}>
                       <FText heading={true}>Add a Transaction:</FText>
-                      <TextInput
-                        style={globalStyles.Input}
-                        placeholder="for what is this transaction"
-                        placeholderTextColor={Colors1.secondaryText}
-                        onChangeText={formikProps.handleChange('describtion')}
+                      <CTextInput
                         value={formikProps.values.describtion}
-                        onBlur={
-                          formikProps.handleBlur(
-                            'describtion',
-                          ) /*with out text will show just when press button*/
-                        }
+                        onChangeText={formikProps.handleChange('describtion')}
+                        placeholder={'for what is this transaction'}
+                        selectTextOnFocus={false}
+                        keyboardType={'default'}
+                        onBlur={() => formikProps.handleBlur('describtion')}
                       />
                       {formikProps.errors.describtion &&
                         formikProps.touched.describtion && (
@@ -89,18 +84,13 @@ function AddSavingTransactionModal({visible, toggle, depotId}: Props) {
                               formikProps.errors.describtion}
                           </ErrorAlert>
                         )}
-
-                      <TextInput
-                        style={globalStyles.Input}
-                        placeholder="Add a negativ or positiv Number "
-                        placeholderTextColor={Colors1.secondaryText}
-                        onChangeText={formikProps.handleChange('amount')}
+                      <CTextInput
                         value={formikProps.values.amount}
-                        onBlur={
-                          formikProps.handleBlur(
-                            'amount',
-                          ) /*with out text will show just when press button*/
-                        }
+                        onChangeText={formikProps.handleChange('amount')}
+                        placeholder={'Add a negativ or positiv Number '}
+                        selectTextOnFocus={false}
+                        keyboardType={'numeric'}
+                        onBlur={() => formikProps.handleBlur('amount')}
                       />
                       {formikProps.touched.amount &&
                         formikProps.errors.amount && (

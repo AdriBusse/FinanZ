@@ -21,7 +21,7 @@ export default function ExpenseDetails({route}: any) {
   const {data, loading, error} = useQuery<IGetExpense>(GETEXPENSE, {
     variables: {id: expenseId},
     skip: !expenseId,
-    fetchPolicy: 'network-only',
+    //fetchPolicy: 'network-only',
   });
   console.log(data);
 
@@ -31,6 +31,8 @@ export default function ExpenseDetails({route}: any) {
     transactionId: string;
     amount: number;
     describtion: string;
+    categoryId: string;
+    createdAt: string;
   }>();
   const [deleteTrans] = useMutation(DELETEEXPENSETRANSACTION, {
     onError: err => {
@@ -41,8 +43,20 @@ export default function ExpenseDetails({route}: any) {
       {query: GETEXPENSE, variables: {id: expenseId}},
     ],
   });
-  const showUpdate = (id: string, amount: number, describtion: string) => {
-    setFocusItem({transactionId: id, amount: amount, describtion: describtion});
+  const showUpdate = (
+    id: string,
+    amount: number,
+    describtion: string,
+    categoryId: string,
+    createdAt: string,
+  ) => {
+    setFocusItem({
+      transactionId: id,
+      amount: amount,
+      describtion: describtion,
+      categoryId,
+      createdAt,
+    });
     setShowSeeUpdate(true);
   };
   const clickDeleteTrans = (deleteId: string) => {
@@ -74,10 +88,15 @@ export default function ExpenseDetails({route}: any) {
       {focusItem && (
         <UpdateExpenseTransactionModal
           visible={showSeeUpdate}
-          toggle={setShowSeeUpdate}
+          toggle={() => {
+            setShowSeeUpdate(false);
+            setFocusItem(undefined);
+          }}
           transactionId={focusItem?.transactionId}
           amount={focusItem?.amount}
           describtion={focusItem?.describtion}
+          category={focusItem.categoryId}
+          createdAt={focusItem?.createdAt}
         />
       )}
       <FText heading={true}>{`Details for ${title}`}</FText>
@@ -95,7 +114,13 @@ export default function ExpenseDetails({route}: any) {
           return (
             <Pressable
               onPress={() =>
-                showUpdate(item.id, item.amount, item.describtion)
+                showUpdate(
+                  item.id,
+                  item.amount,
+                  item.describtion,
+                  item.category?.id ? item.category.id : '',
+                  item.createdAt,
+                )
               }>
               <Card>
                 <View style={[globalStyles.transCard]}>

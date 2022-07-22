@@ -13,7 +13,7 @@ export class UpdateExpenseTransactionResolver {
     @Arg("describtion", { nullable: true }) describtion: string,
     @Arg("categoryId", { nullable: true }) categoryId: string,
     @Arg("amount", { nullable: true }) amount: number,
-    @Arg("date", { nullable: true }) date: number,
+    @Arg("date", { nullable: true }) date: string,
     @Ctx() ctx: MyContext
   ): Promise<ExpenseTransaction> {
     const user = ctx.res.locals.user;

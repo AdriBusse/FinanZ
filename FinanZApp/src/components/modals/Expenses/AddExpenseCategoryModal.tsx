@@ -3,9 +3,11 @@ import {Formik} from 'formik';
 import React from 'react';
 import {View} from 'react-native';
 import * as yup from 'yup';
-import {GETETFDATA} from '../../../queries/GetETFData';
-import {CREATEETF} from '../../../queries/mutations/ETF/CreateETF';
+import {GETEXPENSECATEGORIES} from '../../../queries/GetExpenseCategories';
+import {CREATEEXPANSECATEGORY} from '../../../queries/mutations/Expenses/CreateExpenseCategory';
 import {globalStyles} from '../../../styles/global';
+import ColorDropDown from '../../DropDown/ColorDropDown';
+import IconDropDown from '../../DropDown/IconDropDown';
 import CustomButton from '../../shared/Button';
 import ErrorAlert from '../../shared/ErrorAlert';
 import FText from '../../shared/FText';
@@ -14,61 +16,60 @@ import CTextInput from '../../shared/TextInput';
 
 const transSchema = yup.object({
   name: yup.string().required(),
-  short: yup.string().required(),
+  icon: yup.string(),
+  color: yup.string(),
 });
 
 interface Props {
   visible: boolean;
   toggle: CallableFunction;
 }
-function AddETFModal({visible, toggle}: Props) {
-  const [addETF] = useMutation(CREATEETF, {
-    refetchQueries: [{query: GETETFDATA}],
+function AddExpenseCategoryModal({visible, toggle}: Props) {
+  const [addExpense] = useMutation(CREATEEXPANSECATEGORY, {
+    refetchQueries: [{query: GETEXPENSECATEGORIES}],
   });
   return (
     <CModal size="half" visible={visible} onClose={toggle}>
-      <View style={globalStyles.container}>
+      <View style={[globalStyles.container, globalStyles.scroll]}>
         <Formik
-          initialValues={{name: '', short: ''}}
+          initialValues={{name: '', icon: '', color: ''}}
           validationSchema={transSchema}
           onSubmit={values => {
-            addETF({
+            addExpense({
               variables: {
                 name: values.name,
-                short: values.short.toUpperCase(),
+                icon: values.icon,
+                color: values.color,
               },
             });
             toggle(false);
           }}>
           {formikProps => {
             return (
-              <View style={[globalStyles.container, globalStyles.scroll]}>
-                <FText heading={true}>Add a new ETF:</FText>
+              <View style={globalStyles.container}>
+                <FText heading={true}>Add a Category:</FText>
                 <CTextInput
-                  placeholder="Name"
-                  onChangeText={formikProps.handleChange('name')}
                   value={formikProps.values.name}
-                  onBlur={() => formikProps.handleBlur('name')}
+                  onChangeText={formikProps.handleChange('name')}
+                  placeholder={'Name'}
                   selectTextOnFocus={false}
                   keyboardType={'default'}
+                  onBlur={() => formikProps.handleBlur('name')}
                 />
-
                 {formikProps.errors.name && formikProps.touched.name && (
                   <ErrorAlert>{formikProps.errors.name}</ErrorAlert>
                 )}
-                <CTextInput
-                  value={formikProps.values.short}
-                  onChangeText={formikProps.handleChange('short')}
-                  placeholder={'Short Display Name'}
-                  selectTextOnFocus={false}
-                  keyboardType={'default'}
+                <IconDropDown
+                  value={formikProps.values.icon}
+                  changeValue={formikProps.handleChange('icon')}
+                />
+                <ColorDropDown
+                  value={formikProps.values.icon}
+                  changeValue={formikProps.handleChange('color')}
                 />
 
-                {formikProps.errors.short && formikProps.touched.short && (
-                  <ErrorAlert>{formikProps.errors.short}</ErrorAlert>
-                )}
                 <CustomButton
-                  title="ETF Hinzufügen"
+                  title="Add Category"
                   onPress={formikProps.handleSubmit}
                 />
               </View>
@@ -80,4 +81,4 @@ function AddETFModal({visible, toggle}: Props) {
   );
 }
 
-export default AddETFModal;
+export default AddExpenseCategoryModal;

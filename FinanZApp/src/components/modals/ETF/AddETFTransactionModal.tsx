@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextInput, View} from 'react-native';
+import {View} from 'react-native';
 import CustomButton from '../../shared/Button';
 import * as yup from 'yup';
 import {Formik} from 'formik';
@@ -9,8 +9,8 @@ import {CREATEETFTRANSACTION} from '../../../queries/mutations/ETF/CreateETFTran
 import {GETETFDETAIL} from '../../../queries/GetETFDetails';
 import FText from '../../shared/FText';
 import ErrorAlert from '../../shared/ErrorAlert';
-import {Colors1} from '../../../styles/color';
 import CModal from '../../shared/Modal';
+import CTextInput from '../../shared/TextInput';
 
 interface Props {
   visible: boolean;
@@ -53,18 +53,13 @@ function AddETFTransactionModal({visible, toggle, etfId}: Props) {
             return (
               <View style={[globalStyles.container, globalStyles.scroll]}>
                 <FText heading={true}>Add a Transaction:</FText>
-
-                <TextInput
-                  style={globalStyles.Input}
-                  placeholder="Amount of Investment"
-                  placeholderTextColor={Colors1.secondaryText}
-                  onChangeText={formikProps.handleChange('amount')}
+                <CTextInput
                   value={formikProps.values.amount}
-                  onBlur={
-                    formikProps.handleBlur(
-                      'amount',
-                    ) /*with out text will show just when press button*/
-                  }
+                  onChangeText={formikProps.handleChange('amount')}
+                  placeholder={'Amount of Investment'}
+                  selectTextOnFocus={false}
+                  keyboardType={'numeric'}
+                  onBlur={() => formikProps.handleBlur('amount')}
                 />
                 {formikProps.touched.amount && formikProps.errors.amount && (
                   <ErrorAlert>{formikProps.errors.amount}</ErrorAlert>

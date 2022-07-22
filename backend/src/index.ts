@@ -39,6 +39,10 @@ const start = async () => {
   app.use(cookieParser());
   app.use(user);
 
+  app.get("/ping", (_, res) => {
+    res.send("pong");
+  });
+
   await apolloServer.start();
   apolloServer.applyMiddleware({
     app,

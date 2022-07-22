@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextInput, View} from 'react-native';
+import {View} from 'react-native';
 import CustomButton from '../../shared/Button';
 import * as yup from 'yup';
 import {Formik} from 'formik';
@@ -7,10 +7,11 @@ import {globalStyles} from '../../../styles/global';
 import {useMutation} from '@apollo/client';
 import ErrorAlert from '../../shared/ErrorAlert';
 import FText from '../../shared/FText';
-import {Colors1} from '../../../styles/color';
 import {GETEXPENSES} from '../../../queries/GetExpenses';
 import {CREATEEXPANSETRANSACTION} from '../../../queries/mutations/Expenses/CreateExpenseTransaction';
 import CModal from '../../shared/Modal';
+import CategoryDropDown from '../../Expense/CategoryDropDown';
+import CTextInput from '../../shared/TextInput';
 
 interface Props {
   visible: boolean;
@@ -21,7 +22,7 @@ const inputSchema = yup.object({
   describtion: yup.string().min(4).required(),
   amount: yup.number().required(),
   id: yup.string(),
-  //categoryId: yup.string(),
+  categoryId: yup.string(),
 });
 
 function AddExpenseTransactionModal({visible, toggle, expenseId}: Props) {
@@ -64,17 +65,13 @@ function AddExpenseTransactionModal({visible, toggle, expenseId}: Props) {
             return (
               <View style={globalStyles.container}>
                 <FText heading={true}>Add a Transaction:</FText>
-                <TextInput
-                  style={globalStyles.Input}
-                  placeholder="what did you spend"
-                  placeholderTextColor={Colors1.secondaryText}
-                  onChangeText={formikProps.handleChange('describtion')}
+                <CTextInput
                   value={formikProps.values.describtion}
-                  onBlur={
-                    formikProps.handleBlur(
-                      'describtion',
-                    ) /*with out text will show just when press button*/
-                  }
+                  onChangeText={formikProps.handleChange('describtion')}
+                  placeholder={'what did you spend'}
+                  selectTextOnFocus={false}
+                  keyboardType={'default'}
+                  onBlur={() => formikProps.handleBlur('describtion')}
                 />
                 {formikProps.errors.describtion &&
                   formikProps.touched.describtion && (
@@ -83,22 +80,22 @@ function AddExpenseTransactionModal({visible, toggle, expenseId}: Props) {
                         formikProps.errors.describtion}
                     </ErrorAlert>
                   )}
-
-                <TextInput
-                  style={globalStyles.Input}
-                  placeholder="Add the expense amount"
-                  placeholderTextColor={Colors1.secondaryText}
-                  onChangeText={formikProps.handleChange('amount')}
+                <CTextInput
                   value={formikProps.values.amount}
-                  onBlur={
-                    formikProps.handleBlur(
-                      'amount',
-                    ) /*with out text will show just when press button*/
-                  }
+                  onChangeText={formikProps.handleChange('amount')}
+                  placeholder={'Add the expense amount'}
+                  selectTextOnFocus={false}
+                  keyboardType={'numeric'}
+                  onBlur={() => formikProps.handleBlur('amount')}
                 />
+
                 {formikProps.touched.amount && formikProps.errors.amount && (
                   <ErrorAlert>{formikProps.errors.amount}</ErrorAlert>
                 )}
+                <CategoryDropDown
+                  value={formikProps.values.categoryId}
+                  changeValue={formikProps.handleChange('categoryId')}
+                />
 
                 <CustomButton
                   title="add Transaction"

@@ -8,13 +8,15 @@ export class UpdateExpenseCategoryResolver {
   @Mutation(() => ExpenseCategory)
   @UseMiddleware(isAuth)
   async updateExpenseCategory(
-    @Arg("catId", { nullable: false }) catId: string,
+    @Arg("id", { nullable: false }) id: string,
     @Arg("name", { nullable: true }) name: string,
+    @Arg("icon", { nullable: true }) icon: string,
+    @Arg("color", { nullable: true }) color: string,
     @Ctx() ctx: MyContext
   ): Promise<ExpenseCategory> {
     const user = ctx.res.locals.user;
     const cat = await ExpenseCategory.findOne({
-      id: catId,
+      id,
       user,
     });
     if (!cat) {
@@ -22,6 +24,12 @@ export class UpdateExpenseCategoryResolver {
     }
     if (name) {
       cat.name = name;
+    }
+    if (color) {
+      cat.color = color;
+    }
+    if (icon) {
+      cat.icon = icon;
     }
 
     await cat.save();
