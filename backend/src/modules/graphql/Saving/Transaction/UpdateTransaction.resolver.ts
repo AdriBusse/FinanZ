@@ -11,7 +11,7 @@ export class UpdateSavingTransactionResolver {
     @Arg("transactionId", { nullable: false }) transactionId: number,
     @Arg("describtion", { nullable: true }) describtion: string,
     @Arg("amount", { nullable: true }) amount: number,
-    @Arg("date", { nullable: true }) date: number,
+    @Arg("date", { nullable: true }) date: string,
     @Ctx() ctx: MyContext
   ): Promise<SavingTransaction> {
     const user = ctx.res.locals.user;

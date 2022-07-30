@@ -65,21 +65,24 @@ export class ExpenseResolver implements ResolverInterface<Expense> {
     });
 
     let byCategory: any = {
-      default: 0,
+      default: { amount: 0, color: "", icon: "" },
     };
-    console.log(exp.transactions);
 
     exp.transactions.forEach((transaction) => {
       if (transaction.category === null) {
         //Wenn keine Kategorie vorhanden ist, dann zu Default
-        byCategory.default += transaction.amount;
+        byCategory.default.amount += transaction.amount;
       } else {
         if (byCategory[transaction.category.name]) {
           // wenn es den eintrag schon gibt dann zu den einträgen hinzufügen
-          byCategory[transaction.category.name] += transaction.amount;
+          byCategory[transaction.category.name].amount += transaction.amount;
         } else {
           // wenn es den eintrag noch nicht gibt dann eintrag erstellen
-          byCategory[transaction.category.name] = transaction.amount;
+          byCategory[transaction.category.name] = {
+            amount: transaction.amount,
+            color: transaction.category.color || "",
+            icon: transaction.category.icon || "",
+          };
         }
       }
     });
@@ -88,7 +91,9 @@ export class ExpenseResolver implements ResolverInterface<Expense> {
     Object.keys(byCategory).forEach((key) => {
       byCategoryArray.push({
         name: key,
-        amount: byCategory[key],
+        amount: byCategory[key].amount,
+        icon: byCategory[key].icon,
+        color: byCategory[key].color,
       });
     });
     return byCategoryArray;

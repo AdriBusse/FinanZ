@@ -1,7 +1,7 @@
 {
   "name": "default",
   "type": "postgres",
-  "host": "localhost",
+  "host": "finanzdb",
   "port": 5432,
   "username": "admin",
   "password": "admin",

@@ -1,3 +1,5 @@
+import { UpdateSavingDepotResolver } from "./../modules/graphql/Saving/Depot/UpdateSavingDepot.resolver";
+import { UpdateExpenseResolver } from "./../modules/graphql/Expense/Expense/UpdateExpense.resolver";
 import { UpdateExpenseCategoryResolver } from "../modules/graphql/Expense/Category/UpdateExpenseCategory.resolver";
 import { GetExpensesResolver } from "../modules/graphql/Expense/Expense/GetExpenses.resolver";
 import { UpdateExpenseTransactionResolver } from "../modules/graphql/Expense/Transaction/UpdateExpenseTransactions.resolver";
@@ -54,6 +56,7 @@ export const createSchema = () => {
       SavingTransactionResolver,
       GetSavingDepotsResolver,
       GetSavingDepotResolver,
+      UpdateSavingDepotResolver,
       CreateSavingDepotResolver,
       DeleteSavingDepotResolver,
       CreateSavingTransactionResolver,
@@ -77,6 +80,7 @@ export const createSchema = () => {
       DeleteExpenseResolver,
       GetExpenseResolver,
       GetExpensesResolver,
+      UpdateExpenseResolver,
 
       ExpenseTransactionResolver,
       CreateExpenseTransactionResolver,

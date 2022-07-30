@@ -9,12 +9,14 @@ export class CreateExpenseResolver {
   @UseMiddleware(isAuth)
   async createExpense(
     @Arg("title") title: string,
+    @Arg("currency", { nullable: true }) currency: string,
     @Ctx() ctx: MyContext
   ): Promise<Expense> {
     const user = ctx.res.locals.user;
 
     const expense = new Expense();
     expense.title = title;
+    expense.currency = currency;
     expense.user = user;
 
     await expense.save();
