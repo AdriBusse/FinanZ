@@ -16,7 +16,7 @@ services:
       context: "./"
     restart: unless-stopped
     depends_on:
-      - db1
+      - finanzdb
     ports:
       - "4000:4000"
     links:
