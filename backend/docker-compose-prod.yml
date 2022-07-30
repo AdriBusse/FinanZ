@@ -1,6 +1,6 @@
 version: "3.1"
 services:
-  db1:
+  finanzdb:
     image: postgres
     ports:
       - "5432:5432"
@@ -10,7 +10,8 @@ services:
       POSTGRES_DB: finanz
     volumes:
       - ./DockerdataProd/db:/var/lib/postgresql/data
-  app1:
+
+  finanz_backend:
     build:
       context: "./"
     restart: unless-stopped
@@ -18,3 +19,5 @@ services:
       - db1
     ports:
       - "4000:4000"
+    links:
+      - finanzdb

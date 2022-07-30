@@ -26,6 +26,14 @@ export class Expense extends BaseEntity {
   @Column()
   title: string;
 
+  @Field({ nullable: true })
+  @Column({ nullable: true, default: "€" })
+  currency: string;
+
+  @Field()
+  @Column({ default: false })
+  archived: boolean;
+
   @Field()
   sum: number;
 
