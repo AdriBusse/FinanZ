@@ -2,11 +2,12 @@ version: "3.1"
 services:
   finanzdb:
     image: postgres
+    restart: always
     ports:
       - "5432:5432"
     environment:
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
+      POSTGRES_PASSWORD: admin123
       POSTGRES_DB: finanz
     volumes:
       - ./DockerdataProd/db:/var/lib/postgresql/data
@@ -14,7 +15,7 @@ services:
   finanz_backend:
     build:
       context: "./"
-    restart: unless-stopped
+    restart: always
     depends_on:
       - finanzdb
     ports:
