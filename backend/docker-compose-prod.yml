@@ -22,3 +22,19 @@ services:
       - "4200:4000"
     links:
       - finanzdb
+
+  dbbackups:
+    image: kartoza/pg-backup
+    volumes:
+      - ./backupdb:/backups
+    environment:
+      - DUMPPREFIX=pgfinanz
+      - POSTGRES_HOST=finanzdb
+      - POSTGRES_USER=admin
+      - POSTGRES_PASS=admin123
+      - POSTGRES_PORT=5432
+      - CRON_SCHEDULE="*/1 * * * *"
+    restart: on-failure
+    depends_on:
+      finanzdb:
+        condition: service_healthy

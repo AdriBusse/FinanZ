@@ -12,7 +12,7 @@ import {
 } from "typeorm";
 import { User } from "./User";
 
-@Entity({ name: "depots" })
+@Entity()
 @ObjectType()
 export class SavingTransaction extends BaseEntity {
   @Field(() => ID)
