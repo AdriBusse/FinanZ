@@ -18,6 +18,7 @@ interface Props {
     | 'email-address'
     | 'phone-pad'
     | 'url';
+  rounded?: 'right' | 'full';
 }
 const CTextInput = ({
   value,
@@ -27,6 +28,7 @@ const CTextInput = ({
   keyboardType,
   onBlur,
   onFocus,
+  rounded,
 }: Props) => {
   //onst [borderColor, setBorderColor] = React.useState();
   const [isFocus, setIsFocus] = React.useState(false);
@@ -39,6 +41,7 @@ const CTextInput = ({
       style={[
         styles.input,
         !isFocus ? styles.normalBorder : styles.focusBorder,
+        rounded === 'right' ? styles.roundedRight : styles.roundedFull,
       ]}
       placeholder={placeholder}
       selectTextOnFocus={selectTextOnFocus}
@@ -71,9 +74,16 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: Colors1.modal2,
     fontSize: 18,
-    borderRadius: 6,
     color: Colors1.primaryText,
-    marginBottom: 10,
+    //minWidth: '100%',
+    //marginBottom: 10,
+  },
+  roundedFull: {
+    borderRadius: 6,
+  },
+  roundedRight: {
+    borderTopRightRadius: 6,
+    borderBottomRightRadius: 6,
   },
   normalBorder: {
     borderColor: Colors1.primary,

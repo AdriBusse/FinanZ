@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {useQuery} from '@apollo/client';
 import {IGetExpenseCategories} from '../../queries/types/IGetExpenseCategories';
@@ -7,6 +7,7 @@ import ErrorAlert from '../shared/ErrorAlert';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {Colors1} from '../../styles/color';
 import {globalStyles} from '../../styles/global';
+import Spinner from '../shared/Spinner';
 
 interface Props {
   value: string | null;
@@ -41,11 +42,7 @@ const CategoryDropDown = ({value, changeValue}: Props) => {
     return <ErrorAlert>{`Error: ${error.message}`}</ErrorAlert>;
   }
   if (loading) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
+    return <Spinner />;
   }
 
   return (

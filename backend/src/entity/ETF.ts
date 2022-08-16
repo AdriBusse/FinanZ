@@ -27,13 +27,28 @@ export class ETF extends BaseEntity {
 
   @Field()
   @Column()
-  short: string;
+  title: string;
 
   @Field()
+  @Column()
+  symbol: string;
+
+  @Field()
+  @Column()
+  isin: string;
+
+  @Field()
+  @Column()
+  wkn: string;
+
+  @Field({ description: "How much is the ETF worth" })
   worth: number;
 
-  @Field()
+  @Field({ description: "How much was invested in the ETF" })
   deposited: number;
+
+  @Field({ description: "How many parts of the ETF" })
+  amount: number;
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.etfs)

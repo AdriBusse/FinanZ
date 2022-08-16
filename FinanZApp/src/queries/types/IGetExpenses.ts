@@ -6,4 +6,5 @@ interface IExpense {
   id: string;
   title: string;
   sum: number;
+  currency: string;
 }

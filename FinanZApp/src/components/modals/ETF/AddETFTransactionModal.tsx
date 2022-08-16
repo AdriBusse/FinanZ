@@ -1,16 +1,16 @@
 import React from 'react';
 import {View} from 'react-native';
-import CustomButton from '../../shared/Button';
+import CButton from '../../shared/CButton';
 import * as yup from 'yup';
 import {Formik} from 'formik';
 import {globalStyles} from '../../../styles/global';
 import {useMutation} from '@apollo/client';
 import {CREATEETFTRANSACTION} from '../../../queries/mutations/ETF/CreateETFTransaction';
 import {GETETFDETAIL} from '../../../queries/GetETFDetails';
-import FText from '../../shared/FText';
+import CText from '../../shared/CText';
 import ErrorAlert from '../../shared/ErrorAlert';
-import CModal from '../../shared/Modal';
-import CTextInput from '../../shared/TextInput';
+import CModal from '../../shared/CModal';
+import CTextInput from '../../shared/CTextInput';
 
 interface Props {
   visible: boolean;
@@ -52,7 +52,7 @@ function AddETFTransactionModal({visible, toggle, etfId}: Props) {
           {formikProps => {
             return (
               <View style={[globalStyles.container, globalStyles.scroll]}>
-                <FText heading={true}>Add a Transaction:</FText>
+                <CText heading={true}>Add a Transaction:</CText>
                 <CTextInput
                   value={formikProps.values.amount}
                   onChangeText={formikProps.handleChange('amount')}
@@ -65,7 +65,7 @@ function AddETFTransactionModal({visible, toggle, etfId}: Props) {
                   <ErrorAlert>{formikProps.errors.amount}</ErrorAlert>
                 )}
 
-                <CustomButton
+                <CButton
                   title="add Transaction"
                   onPress={formikProps.handleSubmit}
                 />

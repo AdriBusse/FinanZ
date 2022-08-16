@@ -6,7 +6,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import CustomButton from '../../shared/Button';
+import CButton from '../../shared/CButton';
 import * as yup from 'yup';
 import {Formik} from 'formik';
 import {globalStyles} from '../../../styles/global';
@@ -14,9 +14,9 @@ import {useMutation} from '@apollo/client';
 import {CREATESAVINGTRANSACTION} from '../../../queries/mutations/Savings/CreateSavingTransaction';
 import {GETDEPOTS} from '../../../queries/GetDepots';
 import ErrorAlert from '../../shared/ErrorAlert';
-import FText from '../../shared/FText';
+import CText from '../../shared/CText';
 import CloseModal from '../helper/CloseModal';
-import CTextInput from '../../shared/TextInput';
+import CTextInput from '../../shared/CTextInput';
 
 interface Props {
   visible: boolean;
@@ -68,15 +68,17 @@ function AddSavingTransactionModal({visible, toggle, depotId}: Props) {
                 {formikProps => {
                   return (
                     <View style={globalStyles.container}>
-                      <FText heading={true}>Add a Transaction:</FText>
-                      <CTextInput
-                        value={formikProps.values.describtion}
-                        onChangeText={formikProps.handleChange('describtion')}
-                        placeholder={'for what is this transaction'}
-                        selectTextOnFocus={false}
-                        keyboardType={'default'}
-                        onBlur={() => formikProps.handleBlur('describtion')}
-                      />
+                      <CText heading={true}>Add a Transaction:</CText>
+                      <View style={{paddingBottom: 5}}>
+                        <CTextInput
+                          value={formikProps.values.describtion}
+                          onChangeText={formikProps.handleChange('describtion')}
+                          placeholder={'for what is this transaction'}
+                          selectTextOnFocus={false}
+                          keyboardType={'default'}
+                          onBlur={() => formikProps.handleBlur('describtion')}
+                        />
+                      </View>
                       {formikProps.errors.describtion &&
                         formikProps.touched.describtion && (
                           <ErrorAlert>
@@ -84,20 +86,21 @@ function AddSavingTransactionModal({visible, toggle, depotId}: Props) {
                               formikProps.errors.describtion}
                           </ErrorAlert>
                         )}
-                      <CTextInput
-                        value={formikProps.values.amount}
-                        onChangeText={formikProps.handleChange('amount')}
-                        placeholder={'Add a negativ or positiv Number '}
-                        selectTextOnFocus={false}
-                        keyboardType={'numeric'}
-                        onBlur={() => formikProps.handleBlur('amount')}
-                      />
-                      {formikProps.touched.amount &&
-                        formikProps.errors.amount && (
-                          <ErrorAlert>{formikProps.errors.amount}</ErrorAlert>
-                        )}
-
-                      <CustomButton
+                      <View style={{paddingBottom: 5}}>
+                        <CTextInput
+                          value={formikProps.values.amount}
+                          onChangeText={formikProps.handleChange('amount')}
+                          placeholder={'Add a negativ or positiv Number '}
+                          selectTextOnFocus={false}
+                          keyboardType={'numeric'}
+                          onBlur={() => formikProps.handleBlur('amount')}
+                        />
+                        {formikProps.touched.amount &&
+                          formikProps.errors.amount && (
+                            <ErrorAlert>{formikProps.errors.amount}</ErrorAlert>
+                          )}
+                      </View>
+                      <CButton
                         title="add Transaction"
                         onPress={formikProps.handleSubmit}
                       />

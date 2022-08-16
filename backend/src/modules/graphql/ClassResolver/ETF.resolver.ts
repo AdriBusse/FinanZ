@@ -1,3 +1,4 @@
+import { LemonAPI } from "./../../Services/LemonAPI";
 import { ETFSnapshot } from "../../../entity/ETFSnapshot";
 import { ETFTransaction } from "../../../entity/ETFTransaction";
 import { ETF } from "../../../entity/ETF";
@@ -65,7 +66,8 @@ export class ETFResolver implements ResolverInterface<ETF> {
     });
 
     deposits.forEach((dep) => {
-      sum += dep.amount;
+      sum += dep.invest;
+      sum += dep.fee;
     });
 
     return sum;
@@ -73,13 +75,32 @@ export class ETFResolver implements ResolverInterface<ETF> {
 
   @FieldResolver()
   async worth(@Root() etf: ETF): Promise<number> {
-    const snapshots = await ETFSnapshot.find({
+    const transaction = await ETFTransaction.find({
       where: { etf },
     });
 
-    let value = 0;
-    value = snapshots.sort().at(-1)?.value || 0;
+    const amount = transaction.reduce((acc, curr) => {
+      return acc + curr.amount;
+    }, 0);
 
-    return value;
+    const res = await LemonAPI.lastQuotes(etf.isin);
+    if (!res) {
+      throw new Error("Something went wrong while getting the ETF worth");
+    }
+
+    return amount * res.a;
+  }
+
+  @FieldResolver()
+  async amount(@Root() etf: ETF): Promise<number> {
+    const transaction = await ETFTransaction.find({
+      where: { etf },
+    });
+
+    const amount = transaction.reduce((acc, curr) => {
+      return acc + curr.amount;
+    }, 0);
+
+    return amount;
   }
 }

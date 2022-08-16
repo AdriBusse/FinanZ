@@ -1,16 +1,18 @@
 import {useMutation, useQuery} from '@apollo/client';
 import React from 'react';
-import {Text, View, TouchableOpacity, FlatList, Alert} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import CustomButton from '../../components/shared/Button';
-import Card from '../../components/shared/Card';
+import {View, TouchableOpacity, FlatList, Alert} from 'react-native';
+import CCard from '../../components/shared/CCard';
 import AddDepotModal from '../../components/modals/Savings/AddDepotModal';
 import ErrorAlert from '../../components/shared/ErrorAlert';
-import FText from '../../components/shared/FText';
+import CText from '../../components/shared/CText';
 import {GETDEPOTS} from '../../queries/GetDepots';
 import {DELETESAVINGDEPOT} from '../../queries/mutations/Savings/DeleteDepot';
-import {Colors1} from '../../styles/color';
 import {globalStyles} from '../../styles/global';
+import CFloatingButton from '../../components/shared/CFloatingButton';
+import DeleteIcon from '../../components/shared/DeleteIcon';
+import OptionHeader from '../../components/shared/OptionHeader';
+import Spinner from '../../components/shared/Spinner';
+import {formatNumber} from '../../helpers/formatNumber';
 
 export default function Tagesgeld(props: {
   navigation: {navigate: (arg0: string, arg1: {item: any}) => void};
@@ -45,16 +47,17 @@ export default function Tagesgeld(props: {
     return <ErrorAlert>{error.message}</ErrorAlert>;
   }
   if (loading) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
+    return <Spinner />;
   } else {
     return (
       <View style={[globalStyles.container]}>
         <AddDepotModal toggle={setVisibleModal} visible={visibleModal} />
-        <CustomButton title="add Depot" onPress={() => setVisibleModal(true)} />
+        <CFloatingButton onPress={() => setVisibleModal(true)} />
+        <OptionHeader>
+          <View style={{marginRight: 'auto'}}>
+            <CText heading>Savings</CText>
+          </View>
+        </OptionHeader>
         <FlatList
           data={data.getSavingDepots}
           renderItem={({item}) => {
@@ -64,19 +67,14 @@ export default function Tagesgeld(props: {
                 onPress={() =>
                   props.navigation.navigate('TagesgeldDetails', {item: item.id})
                 }>
-                <Card>
+                <CCard>
                   <View style={globalStyles.transCard}>
-                    <FText bold={true}>{item.name}</FText>
+                    <CText bold={true}>{item.name}</CText>
 
-                    <FText>{`${item.sum} €`}</FText>
-                    <Icon
-                      onPress={() => handleDelete(item.id)}
-                      name="trash"
-                      size={20}
-                      color={Colors1.secondaryText}
-                    />
+                    <CText>{`${formatNumber(item.sum)} €`}</CText>
+                    <DeleteIcon onDelete={() => handleDelete(item.id)} />
                   </View>
-                </Card>
+                </CCard>
               </TouchableOpacity>
             );
           }}

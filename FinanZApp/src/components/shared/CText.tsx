@@ -7,8 +7,9 @@ interface Props {
   bold?: boolean;
   heading?: boolean;
   children: string;
+  style?: any;
 }
-const FText = ({type, bold, heading, children}: Props) => {
+const CText = ({type, bold, heading, children, style}: Props) => {
   return (
     <Text
       style={[
@@ -16,15 +17,16 @@ const FText = ({type, bold, heading, children}: Props) => {
         bold ? styles.boldText : null,
         heading ? styles.heading : null,
         styles.font,
+        {...style},
       ]}>
       {children}
     </Text>
   );
 };
 
-export default FText;
+export default CText;
 
-FText.defaultProps = {
+CText.defaultProps = {
   type: 'primary',
   bold: false,
   heading: false,
@@ -35,8 +37,8 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontWeight: 'bold',
-    fontSize: 32,
-    marginBottom: 20,
+    fontSize: 30,
+    marginBottom: 10,
     textAlign: 'center',
   },
   secondaryText: {

@@ -2,47 +2,38 @@
 import {useQuery} from '@apollo/client';
 import React from 'react';
 import {Button, TouchableOpacity, Text, View} from 'react-native';
-import CustomButton from '../components/shared/Button';
+import CButton from '../components/shared/CButton';
 import {globalStyles} from '../styles/global';
 import {useAuth} from '../hooks/useAuth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CText from '../components/shared/CText';
 
 export default function Auth(props: {
   navigation: {navigate: (arg0: string) => any};
 }) {
   const {authData, loading, login, logout} = useAuth();
-  const changeToTagesgeld = () => {
-    console.log('hello');
 
-    props.navigation.navigate('Sparen');
-  };
   const renderLogin = () => {
     return (
-      <View style={globalStyles.container}>
-        <CustomButton
-          title={'Login'}
-          onPress={() => login('AdriBusse', '123456')}
-        />
-      </View>
+      <>
+        <CButton title={'Login'} onPress={() => login('AdriBusse', '123456')} />
+      </>
     );
   };
 
   const renderLogout = () => {
     return (
-      <View style={globalStyles.container}>
-        <CustomButton
-          outline={true}
-          title={'Logout'}
-          onPress={() => logout()}
-        />
-      </View>
+      <>
+        <CButton outline={true} title={'Logout'} onPress={() => logout()} />
+      </>
     );
   };
 
   return (
-    <>
+    <View style={globalStyles.container}>
+      {authData && <CText heading>{`Welcome ${authData.username}`}</CText>}
       {authData ? renderLogout() : renderLogin()}
-      <CustomButton
+      <CButton
         title={'print storage'}
         onPress={async () => {
           const data = await AsyncStorage.getItem('@AuthDataFinanZ');
@@ -52,6 +43,6 @@ export default function Auth(props: {
           console.log(authData);
         }}
       />
-    </>
+    </View>
   );
 }

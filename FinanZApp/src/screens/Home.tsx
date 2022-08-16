@@ -4,8 +4,10 @@ import {useIsFocused} from '@react-navigation/native';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import CustomButton from '../components/shared/Button';
-import CTextInput from '../components/shared/TextInput';
+import CButton from '../components/shared/CButton';
+import NegativePositiveInput from '../components/shared/NegativePositiveInput';
+import PositivNegativeSwitch from '../components/shared/PositivNegativeSwitch';
+import CTextInput from '../components/shared/CTextInput';
 import {Colors1} from '../styles/color';
 import {globalStyles} from '../styles/global';
 
@@ -18,17 +20,15 @@ export default function Home(props: {
     props.navigation.navigate('Sparen');
   };
   // changeToTagesgeld();
-  const [text, settext] = React.useState('');
+  const [isNegative, setIsNegative] = React.useState(false);
+  const [amount, setAmount] = React.useState<number>(0);
+  console.log(amount);
+
   return (
-    <View>
-      <CustomButton title={'Zum Konto'} onPress={changeToTagesgeld} />
-      <CTextInput
-        value={text}
-        onChangeText={settext}
-        placeholder={'custom placeholder'}
-        selectTextOnFocus={false}
-        keyboardType={'default'}
-      />
+    <View style={globalStyles.container}>
+      <CButton title={'Zum Konto'} onPress={changeToTagesgeld} />
+
+      <NegativePositiveInput value={amount} handleChange={setAmount} />
     </View>
   );
 }

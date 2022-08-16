@@ -23,6 +23,10 @@ export class ETFSnapshot extends BaseEntity {
   @Column({ type: "float", default: 0 })
   value: number;
 
+  @Field({ description: "How manny parts you own" })
+  @Column({ type: "float", default: 0 })
+  amount: number;
+
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.etfSnapshots)
   user: User;

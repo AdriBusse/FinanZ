@@ -1,3 +1,4 @@
+import { SearchETFResolver } from "./../modules/graphql/ETF/ETF/SearchETF.resolver";
 import { UpdateSavingDepotResolver } from "./../modules/graphql/Saving/Depot/UpdateSavingDepot.resolver";
 import { UpdateExpenseResolver } from "./../modules/graphql/Expense/Expense/UpdateExpense.resolver";
 import { UpdateExpenseCategoryResolver } from "../modules/graphql/Expense/Category/UpdateExpenseCategory.resolver";
@@ -74,6 +75,7 @@ export const createSchema = () => {
       DeleteETFResolver,
       DeleteETFSnapshotResolver,
       DeleteETFTransactionResolver,
+      SearchETFResolver,
 
       ExpenseResolver,
       CreateExpenseResolver,

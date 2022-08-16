@@ -1,17 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View} from 'react-native';
-import CustomButton from '../../shared/Button';
+import CButton from '../../shared/CButton';
 import * as yup from 'yup';
 import {Formik} from 'formik';
 import {globalStyles} from '../../../styles/global';
 import {useMutation} from '@apollo/client';
 import ErrorAlert from '../../shared/ErrorAlert';
-import FText from '../../shared/FText';
-import {GETEXPENSES} from '../../../queries/GetExpenses';
+import CText from '../../shared/CText';
 import {CREATEEXPANSETRANSACTION} from '../../../queries/mutations/Expenses/CreateExpenseTransaction';
-import CModal from '../../shared/Modal';
+import CModal from '../../shared/CModal';
 import CategoryDropDown from '../../Expense/CategoryDropDown';
-import CTextInput from '../../shared/TextInput';
+import CTextInput from '../../shared/CTextInput';
+import {GETEXPENSE} from '../../../queries/GetExpense';
+import DateSelect from '../../shared/DateSelect';
 
 interface Props {
   visible: boolean;
@@ -19,26 +20,25 @@ interface Props {
   expenseId: string;
 }
 const inputSchema = yup.object({
-  describtion: yup.string().min(4).required(),
+  describtion: yup.string().min(3).required(),
   amount: yup.number().required(),
   id: yup.string(),
   categoryId: yup.string(),
 });
 
 function AddExpenseTransactionModal({visible, toggle, expenseId}: Props) {
+  const [date, setDate] = useState(new Date());
+
   const [addTransaction] = useMutation(CREATEEXPANSETRANSACTION, {
-    refetchQueries: [
-      {
-        query: GETEXPENSES,
-      },
-    ],
+    refetchQueries: [{query: GETEXPENSE, variables: {id: expenseId}}],
     onCompleted: dada => {
       console.log(dada);
     },
     onError: err => {
-      console.log(err);
+      console.log(err.message);
     },
   });
+
   return (
     <CModal size="half" visible={visible} onClose={toggle}>
       <View style={[globalStyles.container, globalStyles.scroll]}>
@@ -56,6 +56,7 @@ function AddExpenseTransactionModal({visible, toggle, expenseId}: Props) {
                 describtion,
                 amount: parseFloat(amount),
                 categoryId,
+                date: date.getTime(),
               },
             });
             toggle(false);
@@ -64,40 +65,48 @@ function AddExpenseTransactionModal({visible, toggle, expenseId}: Props) {
           {formikProps => {
             return (
               <View style={globalStyles.container}>
-                <FText heading={true}>Add a Transaction:</FText>
-                <CTextInput
-                  value={formikProps.values.describtion}
-                  onChangeText={formikProps.handleChange('describtion')}
-                  placeholder={'what did you spend'}
-                  selectTextOnFocus={false}
-                  keyboardType={'default'}
-                  onBlur={() => formikProps.handleBlur('describtion')}
-                />
-                {formikProps.errors.describtion &&
-                  formikProps.touched.describtion && (
-                    <ErrorAlert>
-                      {formikProps.touched.describtion &&
-                        formikProps.errors.describtion}
-                    </ErrorAlert>
+                <View style={{paddingBottom: 5}}>
+                  <CText heading={true}>Add a Transaction:</CText>
+                  <CTextInput
+                    value={formikProps.values.describtion}
+                    onChangeText={formikProps.handleChange('describtion')}
+                    placeholder={'what did you spend'}
+                    selectTextOnFocus={false}
+                    keyboardType={'default'}
+                    onBlur={() => formikProps.handleBlur('describtion')}
+                  />
+                  {formikProps.errors.describtion &&
+                    formikProps.touched.describtion && (
+                      <ErrorAlert>
+                        {formikProps.touched.describtion &&
+                          formikProps.errors.describtion}
+                      </ErrorAlert>
+                    )}
+                </View>
+                <View style={{paddingBottom: 5}}>
+                  <CTextInput
+                    value={formikProps.values.amount}
+                    onChangeText={formikProps.handleChange('amount')}
+                    placeholder={'Add the expense amount'}
+                    selectTextOnFocus={false}
+                    keyboardType={'numeric'}
+                    onBlur={() => formikProps.handleBlur('amount')}
+                  />
+
+                  {formikProps.touched.amount && formikProps.errors.amount && (
+                    <ErrorAlert>{formikProps.errors.amount}</ErrorAlert>
                   )}
-                <CTextInput
-                  value={formikProps.values.amount}
-                  onChangeText={formikProps.handleChange('amount')}
-                  placeholder={'Add the expense amount'}
-                  selectTextOnFocus={false}
-                  keyboardType={'numeric'}
-                  onBlur={() => formikProps.handleBlur('amount')}
-                />
-
-                {formikProps.touched.amount && formikProps.errors.amount && (
-                  <ErrorAlert>{formikProps.errors.amount}</ErrorAlert>
-                )}
-                <CategoryDropDown
-                  value={formikProps.values.categoryId}
-                  changeValue={formikProps.handleChange('categoryId')}
-                />
-
-                <CustomButton
+                </View>
+                <View style={{paddingBottom: 5}}>
+                  <CategoryDropDown
+                    value={formikProps.values.categoryId}
+                    changeValue={formikProps.handleChange('categoryId')}
+                  />
+                </View>
+                <View style={{paddingBottom: 5}}>
+                  <DateSelect setDate={setDate} date={date} />
+                </View>
+                <CButton
                   title="add Transaction"
                   onPress={formikProps.handleSubmit}
                 />

@@ -64,7 +64,12 @@ export const AuthProvider: React.FC = ({children}) => {
           email: data.login.user.email,
         };
         setAuthData(authDataNew);
-        AsyncStorage.setItem(STORAGEKEY, JSON.stringify(authDataNew));
+        AsyncStorage.setItem(STORAGEKEY, JSON.stringify(authDataNew), () => {
+          console.log('done');
+        });
+      },
+      onError: error => {
+        console.log(error);
       },
     });
   };

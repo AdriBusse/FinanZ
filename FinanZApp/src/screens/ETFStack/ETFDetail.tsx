@@ -1,26 +1,21 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {useMutation, useQuery} from '@apollo/client';
 import {GETETFDETAIL} from '../../queries/GetETFDetails';
 import {IGetETFDetails} from '../../queries/types/IGetETFDetails';
 import {globalStyles} from '../../styles/global';
-import CustomButton from '../../components/shared/Button';
-import Card from '../../components/shared/Card';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import CButton from '../../components/shared/CButton';
+import CCard from '../../components/shared/CCard';
 import {DELETEETFTRANSACTION} from '../../queries/mutations/ETF/DeleteETFTransaction';
 import AddETFTransactionModal from '../../components/modals/ETF/AddETFTransactionModal';
 import AddETFSnapshotModal from '../../components/modals/ETF/AddETFSnapshotModal';
 import {DELETEETFSNAPSHOT} from '../../queries/mutations/ETF/DeleteETFSnapshot';
 import ErrorAlert from '../../components/shared/ErrorAlert';
-import FText from '../../components/shared/FText';
-import {Colors1} from '../../styles/color';
+import CText from '../../components/shared/CText';
 import moment from 'moment';
+import DeleteIcon from '../../components/shared/DeleteIcon';
+import OptionHeader from '../../components/shared/OptionHeader';
+import Spinner from '../../components/shared/Spinner';
 
 const ETFDetail = ({route}: any) => {
   const {item: etfId} = route.params;
@@ -61,78 +56,82 @@ const ETFDetail = ({route}: any) => {
     return <ErrorAlert>{error.message}</ErrorAlert>;
   }
   if (loading) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
+    return <Spinner />;
   }
   return (
-    <ScrollView style={globalStyles.container}>
-      <AddETFTransactionModal
-        visible={visibleModalTrans}
-        toggle={setVisibleModalTrans}
-        etfId={data!.getETF.id}
-      />
-      <AddETFSnapshotModal
-        visible={visibleModalSnap}
-        toggle={setVisibleModalSnap}
-        etfId={data!.getETF.id}
-      />
-      <FText heading={true}>{`ETFDetail for ${data?.getETF.name}`}</FText>
-      <View style={styles.buttonRow}>
-        <CustomButton
-          title={'Add Transaction'}
-          onPress={() => setVisibleModalTrans(true)}
+    <View style={globalStyles.container}>
+      <OptionHeader>
+        <View style={{marginRight: 'auto'}}>
+          <CText heading>{data!.getETF.name}</CText>
+        </View>
+      </OptionHeader>
+      <ScrollView>
+        <AddETFTransactionModal
+          visible={visibleModalTrans}
+          toggle={setVisibleModalTrans}
+          etfId={data!.getETF.id}
         />
-        <CustomButton
-          title={'Add Snapshot'}
-          onPress={() => setVisibleModalSnap(true)}
+        <AddETFSnapshotModal
+          visible={visibleModalSnap}
+          toggle={setVisibleModalSnap}
+          etfId={data!.getETF.id}
         />
-      </View>
-      <View style={styles.marginBottom}>
-        <FText heading={true}>{`Transactions: ${
-          data!.getETF.deposited
-        } €`}</FText>
-        {data!.getETF.transactions.map(transaction => {
-          return (
-            <Card>
-              <View style={globalStyles.transCard}>
-                <FText>{`${transaction.amount} €`}</FText>
-                <FText>
-                  {moment(transaction.createdAt).format('DD MMM, YY')}
-                </FText>
-                <TouchableOpacity
-                  onPress={() => {
-                    handleTransDelete(transaction.id);
-                  }}>
-                  <Icon name="trash" size={20} color={Colors1.secondaryText} />
-                </TouchableOpacity>
-              </View>
-            </Card>
-          );
-        })}
-      </View>
-      <View style={styles.marginBottom}>
-        <FText heading={true}>{`Snapshots: ${data!.getETF.worth} €`}</FText>
-        {data!.getETF.snapshots.map(snapshot => {
-          return (
-            <Card>
-              <View style={globalStyles.transCard}>
-                <FText>{`${snapshot.value} €`}</FText>
-                <FText>{moment(snapshot.createdAt).format('DD MMM, YY')}</FText>
-                <TouchableOpacity
-                  onPress={() => {
-                    handleSnapDelete(snapshot.id);
-                  }}>
-                  <Icon name="trash" size={20} color={Colors1.secondaryText} />
-                </TouchableOpacity>
-              </View>
-            </Card>
-          );
-        })}
-      </View>
-    </ScrollView>
+        <View style={styles.buttonRow}>
+          <CButton
+            title={'Add Transaction'}
+            onPress={() => setVisibleModalTrans(true)}
+          />
+          <CButton
+            title={'Add Snapshot'}
+            onPress={() => setVisibleModalSnap(true)}
+          />
+        </View>
+        <View style={styles.marginBottom}>
+          <CText heading={true}>{`Transactions: ${
+            data!.getETF.deposited
+          } €`}</CText>
+          {data!.getETF.transactions.map(transaction => {
+            return (
+              <CCard>
+                <View style={globalStyles.transCard}>
+                  <CText>{`${transaction.amount} €`}</CText>
+                  <CText>
+                    {moment(transaction.createdAt).format('DD MMM, YY')}
+                  </CText>
+                  <TouchableOpacity
+                    onPress={() => {
+                      handleTransDelete(transaction.id);
+                    }}>
+                    <DeleteIcon onDelete={() => console.log('handleDelete')} />
+                  </TouchableOpacity>
+                </View>
+              </CCard>
+            );
+          })}
+        </View>
+        <View style={styles.marginBottom}>
+          <CText heading={true}>{`Snapshots: ${data!.getETF.worth} €`}</CText>
+          {data!.getETF.snapshots.map(snapshot => {
+            return (
+              <CCard>
+                <View style={globalStyles.transCard}>
+                  <CText>{`${snapshot.value} €`}</CText>
+                  <CText>
+                    {moment(snapshot.createdAt).format('DD MMM, YY')}
+                  </CText>
+                  <TouchableOpacity
+                    onPress={() => {
+                      handleSnapDelete(snapshot.id);
+                    }}>
+                    <DeleteIcon onDelete={() => console.log('handleDelete')} />
+                  </TouchableOpacity>
+                </View>
+              </CCard>
+            );
+          })}
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 

@@ -1,24 +1,21 @@
-import {
-  Alert,
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Alert, FlatList, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {useMutation, useQuery} from '@apollo/client';
 import ErrorAlert from '../../components/shared/ErrorAlert';
 import {GETEXPENSES} from '../../queries/GetExpenses';
 import {IGetExpenses} from '../../queries/types/IGetExpenses';
 import {DELETEEXPENSE} from '../../queries/mutations/Expenses/DeleteExpense';
-import CustomButton from '../../components/shared/Button';
 import {globalStyles} from '../../styles/global';
-import Card from '../../components/shared/Card';
-import FText from '../../components/shared/FText';
+import CCard from '../../components/shared/CCard';
+import CText from '../../components/shared/CText';
 import Icon from 'react-native-vector-icons/Feather';
 import {Colors1} from '../../styles/color';
 import AddExpenseModal from '../../components/modals/Expenses/AddExpenseModal';
+import CFloatingButton from '../../components/shared/CFloatingButton';
+import OptionHeader from '../../components/shared/OptionHeader';
+import DeleteIcon from '../../components/shared/DeleteIcon';
+import Spinner from '../../components/shared/Spinner';
+import {formatNumber} from '../../helpers/formatNumber';
 
 const Expense = (props: {
   navigation: {navigate: (arg0: string, arg1: {expenseId: any}) => void};
@@ -28,6 +25,8 @@ const Expense = (props: {
   const {data, loading, error} = useQuery<IGetExpenses>(GETEXPENSES, {
     fetchPolicy: 'network-only',
   });
+  console.log(data);
+
   const [deleteExpense] = useMutation(DELETEEXPENSE, {
     refetchQueries: [{query: GETEXPENSES}],
   });
@@ -52,18 +51,18 @@ const Expense = (props: {
     return <ErrorAlert>{error.message}</ErrorAlert>;
   }
   if (loading) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
+    return <Spinner />;
   }
+
   return (
     <View style={[globalStyles.container]}>
       <AddExpenseModal toggle={setVisibleModal} visible={visibleModal} />
-      <View style={styles.options}>
+      <CFloatingButton onPress={() => setVisibleModal(true)} />
+      <OptionHeader>
+        <View style={{marginRight: 'auto'}}>
+          <CText heading>Expenses</CText>
+        </View>
         <Icon
-          style={styles.icon}
           onPress={() =>
             props.navigation.navigate('CategorySettings', {
               expenseId: undefined,
@@ -73,8 +72,7 @@ const Expense = (props: {
           size={20}
           color={Colors1.secondaryText}
         />
-      </View>
-      <CustomButton title="add a Topic" onPress={() => setVisibleModal(true)} />
+      </OptionHeader>
       <FlatList
         data={data!.getExpenses}
         renderItem={({item}) => {
@@ -86,19 +84,14 @@ const Expense = (props: {
                   expenseId: item.id,
                 })
               }>
-              <Card>
+              <CCard>
                 <View style={globalStyles.transCard}>
-                  <FText bold={true}>{item.title}</FText>
+                  <CText bold={true}>{item.title}</CText>
 
-                  <FText>{`${item.sum} €`}</FText>
-                  <Icon
-                    onPress={() => handleDelete(item.id)}
-                    name="trash"
-                    size={20}
-                    color={Colors1.secondaryText}
-                  />
+                  <CText>{`${formatNumber(item.sum)} ${item.currency}`}</CText>
+                  <DeleteIcon onDelete={() => handleDelete(item.id)} />
                 </View>
-              </Card>
+              </CCard>
             </TouchableOpacity>
           );
         }}
@@ -107,11 +100,4 @@ const Expense = (props: {
   );
 };
 
-const styles = StyleSheet.create({
-  options: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  icon: {},
-});
 export default Expense;

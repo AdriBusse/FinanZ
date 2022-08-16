@@ -6,11 +6,11 @@ import * as yup from 'yup';
 import {GETETFDATA} from '../../../queries/GetETFData';
 import {CREATEETF} from '../../../queries/mutations/ETF/CreateETF';
 import {globalStyles} from '../../../styles/global';
-import CustomButton from '../../shared/Button';
+import CButton from '../../shared/CButton';
 import ErrorAlert from '../../shared/ErrorAlert';
-import FText from '../../shared/FText';
-import CModal from '../../shared/Modal';
-import CTextInput from '../../shared/TextInput';
+import CText from '../../shared/CText';
+import CModal from '../../shared/CModal';
+import CTextInput from '../../shared/CTextInput';
 
 const transSchema = yup.object({
   name: yup.string().required(),
@@ -43,7 +43,7 @@ function AddETFModal({visible, toggle}: Props) {
           {formikProps => {
             return (
               <View style={[globalStyles.container, globalStyles.scroll]}>
-                <FText heading={true}>Add a new ETF:</FText>
+                <CText heading={true}>Add a new ETF:</CText>
                 <CTextInput
                   placeholder="Name"
                   onChangeText={formikProps.handleChange('name')}
@@ -67,7 +67,7 @@ function AddETFModal({visible, toggle}: Props) {
                 {formikProps.errors.short && formikProps.touched.short && (
                   <ErrorAlert>{formikProps.errors.short}</ErrorAlert>
                 )}
-                <CustomButton
+                <CButton
                   title="ETF Hinzufügen"
                   onPress={formikProps.handleSubmit}
                 />

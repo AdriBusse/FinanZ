@@ -1,3 +1,4 @@
+import { LemonAPI } from "./../../../Services/LemonAPI";
 import { ETFTransaction } from "../../../../entity/ETFTransaction";
 import { ETF } from "../../../../entity/ETF";
 import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from "type-graphql";
@@ -10,14 +11,23 @@ export class CreateETFTransactionResolver {
   @UseMiddleware(isAuth)
   async createETFTransaction(
     @Arg("etfId") depotId: string,
-    @Arg("amount") amount: number,
+    @Arg("invest") invest: number,
+    @Arg("fee", { defaultValue: 0 }) fee: number,
     @Arg("date", { nullable: true, defaultValue: new Date() }) date: string,
     @Ctx() ctx: MyContext
   ): Promise<ETFTransaction> {
     const user = ctx.res.locals.user;
     const etf = await ETF.findOneOrFail({ id: depotId, user });
+    const lastquote = await LemonAPI.lastQuotes(etf.isin);
+    if (!lastquote) {
+      throw new Error(
+        "Something went wrong while creating the ETFTransaction (external Api didnt response)"
+      );
+    }
     const etfTransaction = new ETFTransaction();
-    etfTransaction.amount = amount;
+    etfTransaction.invest = invest;
+    etfTransaction.fee = fee;
+    etfTransaction.amount = invest / lastquote.a;
     etfTransaction.etf = etf;
     etfTransaction.createdAt = new Date(date);
     etfTransaction.user = user;

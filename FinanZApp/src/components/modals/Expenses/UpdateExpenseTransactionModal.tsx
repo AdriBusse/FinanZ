@@ -4,14 +4,14 @@ import {View} from 'react-native';
 import {UPDATEEXPENSETRANSACTION} from '../../../queries/mutations/Expenses/UpdateExpenseTransaction';
 import {globalStyles} from '../../../styles/global';
 import CategoryDropDown from '../../Expense/CategoryDropDown';
-import CustomButton from '../../shared/Button';
-import FText from '../../shared/FText';
-import CModal from '../../shared/Modal';
-import CTextInput from '../../shared/TextInput';
-import DatePicker from 'react-native-date-picker';
-import moment from 'moment';
+import CButton from '../../shared/CButton';
+import CText from '../../shared/CText';
+import CModal from '../../shared/CModal';
+import CTextInput from '../../shared/CTextInput';
+
 import {GETEXPENSES} from '../../../queries/GetExpenses';
 import {GETEXPENSE} from '../../../queries/GetExpense';
+import DateSelect from '../../shared/DateSelect';
 
 interface Props {
   visible: boolean;
@@ -37,7 +37,6 @@ function UpdateExpenseTransactionModal({
   const [newAmount, setNewAmount] = useState(amount.toString());
   const [newCategory, setNewCategory] = useState(category);
   const [date, setDate] = useState(new Date(createdAt));
-  const [openDate, setOpenDate] = useState(false);
 
   const [updateExpenseTransaction] = useMutation<
     any,
@@ -62,53 +61,37 @@ function UpdateExpenseTransactionModal({
   });
   return (
     <CModal size="full" visible={visible} onClose={toggle}>
-      <DatePicker
-        modal
-        mode="date"
-        open={openDate}
-        date={date}
-        onConfirm={d => {
-          setOpenDate(false);
-          console.log(d);
-
-          setDate(d);
-        }}
-        onCancel={() => {
-          setOpenDate(false);
-        }}
-      />
       <View style={[globalStyles.container, globalStyles.scroll]}>
-        <FText>Describtion:</FText>
-        <CTextInput
-          value={newDesc}
-          onChangeText={setNewDesc}
-          placeholder={'Describtion'}
-          selectTextOnFocus={false}
-          keyboardType={'default'}
-        />
-        <FText>Amount:</FText>
-        <CTextInput
-          value={newAmount}
-          onChangeText={setNewAmount}
-          placeholder={'Describtion'}
-          selectTextOnFocus={true}
-          keyboardType={'numeric'}
-        />
-
-        <FText>Category:</FText>
-        <CategoryDropDown changeValue={setNewCategory} value={category} />
-
-        <FText>Created:</FText>
-        <CTextInput
-          value={moment(date).format('DD MMM, YY')}
-          placeholder={'No Date Selected'}
-          onFocus={() => setOpenDate(true)}
-          onChangeText={() => {}}
-          selectTextOnFocus={false}
-          keyboardType={'default'}
-        />
+        <View style={{paddingBottom: 5}}>
+          <CText>Describtion:</CText>
+          <CTextInput
+            value={newDesc}
+            onChangeText={setNewDesc}
+            placeholder={'Describtion'}
+            selectTextOnFocus={false}
+            keyboardType={'default'}
+          />
+        </View>
+        <View style={{paddingBottom: 5}}>
+          <CText>Amount:</CText>
+          <CTextInput
+            value={newAmount}
+            onChangeText={setNewAmount}
+            placeholder={'Describtion'}
+            selectTextOnFocus={true}
+            keyboardType={'numeric'}
+          />
+        </View>
+        <View style={{paddingBottom: 5}}>
+          <CText>Category:</CText>
+          <CategoryDropDown changeValue={setNewCategory} value={category} />
+        </View>
+        <View style={{paddingBottom: 5}}>
+          <CText>Created:</CText>
+          <DateSelect setDate={setDate} date={date} />
+        </View>
       </View>
-      <CustomButton
+      <CButton
         title="Update"
         onPress={() => {
           updateExpenseTransaction({

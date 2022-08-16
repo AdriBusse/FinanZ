@@ -1,19 +1,21 @@
-import {Alert, Text, TouchableOpacity, View} from 'react-native';
+import {Alert, ScrollView, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {useMutation, useQuery} from '@apollo/client';
 import {GETEXPENSECATEGORIES} from '../../queries/GetExpenseCategories';
 import ErrorAlert from '../../components/shared/ErrorAlert';
 import {IGetExpenseCategories} from '../../queries/types/IGetExpenseCategories';
-import Card from '../../components/shared/Card';
+import CCard from '../../components/shared/CCard';
 import {globalStyles} from '../../styles/global';
-import FText from '../../components/shared/FText';
-import Icon from 'react-native-vector-icons/Feather';
+import CText from '../../components/shared/CText';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {Colors1} from '../../styles/color';
 import {DELETEEXPENSECATEGORY} from '../../queries/mutations/Expenses/DeleteExpenseCategory';
 import AddExpenseCategoryModal from '../../components/modals/Expenses/AddExpenseCategoryModal';
-import CustomButton from '../../components/shared/Button';
 import UpdateExpenseCategoryModal from '../../components/modals/Expenses/UpdateExpenseCategoryModal';
+import CFloatingButton from '../../components/shared/CFloatingButton';
+import DeleteIcon from '../../components/shared/DeleteIcon';
+import OptionHeader from '../../components/shared/OptionHeader';
+import Spinner from '../../components/shared/Spinner';
 
 const CategorySettings = () => {
   const [showAdd, setShowAdd] = useState(false);
@@ -64,76 +66,75 @@ const CategorySettings = () => {
     return <ErrorAlert>{error.message}</ErrorAlert>;
   }
   if (loading) {
-    return (
-      <View>
-        <Text>Loading...</Text>
-      </View>
-    );
+    return <Spinner />;
   }
   return (
-    <View>
-      {focusItem && (
-        <UpdateExpenseCategoryModal
-          visible={showUpdate}
-          toggle={() => {
-            setShowUpdate(false);
-            setFocusItem(undefined);
-          }}
-          catId={focusItem.id}
-          name={focusItem.name}
-          icon={focusItem.icon}
-          color={focusItem.color}
+    <ScrollView>
+      <View style={globalStyles.container}>
+        <OptionHeader>
+          <View style={{marginRight: 'auto'}}>
+            <CText heading>Settings</CText>
+          </View>
+        </OptionHeader>
+        <CFloatingButton onPress={() => setShowAdd(true)} />
+
+        {focusItem && (
+          <UpdateExpenseCategoryModal
+            visible={showUpdate}
+            toggle={() => {
+              setShowUpdate(false);
+              setFocusItem(undefined);
+            }}
+            catId={focusItem.id}
+            name={focusItem.name}
+            icon={focusItem.icon}
+            color={focusItem.color}
+          />
+        )}
+        <AddExpenseCategoryModal
+          visible={showAdd}
+          toggle={() => setShowAdd(false)}
         />
-      )}
-      <AddExpenseCategoryModal
-        visible={showAdd}
-        toggle={() => setShowAdd(false)}
-      />
-      <CustomButton title="Add" onPress={() => setShowAdd(true)} />
-      {data &&
-        data.getExpenseCategories.map(category => {
-          console.log(category.icon);
+        {data &&
+          data.getExpenseCategories.map(category => {
+            console.log(category.icon);
 
-          return (
-            <TouchableOpacity
-              onPress={() =>
-                showUpdateModal(
-                  category.id,
-                  category.icon,
-                  category.color,
-                  category.name,
-                )
-              }>
-              <Card>
-                <View style={globalStyles.transCard}>
-                  <View style={{flexDirection: 'row'}}>
-                    <FontAwesome5
-                      name={category.icon}
-                      size={18}
-                      color={Colors1.primaryText}
-                      style={{marginRight: 10}}
-                    />
+            return (
+              <TouchableOpacity
+                onPress={() =>
+                  showUpdateModal(
+                    category.id,
+                    category.icon,
+                    category.color,
+                    category.name,
+                  )
+                }>
+                <CCard>
+                  <View style={globalStyles.transCard}>
+                    <View style={{flexDirection: 'row'}}>
+                      <FontAwesome5
+                        name={category.icon}
+                        size={18}
+                        color={Colors1.primaryText}
+                        style={{marginRight: 10}}
+                      />
 
-                    <FText bold={true}>{category.name}</FText>
-                    <FontAwesome5
-                      name={'stop'}
-                      size={20}
-                      color={category.color}
-                      style={{marginLeft: 10}}
-                    />
+                      <CText bold={true}>{category.name}</CText>
+                      <FontAwesome5
+                        name={'stop'}
+                        size={20}
+                        color={category.color}
+                        style={{marginLeft: 10}}
+                      />
+                    </View>
+                    <DeleteIcon onDelete={() => handleDelete(category.id)} />
                   </View>
-                  <Icon
-                    onPress={() => handleDelete(category.id)}
-                    name="trash"
-                    size={20}
-                    color={Colors1.secondaryText}
-                  />
-                </View>
-              </Card>
-            </TouchableOpacity>
-          );
-        })}
-    </View>
+                </CCard>
+              </TouchableOpacity>
+            );
+          })}
+      </View>
+    </ScrollView>
   );
 };
 

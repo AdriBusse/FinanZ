@@ -6,10 +6,10 @@ import * as yup from 'yup';
 import {GETDEPOTS} from '../../../queries/GetDepots';
 import {CREATESAVINGDEPOT} from '../../../queries/mutations/Savings/CreateSavingDepot';
 import {globalStyles} from '../../../styles/global';
-import CustomButton from '../../shared/Button';
+import CButton from '../../shared/CButton';
 import ErrorAlert from '../../shared/ErrorAlert';
-import FText from '../../shared/FText';
-import CTextInput from '../../shared/TextInput';
+import CText from '../../shared/CText';
+import CTextInput from '../../shared/CTextInput';
 import CloseModal from '../helper/CloseModal';
 
 const transSchema = yup.object({
@@ -52,32 +52,37 @@ function AddDepotModal({visible, toggle}: Props) {
                 {formikProps => {
                   return (
                     <View style={globalStyles.container}>
-                      <FText heading={true}>Add a new Saving Depot:</FText>
-                      <CTextInput
-                        value={formikProps.values.name}
-                        onChangeText={formikProps.handleChange('name')}
-                        placeholder={'Name'}
-                        selectTextOnFocus={false}
-                        keyboardType={'default'}
-                        onBlur={() => formikProps.handleBlur('name')}
-                      />
-                      {formikProps.errors.name && formikProps.touched.name && (
-                        <ErrorAlert>{formikProps.errors.name}</ErrorAlert>
-                      )}
-                      <CTextInput
-                        value={formikProps.values.short}
-                        onChangeText={formikProps.handleChange('short')}
-                        placeholder={'Kürzel 3 Zeichen'}
-                        selectTextOnFocus={false}
-                        keyboardType={'default'}
-                        onBlur={() => formikProps.handleBlur('short')}
-                      />
+                      <CText heading={true}>Add a new Saving Depot:</CText>
+                      <View style={{paddingBottom: 5}}>
+                        <CTextInput
+                          value={formikProps.values.name}
+                          onChangeText={formikProps.handleChange('name')}
+                          placeholder={'Name'}
+                          selectTextOnFocus={false}
+                          keyboardType={'default'}
+                          onBlur={() => formikProps.handleBlur('name')}
+                        />
+                        {formikProps.errors.name &&
+                          formikProps.touched.name && (
+                            <ErrorAlert>{formikProps.errors.name}</ErrorAlert>
+                          )}
+                      </View>
+                      <View style={{paddingBottom: 5}}>
+                        <CTextInput
+                          value={formikProps.values.short}
+                          onChangeText={formikProps.handleChange('short')}
+                          placeholder={'Kürzel 3 Zeichen'}
+                          selectTextOnFocus={false}
+                          keyboardType={'default'}
+                          onBlur={() => formikProps.handleBlur('short')}
+                        />
+                      </View>
                       {formikProps.errors.short &&
                         formikProps.touched.short && (
                           <ErrorAlert>{formikProps.errors.short}</ErrorAlert>
                         )}
 
-                      <CustomButton
+                      <CButton
                         title="Depot Hinzufügen"
                         onPress={formikProps.handleSubmit}
                       />

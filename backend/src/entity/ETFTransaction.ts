@@ -19,7 +19,15 @@ export class ETFTransaction extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: ObjectID;
 
-  @Field({ description: "How much was payed in the ETF this time" })
+  @Field({ description: "How much invested in the ETF" })
+  @Column({ type: "float", default: 0 })
+  invest: number;
+
+  @Field({ description: "How much Fee was payed this time" })
+  @Column({ type: "float", default: 0 })
+  fee: number;
+
+  @Field({ description: "How much parts of the etf was bougth" })
   @Column({ type: "float", default: 0 })
   amount: number;
 
