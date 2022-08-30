@@ -12,7 +12,7 @@ export class CreateSavingTransactionResolver {
     @Arg("describtion") describtion: string,
     @Arg("amount") amount: number,
     @Arg("depotId") depotId: string,
-    @Arg("date", { nullable: true, defaultValue: new Date() }) date: number,
+    @Arg("date", { nullable: true }) date: number,
     @Ctx() ctx: MyContext
   ): Promise<SavingTransaction> {
     const user = ctx.res.locals.user;
@@ -26,7 +26,7 @@ export class CreateSavingTransactionResolver {
     newTransaction.describtion = describtion;
     newTransaction.amount = amount;
     newTransaction.depot = depot;
-    newTransaction.createdAt = new Date(date);
+    newTransaction.createdAt = date ? new Date(date) : new Date();
     newTransaction.user = user;
 
     await newTransaction.save();

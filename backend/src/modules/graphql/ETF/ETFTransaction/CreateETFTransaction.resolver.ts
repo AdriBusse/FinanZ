@@ -13,7 +13,7 @@ export class CreateETFTransactionResolver {
     @Arg("etfId") depotId: string,
     @Arg("invest") invest: number,
     @Arg("fee", { defaultValue: 0 }) fee: number,
-    @Arg("date", { nullable: true, defaultValue: new Date() }) date: string,
+    @Arg("date", { nullable: true }) date: string,
     @Ctx() ctx: MyContext
   ): Promise<ETFTransaction> {
     const user = ctx.res.locals.user;
@@ -29,7 +29,8 @@ export class CreateETFTransactionResolver {
     etfTransaction.fee = fee;
     etfTransaction.amount = invest / lastquote.a;
     etfTransaction.etf = etf;
-    etfTransaction.createdAt = new Date(date);
+    etfTransaction.createdAt = date ? new Date(date) : new Date();
+
     etfTransaction.user = user;
 
     await etfTransaction.save();

@@ -11,7 +11,7 @@ export class CreateETFSnapshotResolver {
   @UseMiddleware(isAuth)
   async createETFSnapshot(
     @Arg("etfId") depotId: string,
-    @Arg("date", { nullable: true, defaultValue: new Date() }) date: string,
+    @Arg("date", { nullable: true }) date: string,
     @Ctx() ctx: MyContext
   ): Promise<ETFSnapshot> {
     const user = ctx.res.locals.user;
@@ -29,11 +29,16 @@ export class CreateETFSnapshotResolver {
         "Something went wrong while creating the ETFSnapshot (external API error"
       );
     }
+    console.log("HERE_________________");
+
+    console.log("Create with date:: ", date);
+
     const etfSnapshot = new ETFSnapshot();
     etfSnapshot.value = amount * etfQuote.a;
     etfSnapshot.amount = amount;
     etfSnapshot.etf = etf;
-    etfSnapshot.createdAt = new Date(date);
+    etfSnapshot.createdAt = date ? new Date(date) : new Date();
+
     etfSnapshot.user = user;
 
     await etfSnapshot.save();

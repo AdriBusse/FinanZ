@@ -20,10 +20,4 @@ export class ETFSearch {
 
   @Field()
   wkn: string;
-
-  @Field()
-  worth: number;
-
-  @Field()
-  deposited: number;
 }
