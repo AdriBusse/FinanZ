@@ -1,10 +1,10 @@
-import {View, StyleSheet, Text} from 'react-native';
+import {View, Text} from 'react-native';
 import React, {useEffect} from 'react';
-import CustomButton from '../shared/Button';
+import CButton from '../shared/CButton';
 import {useAuth} from '../../hooks/useAuth';
 import {globalStyles} from '../../styles/global';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CModal from '../shared/Modal';
+import CModal from '../shared/CModal';
 
 interface Props {
   visible: boolean;
@@ -25,17 +25,17 @@ const AuthModal = ({visible, toggle, navigation}: Props) => {
   const renderLogout = () => {
     return (
       <View style={globalStyles.container}>
-        <CustomButton title={'Logout'} onPress={() => logout()} />
+        <CButton title={'Logout'} onPress={() => logout()} />
       </View>
     );
   };
   const renderLogin = () => {
     return (
       <View style={globalStyles.container}>
-        <CustomButton
+        <CButton
           title={'Login'}
           onPress={() => {
-            login('AdriBusse', '123456');
+            // login('JohnDoe', '123456');
             navigation.navigate('Home', {item: null});
             toggle(false);
           }}
@@ -47,7 +47,7 @@ const AuthModal = ({visible, toggle, navigation}: Props) => {
     <CModal size="full" visible={visible} onClose={toggle}>
       {authData ? renderLogout() : renderLogin()}
       <Text>Modal</Text>
-      <CustomButton
+      <CButton
         title={'print storage'}
         onPress={async () => {
           const data = await AsyncStorage.getItem('@AuthDataFinanZ');

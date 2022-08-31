@@ -14,7 +14,7 @@ export class CreateExpenseTransactionResolver {
     @Arg("amount") amount: number,
     @Arg("expenseId") expenseId: string,
     @Arg("categoryId", { nullable: true }) categoryId: string,
-    @Arg("date", { nullable: true, defaultValue: new Date() }) date: number,
+    @Arg("date", { nullable: true }) date: number,
     @Ctx() ctx: MyContext
   ): Promise<ExpenseTransaction> {
     const user = ctx.res.locals.user;
@@ -35,7 +35,8 @@ export class CreateExpenseTransactionResolver {
     newTransaction.describtion = describtion;
     newTransaction.amount = amount;
     newTransaction.expense = expense;
-    newTransaction.createdAt = new Date(date);
+    newTransaction.createdAt = date ? new Date(date) : new Date();
+
     newTransaction.user = user;
 
     await newTransaction.save();

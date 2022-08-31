@@ -6,22 +6,27 @@ interface IExpense {
   id: string;
   title: string;
   sum: number;
+  currency: string;
+  archived: boolean;
   createdAt: string;
   transactions: ITransactions[];
-  ExpenseByCategory: IExpenseByCategory[];
+  expenseByCategory: IExpenseByCategory[];
 }
 
-interface ITransactions {
+export interface ITransactions {
   id: string;
   describtion: string;
   amount: number;
   createdAt: string;
+  currency: string;
   category: {
     id: string;
     name: string;
   };
 }
-interface IExpenseByCategory {
+export interface IExpenseByCategory {
   name: string;
   amount: number;
+  icon: string;
+  color: string;
 }

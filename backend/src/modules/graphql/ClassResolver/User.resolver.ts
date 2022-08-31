@@ -2,7 +2,6 @@ import { ExpenseCategory } from "../../../entity/ExpenseCategory";
 import { ExpenseTransaction } from "../../../entity/ExpenseTransaction";
 import { Expense } from "../../../entity/Expense";
 import { ETFTransaction } from "../../../entity/ETFTransaction";
-import { ETFSnapshot } from "../../../entity/ETFSnapshot";
 import { SavingTransaction } from "../../../entity/SavingTransaction";
 import { FieldResolver, Resolver, ResolverInterface, Root } from "type-graphql";
 import { SavingDepot } from "../../../entity/SavingDepot";
@@ -19,14 +18,7 @@ export class UserResolver implements ResolverInterface<User> {
 
     return etfs.etfs;
   }
-  @FieldResolver()
-  async etfSnapshots(@Root() user: User): Promise<ETFSnapshot[]> {
-    const userRec = await User.findOneOrFail(user.id, {
-      relations: ["etfSnapshots"],
-    });
 
-    return userRec.etfSnapshots;
-  }
   @FieldResolver()
   async etfTransactions(@Root() user: User): Promise<ETFTransaction[]> {
     const userRec = await User.findOneOrFail(user.id, {

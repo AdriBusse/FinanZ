@@ -6,6 +6,7 @@ export const GETEXPENSES = gql`
       id
       title
       sum
+      currency
     }
   }
 `;

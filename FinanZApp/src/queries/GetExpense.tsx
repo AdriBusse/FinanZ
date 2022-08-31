@@ -7,6 +7,8 @@ export const GETEXPENSE = gql`
       title
       sum
       createdAt
+      currency
+      archived
       transactions {
         id
         describtion
@@ -20,6 +22,8 @@ export const GETEXPENSE = gql`
       expenseByCategory {
         name
         amount
+        color
+        icon
       }
     }
   }

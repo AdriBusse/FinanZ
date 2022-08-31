@@ -7,7 +7,7 @@ interface Props {
   onPress: any;
   outline: boolean;
 }
-export default function CustomButton({title, onPress, outline}: Props) {
+export default function CButton({title, onPress, outline}: Props) {
   return (
     <TouchableOpacity onPress={onPress}>
       <View
@@ -27,7 +27,7 @@ export default function CustomButton({title, onPress, outline}: Props) {
   );
 }
 
-CustomButton.defaultProps = {
+CButton.defaultProps = {
   outline: false,
 };
 const styles = StyleSheet.create({
@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 14,
     paddingHorizontal: 10,
-    margin: 20,
   },
   buttonFull: {
     backgroundColor: Colors1.button,

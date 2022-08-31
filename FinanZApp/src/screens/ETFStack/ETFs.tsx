@@ -1,17 +1,17 @@
 import {useMutation, useQuery} from '@apollo/client';
 import React from 'react';
 import {View, Text, Alert, TouchableOpacity} from 'react-native';
-import Card from '../../components/shared/Card';
+import CCard from '../../components/shared/CCard';
 import {GETETFDATA} from '../../queries/GetETFData';
 import {DELETEETF} from '../../queries/mutations/ETF/DeleteETF';
 import {IGetEtfData} from '../../queries/types/IGetETFData';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {globalStyles} from '../../styles/global';
 import AddETFModal from '../../components/modals/ETF/AddETFModal';
-import CustomButton from '../../components/shared/Button';
-import FText from '../../components/shared/FText';
-import {Colors1} from '../../styles/color';
+import CText from '../../components/shared/CText';
 import ErrorAlert from '../../components/shared/ErrorAlert';
+import CFloatingButton from '../../components/shared/CFloatingButton';
+import DeleteIcon from '../../components/shared/DeleteIcon';
+import OptionHeader from '../../components/shared/OptionHeader';
 
 export default function ETFs(props) {
   const {data, error, loading} = useQuery<IGetEtfData>(GETETFDATA);
@@ -53,12 +53,14 @@ export default function ETFs(props) {
   }
   return (
     <View style={globalStyles.container}>
-      <FText heading={true} type="primary">
-        ETFs
-      </FText>
+      <OptionHeader>
+        <View style={{marginRight: 'auto'}}>
+          <CText heading>ETFs</CText>
+        </View>
+      </OptionHeader>
 
       <AddETFModal toggle={setVisibleModal} visible={visibleModal} />
-      <CustomButton title="add ETF" onPress={() => setVisibleModal(true)} />
+      <CFloatingButton onPress={() => setVisibleModal(true)} />
       {data!.getETFs.map((etf, i) => {
         return (
           <TouchableOpacity
@@ -66,19 +68,15 @@ export default function ETFs(props) {
             onPress={() =>
               props.navigation.navigate('ETFDetails', {item: etf.id})
             }>
-            <Card key={etf.id}>
+            <CCard key={etf.id}>
               <View style={globalStyles.transCard}>
-                <FText bold={true}>{etf.name}</FText>
-                <FText>{`${etf.worth} €`}</FText>
-                <FText>{`${etf.deposited} €`}</FText>
-                <Icon
-                  onPress={() => handleDelete(etf.id)}
-                  name="trash"
-                  size={20}
-                  color={Colors1.secondaryText}
-                />
+                <CText bold={true}>{etf.name}</CText>
+                <CText>{`${etf.worth} €`}</CText>
+                <CText>{`${etf.deposited} €`}</CText>
+
+                <DeleteIcon onDelete={() => handleDelete(etf.id)} />
               </View>
-            </Card>
+            </CCard>
           </TouchableOpacity>
         );
       })}

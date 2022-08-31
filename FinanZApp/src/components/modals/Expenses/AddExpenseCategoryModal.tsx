@@ -8,11 +8,11 @@ import {CREATEEXPANSECATEGORY} from '../../../queries/mutations/Expenses/CreateE
 import {globalStyles} from '../../../styles/global';
 import ColorDropDown from '../../DropDown/ColorDropDown';
 import IconDropDown from '../../DropDown/IconDropDown';
-import CustomButton from '../../shared/Button';
+import CButton from '../../shared/CButton';
 import ErrorAlert from '../../shared/ErrorAlert';
-import FText from '../../shared/FText';
-import CModal from '../../shared/Modal';
-import CTextInput from '../../shared/TextInput';
+import CText from '../../shared/CText';
+import CModal from '../../shared/CModal';
+import CTextInput from '../../shared/CTextInput';
 
 const transSchema = yup.object({
   name: yup.string().required(),
@@ -47,28 +47,33 @@ function AddExpenseCategoryModal({visible, toggle}: Props) {
           {formikProps => {
             return (
               <View style={globalStyles.container}>
-                <FText heading={true}>Add a Category:</FText>
-                <CTextInput
-                  value={formikProps.values.name}
-                  onChangeText={formikProps.handleChange('name')}
-                  placeholder={'Name'}
-                  selectTextOnFocus={false}
-                  keyboardType={'default'}
-                  onBlur={() => formikProps.handleBlur('name')}
-                />
-                {formikProps.errors.name && formikProps.touched.name && (
-                  <ErrorAlert>{formikProps.errors.name}</ErrorAlert>
-                )}
-                <IconDropDown
-                  value={formikProps.values.icon}
-                  changeValue={formikProps.handleChange('icon')}
-                />
-                <ColorDropDown
-                  value={formikProps.values.icon}
-                  changeValue={formikProps.handleChange('color')}
-                />
-
-                <CustomButton
+                <View style={{paddingBottom: 5}}>
+                  <CText heading={true}>Add a Category:</CText>
+                  <CTextInput
+                    value={formikProps.values.name}
+                    onChangeText={formikProps.handleChange('name')}
+                    placeholder={'Name'}
+                    selectTextOnFocus={false}
+                    keyboardType={'default'}
+                    onBlur={() => formikProps.handleBlur('name')}
+                  />
+                  {formikProps.errors.name && formikProps.touched.name && (
+                    <ErrorAlert>{formikProps.errors.name}</ErrorAlert>
+                  )}
+                </View>
+                <View style={{paddingBottom: 5}}>
+                  <IconDropDown
+                    value={formikProps.values.icon}
+                    changeValue={formikProps.handleChange('icon')}
+                  />
+                </View>
+                <View style={{paddingBottom: 5}}>
+                  <ColorDropDown
+                    value={formikProps.values.icon}
+                    changeValue={formikProps.handleChange('color')}
+                  />
+                </View>
+                <CButton
                   title="Add Category"
                   onPress={formikProps.handleSubmit}
                 />

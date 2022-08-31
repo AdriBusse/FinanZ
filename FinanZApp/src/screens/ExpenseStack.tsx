@@ -6,7 +6,7 @@ import CategorySettings from './Expense/CategorySettings';
 import Expense from './Expense/Expense';
 import ExpenseDetail from './Expense/ExpenseDetail';
 
-export default function ExpanseStack() {
+export default function ExpenseStack() {
   const Stack = createNativeStackNavigator();
   const focus = useIsFocused();
   if (!focus) {

@@ -1,16 +1,16 @@
 import React from 'react';
 import {View} from 'react-native';
-import CustomButton from '../../shared/Button';
+import CButton from '../../shared/CButton';
 import * as yup from 'yup';
 import {Formik} from 'formik';
 import {globalStyles} from '../../../styles/global';
 import {useMutation} from '@apollo/client';
 import {GETETFDETAIL} from '../../../queries/GetETFDetails';
 import {CREATEETFSNAPSHOT} from '../../../queries/mutations/ETF/CreateETFSnapshot';
-import FText from '../../shared/FText';
+import CText from '../../shared/CText';
 import ErrorAlert from '../../shared/ErrorAlert';
-import CModal from '../../shared/Modal';
-import CTextInput from '../../shared/TextInput';
+import CModal from '../../shared/CModal';
+import CTextInput from '../../shared/CTextInput';
 
 interface Props {
   visible: boolean;
@@ -50,7 +50,7 @@ function AddETFSnapshotModal({visible, toggle, etfId}: Props) {
           {formikProps => {
             return (
               <View style={[globalStyles.container, globalStyles.scroll]}>
-                <FText heading={true}>Add a Snapshot:</FText>
+                <CText heading={true}>Add a Snapshot:</CText>
                 <CTextInput
                   value={formikProps.values.value}
                   onChangeText={formikProps.handleChange('value')}
@@ -63,7 +63,7 @@ function AddETFSnapshotModal({visible, toggle, etfId}: Props) {
                 {formikProps.touched.value && formikProps.errors.value && (
                   <ErrorAlert>{formikProps.errors.value}</ErrorAlert>
                 )}
-                <CustomButton
+                <CButton
                   title="add Snapshot"
                   onPress={formikProps.handleSubmit}
                 />

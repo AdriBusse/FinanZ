@@ -12,7 +12,7 @@ import {useAuth} from './src/hooks/useAuth';
 import {client} from './src/config/apolloClient';
 import {Colors1} from './src/styles/color';
 import {StyleSheet, Text, View} from 'react-native';
-import Expanse from './src/screens/ExpenseStack';
+import Expense from './src/screens/ExpenseStack';
 import Background from './src/components/shared/Background';
 
 const App = () => {
@@ -37,6 +37,7 @@ const App = () => {
             <Tab.Navigator
               initialRouteName="Home"
               screenOptions={({route}) => ({
+                unmountOnBlur: true,
                 headerShown: false,
                 tabBarShowLabel: false,
                 headerTransparent: false,
@@ -62,7 +63,7 @@ const App = () => {
                     iconName = 'area-chart';
                   } else if (route.name === 'Auth') {
                     iconName = 'user';
-                  } else if (route.name === 'Expanse') {
+                  } else if (route.name === 'Expense') {
                     iconName = 'money';
                   }
                   // return any NavBar Component
@@ -84,7 +85,7 @@ const App = () => {
                 },
               })}>
               <Tab.Screen name="Sparen" component={TagesgeldStack} />
-              <Tab.Screen name="Expanse" component={Expanse} />
+              <Tab.Screen name="Expense" component={Expense} />
               <Tab.Screen name="Home" component={Home} />
               <Tab.Screen name="ETF" component={ETFStack} />
               <Tab.Screen name="Auth" component={Auth} />

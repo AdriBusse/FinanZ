@@ -1,4 +1,3 @@
-import { ETFSnapshot } from "./ETFSnapshot";
 import { ETFTransaction } from "./ETFTransaction";
 import {
   Entity,
@@ -27,13 +26,28 @@ export class ETF extends BaseEntity {
 
   @Field()
   @Column()
-  short: string;
+  title: string;
 
   @Field()
+  @Column()
+  symbol: string;
+
+  @Field()
+  @Column()
+  isin: string;
+
+  @Field()
+  @Column()
+  wkn: string;
+
+  @Field({ description: "How much is the ETF worth" })
   worth: number;
 
-  @Field()
+  @Field({ description: "How much was invested in the ETF" })
   deposited: number;
+
+  @Field({ description: "How many parts of the ETF" })
+  amount: number;
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.etfs)
@@ -42,10 +56,6 @@ export class ETF extends BaseEntity {
   @Field(() => [ETFTransaction], { nullable: true })
   @OneToMany(() => ETFTransaction, (trans) => trans.etf)
   transactions: ETFTransaction[];
-
-  @Field(() => [ETFSnapshot], { nullable: true })
-  @OneToMany(() => ETFSnapshot, (trans) => trans.etf)
-  snapshots: ETFSnapshot[];
 
   @Field()
   @CreateDateColumn()

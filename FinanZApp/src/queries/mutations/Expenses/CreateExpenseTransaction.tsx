@@ -6,12 +6,14 @@ export const CREATEEXPANSETRANSACTION = gql`
     $describtion: String!
     $amount: Float!
     $categoryId: String
+    $date: Float
   ) {
     createExpenseTransaction(
       expenseId: $expenseId
       describtion: $describtion
       amount: $amount
       categoryId: $categoryId
+      date: $date
     ) {
       id
       expense {
