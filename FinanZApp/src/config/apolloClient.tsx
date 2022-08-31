@@ -1,6 +1,6 @@
-import {ApolloClient, createHttpLink, InMemoryCache} from '@apollo/client';
-import {setContext} from '@apollo/client/link/context';
-import {AuthData} from '../types/AuthTypes';
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { AuthData } from '../types/AuthTypes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const httpLink = createHttpLink({
@@ -8,9 +8,8 @@ const httpLink = createHttpLink({
   // uri: 'http://192.168.84.103:4000/graphql',
   uri: 'http://188.166.162.242:4200/graphql',
 });
-const authLink = setContext(async (_, {headers}) => {
+const authLink = setContext(async (_, { headers }) => {
   const token = await getToken();
-  console.log(token);
   return {
     headers: {
       ...headers,

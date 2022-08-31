@@ -46,7 +46,7 @@ function UpdateExpenseModal({
   return (
     <CModal size="half" visible={visible} onClose={() => toggle(false)}>
       <View style={[globalStyles.container, globalStyles.scroll]}>
-        <View style={{paddingBottom: 5}}>
+        <View style={style.pB}>
           <CText>Title:</CText>
           <CTextInput
             value={newTitle}
@@ -56,7 +56,7 @@ function UpdateExpenseModal({
             keyboardType={'default'}
           />
         </View>
-        <View style={{paddingBottom: 5}}>
+        <View style={style.pB}>
           <CText>Currency Symbol:</CText>
           <CTextInput
             value={newCurrency}
@@ -66,7 +66,7 @@ function UpdateExpenseModal({
             keyboardType={'default'}
           />
         </View>
-        <View style={{paddingBottom: 5}}>
+        <View style={style.pB}>
           <CText>Archived:</CText>
           <Switch
             trackColor={{false: '#767577', true: Colors1.button}}
@@ -95,5 +95,10 @@ function UpdateExpenseModal({
     </CModal>
   );
 }
-const style = StyleSheet.create({switch: {marginRight: 'auto'}});
+const style = StyleSheet.create({
+  switch: {marginRight: 'auto'},
+  pB: {
+    paddingBottom: 5,
+  },
+});
 export default UpdateExpenseModal;

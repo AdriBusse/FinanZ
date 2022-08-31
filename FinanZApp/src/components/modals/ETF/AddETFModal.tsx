@@ -1,83 +1,109 @@
-import {useMutation} from '@apollo/client';
-import {Formik} from 'formik';
-import React from 'react';
-import {View} from 'react-native';
-import * as yup from 'yup';
-import {GETETFDATA} from '../../../queries/GetETFData';
-import {CREATEETF} from '../../../queries/mutations/ETF/CreateETF';
-import {globalStyles} from '../../../styles/global';
+import { useLazyQuery, useMutation } from '@apollo/client';
+import React, { useEffect, useState } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { GETETFDATA } from '../../../queries/GetETFData';
+import { CREATEETF } from '../../../queries/mutations/ETF/CreateETF';
+import { globalStyles } from '../../../styles/global';
 import CButton from '../../shared/CButton';
 import ErrorAlert from '../../shared/ErrorAlert';
 import CText from '../../shared/CText';
 import CModal from '../../shared/CModal';
 import CTextInput from '../../shared/CTextInput';
-
-const transSchema = yup.object({
-  name: yup.string().required(),
-  short: yup.string().required(),
-});
+import { SEARCHETF } from '../../../queries/SearchETF';
+import { ISearchETF } from '../../../queries/types/ISearchETF';
+import Spinner from '../../shared/Spinner';
+import CCard from '../../shared/CCard';
+import { Colors1 } from '../../../styles/color';
 
 interface Props {
   visible: boolean;
   toggle: CallableFunction;
 }
-function AddETFModal({visible, toggle}: Props) {
+function AddETFModal({ visible, toggle }: Props) {
+  const [searchKey, setSearchKey] = useState('');
+  const [selection, setSelection] = useState<string | undefined>();
   const [addETF] = useMutation(CREATEETF, {
-    refetchQueries: [{query: GETETFDATA}],
+    refetchQueries: [{ query: GETETFDATA }],
+    onCompleted: () => {
+      setSearchKey('');
+      toggle(false);
+    },
   });
+
+  const [search, { data, loading, error }] =
+    useLazyQuery<ISearchETF>(SEARCHETF);
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (searchKey.length > 2) {
+        setSelection(undefined);
+        search({ variables: { searchKey } });
+      }
+    }, 1000);
+
+    return () => clearTimeout(delayDebounceFn);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchKey]);
+
   return (
-    <CModal size="half" visible={visible} onClose={toggle}>
+    <CModal
+      size="full"
+      visible={visible}
+      onClose={() => {
+        toggle(false);
+        setSearchKey('');
+      }}>
       <View style={globalStyles.container}>
-        <Formik
-          initialValues={{name: '', short: ''}}
-          validationSchema={transSchema}
-          onSubmit={values => {
-            addETF({
-              variables: {
-                name: values.name,
-                short: values.short.toUpperCase(),
-              },
-            });
-            toggle(false);
-          }}>
-          {formikProps => {
-            return (
-              <View style={[globalStyles.container, globalStyles.scroll]}>
-                <CText heading={true}>Add a new ETF:</CText>
-                <CTextInput
-                  placeholder="Name"
-                  onChangeText={formikProps.handleChange('name')}
-                  value={formikProps.values.name}
-                  onBlur={() => formikProps.handleBlur('name')}
-                  selectTextOnFocus={false}
-                  keyboardType={'default'}
-                />
-
-                {formikProps.errors.name && formikProps.touched.name && (
-                  <ErrorAlert>{formikProps.errors.name}</ErrorAlert>
-                )}
-                <CTextInput
-                  value={formikProps.values.short}
-                  onChangeText={formikProps.handleChange('short')}
-                  placeholder={'Short Display Name'}
-                  selectTextOnFocus={false}
-                  keyboardType={'default'}
-                />
-
-                {formikProps.errors.short && formikProps.touched.short && (
-                  <ErrorAlert>{formikProps.errors.short}</ErrorAlert>
-                )}
-                <CButton
-                  title="ETF Hinzufügen"
-                  onPress={formikProps.handleSubmit}
-                />
-              </View>
-            );
-          }}
-        </Formik>
+        <View style={[globalStyles.container, globalStyles.scroll]}>
+          <CText heading={true}>Add a new ETF:</CText>
+          <CTextInput
+            placeholder="Enter ISIN"
+            onChangeText={setSearchKey}
+            value={searchKey}
+            selectTextOnFocus={true}
+            keyboardType={'default'}
+          />
+          {loading && <Spinner />}
+          {error && <ErrorAlert>{`Error: ${error.message}`}</ErrorAlert>}
+          {data && data.searchETF && (
+            <Pressable
+              onPress={() => setSelection(data.searchETF.isin)}
+              style={[styles.search, selection ? styles.selected : null]}>
+              <CCard>
+                <CText>{data.searchETF.name}</CText>
+                <View style={styles.row}>
+                  <CText>ISIN: </CText>
+                  <CText style={{ color: Colors1.secondaryText }}>
+                    {data.searchETF.isin}
+                  </CText>
+                </View>
+              </CCard>
+            </Pressable>
+          )}
+          {selection && (
+            <CButton
+              title={'Add'}
+              onPress={() => addETF({ variables: { isin: selection } })}
+            />
+          )}
+        </View>
       </View>
     </CModal>
   );
 }
 
+const styles = StyleSheet.create({
+  selected: {
+    backgroundColor: Colors1.detail1,
+  },
+  row: {
+    flexDirection: 'row',
+  },
+  search: {
+    marginTop: 10,
+    marginBottom: 10,
+    padding: 2,
+    borderRadius: 5,
+    backgroundColor: Colors1.primary,
+  },
+});
 export default AddETFModal;

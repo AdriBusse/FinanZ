@@ -7,8 +7,9 @@ import hexRgb from 'hex-rgb';
 
 interface Props {
   categories: IExpenseByCategory[];
+  all: number;
 }
-const PieChartByCategory = ({categories}: Props) => {
+const PieChartByCategory = ({categories, all}: Props) => {
   const screenWidth = Dimensions.get('window').width;
 
   let chartConfig = {
@@ -22,18 +23,38 @@ const PieChartByCategory = ({categories}: Props) => {
     useShadowColorFromDataset: false, // optional
   };
   // categories.sort((a, b) => b.amount - a.amount);
+  const createDataset = () => {
+    let addToOther = 0;
+    let catCopy = categories;
+    const dataset = [];
+    catCopy.forEach(c => {
+      const rgbColor = hexRgb(c.color || '#000000');
+      if (c.amount / all < 0.05) {
+        addToOther += c.amount;
+      } else {
+        dataset.push({
+          ...c,
+          legendFontSize: 12,
+          legendFontColor: Colors1.secondaryText,
+          color: `rgba(${rgbColor.red}, ${rgbColor.green}, ${rgbColor.blue}, .6)`,
+        });
+      }
+    });
+    dataset.push({
+      legendFontSize: 12,
+      color: '#ffffff',
+      name: 'Other <5%',
+      icon: '',
+      legendFontColor: Colors1.secondaryText,
+      amount: addToOther,
+    });
+
+    return dataset;
+  };
   return (
     <View>
       <PieChart
-        data={categories.map(c => {
-          const rgbColor = hexRgb(c.color || '#000000');
-          return {
-            ...c,
-            legendFontSize: 13,
-            legendFontColor: Colors1.secondaryText,
-            color: `rgba(${rgbColor.red}, ${rgbColor.green}, ${rgbColor.blue}, .6)`,
-          };
-        })}
+        data={createDataset()}
         width={screenWidth}
         height={220}
         chartConfig={chartConfig}

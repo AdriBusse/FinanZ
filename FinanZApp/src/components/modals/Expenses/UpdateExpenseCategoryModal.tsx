@@ -1,6 +1,6 @@
 import {useMutation} from '@apollo/client';
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {GETEXPENSECATEGORIES} from '../../../queries/GetExpenseCategories';
 import {UPDATEEXPENSECATEGORY} from '../../../queries/mutations/Expenses/UpdateExpenseCategory';
 import {globalStyles} from '../../../styles/global';
@@ -47,7 +47,7 @@ function UpdateExpenseCategoryModal({
   return (
     <CModal size="full" visible={visible} onClose={toggle}>
       <View style={[globalStyles.container, globalStyles.scroll]}>
-        <View style={{paddingBottom: 5}}>
+        <View style={styles.pB}>
           <CText>Name:</CText>
           <CTextInput
             value={newName}
@@ -57,10 +57,10 @@ function UpdateExpenseCategoryModal({
             keyboardType={'default'}
           />
         </View>
-        <View style={{paddingBottom: 5}}>
+        <View style={styles.pB}>
           <IconDropDown value={newIcon} changeValue={setNewIcon} />
         </View>
-        <View style={{paddingBottom: 5}}>
+        <View style={styles.pB}>
           <ColorDropDown value={newColor} changeValue={setNewColor} />
         </View>
       </View>
@@ -81,5 +81,9 @@ function UpdateExpenseCategoryModal({
     </CModal>
   );
 }
-
+const styles = StyleSheet.create({
+  pB: {
+    paddingBottom: 5,
+  },
+});
 export default UpdateExpenseCategoryModal;

@@ -8,11 +8,11 @@ import {
 } from 'react-native';
 import CButton from '../../shared/CButton';
 import * as yup from 'yup';
-import {Formik} from 'formik';
-import {globalStyles} from '../../../styles/global';
-import {useMutation} from '@apollo/client';
-import {CREATESAVINGTRANSACTION} from '../../../queries/mutations/Savings/CreateSavingTransaction';
-import {GETDEPOTS} from '../../../queries/GetDepots';
+import { Formik } from 'formik';
+import { globalStyles } from '../../../styles/global';
+import { useMutation } from '@apollo/client';
+import { CREATESAVINGTRANSACTION } from '../../../queries/mutations/Savings/CreateSavingTransaction';
+import { GETDEPOTS } from '../../../queries/GetDepots';
 import ErrorAlert from '../../shared/ErrorAlert';
 import CText from '../../shared/CText';
 import CloseModal from '../helper/CloseModal';
@@ -29,12 +29,9 @@ const inputSchema = yup.object({
   id: yup.string(),
 });
 
-function AddSavingTransactionModal({visible, toggle, depotId}: Props) {
+function AddSavingTransactionModal({ visible, toggle, depotId }: Props) {
   const [addTransaction] = useMutation(CREATESAVINGTRANSACTION, {
-    refetchQueries: [{query: GETDEPOTS, variables: {id: depotId}}],
-    onCompleted: dada => {
-      console.log(dada);
-    },
+    refetchQueries: [{ query: GETDEPOTS, variables: { id: depotId } }],
     onError: err => {
       console.log(err);
     },
@@ -53,7 +50,7 @@ function AddSavingTransactionModal({visible, toggle, depotId}: Props) {
 
             <View style={[globalStyles.container, globalStyles.scroll]}>
               <Formik
-                initialValues={{describtion: '', amount: '', id: depotId}}
+                initialValues={{ describtion: '', amount: '', id: depotId }}
                 onSubmit={values => {
                   addTransaction({
                     variables: {
@@ -69,7 +66,7 @@ function AddSavingTransactionModal({visible, toggle, depotId}: Props) {
                   return (
                     <View style={globalStyles.container}>
                       <CText heading={true}>Add a Transaction:</CText>
-                      <View style={{paddingBottom: 5}}>
+                      <View style={{ paddingBottom: 5 }}>
                         <CTextInput
                           value={formikProps.values.describtion}
                           onChangeText={formikProps.handleChange('describtion')}
@@ -86,7 +83,7 @@ function AddSavingTransactionModal({visible, toggle, depotId}: Props) {
                               formikProps.errors.describtion}
                           </ErrorAlert>
                         )}
-                      <View style={{paddingBottom: 5}}>
+                      <View style={{ paddingBottom: 5 }}>
                         <CTextInput
                           value={formikProps.values.amount}
                           onChangeText={formikProps.handleChange('amount')}

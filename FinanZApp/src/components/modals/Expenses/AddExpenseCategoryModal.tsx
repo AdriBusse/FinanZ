@@ -1,7 +1,7 @@
 import {useMutation} from '@apollo/client';
 import {Formik} from 'formik';
 import React from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import * as yup from 'yup';
 import {GETEXPENSECATEGORIES} from '../../../queries/GetExpenseCategories';
 import {CREATEEXPANSECATEGORY} from '../../../queries/mutations/Expenses/CreateExpenseCategory';
@@ -47,7 +47,7 @@ function AddExpenseCategoryModal({visible, toggle}: Props) {
           {formikProps => {
             return (
               <View style={globalStyles.container}>
-                <View style={{paddingBottom: 5}}>
+                <View style={styles.pB}>
                   <CText heading={true}>Add a Category:</CText>
                   <CTextInput
                     value={formikProps.values.name}
@@ -61,13 +61,13 @@ function AddExpenseCategoryModal({visible, toggle}: Props) {
                     <ErrorAlert>{formikProps.errors.name}</ErrorAlert>
                   )}
                 </View>
-                <View style={{paddingBottom: 5}}>
+                <View style={styles.pB}>
                   <IconDropDown
                     value={formikProps.values.icon}
                     changeValue={formikProps.handleChange('icon')}
                   />
                 </View>
-                <View style={{paddingBottom: 5}}>
+                <View style={styles.pB}>
                   <ColorDropDown
                     value={formikProps.values.icon}
                     changeValue={formikProps.handleChange('color')}
@@ -86,4 +86,9 @@ function AddExpenseCategoryModal({visible, toggle}: Props) {
   );
 }
 
+const styles = StyleSheet.create({
+  pB: {
+    paddingBottom: 5,
+  },
+});
 export default AddExpenseCategoryModal;

@@ -1,7 +1,7 @@
 import {useMutation} from '@apollo/client';
 import {Formik} from 'formik';
 import React from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import * as yup from 'yup';
 import {GETEXPENSES} from '../../../queries/GetExpenses';
 import {CREATEEXPENSE} from '../../../queries/mutations/Expenses/CreateExpense';
@@ -41,7 +41,7 @@ function AddExpenseModal({visible, toggle}: Props) {
           {formikProps => {
             return (
               <View style={globalStyles.container}>
-                <View style={{paddingBottom: 5}}>
+                <View style={styles.pB}>
                   <CText heading={true}>Add a Expense Topic:</CText>
                   <CTextInput
                     value={formikProps.values.title}
@@ -67,5 +67,9 @@ function AddExpenseModal({visible, toggle}: Props) {
     </CModal>
   );
 }
-
+const styles = StyleSheet.create({
+  pB: {
+    paddingBottom: 5,
+  },
+});
 export default AddExpenseModal;

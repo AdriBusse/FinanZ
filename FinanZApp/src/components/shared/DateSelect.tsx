@@ -1,15 +1,15 @@
-import {StyleSheet, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 import CText from './CText';
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
-import {Colors1} from '../../styles/color';
+import { Colors1 } from '../../styles/color';
 
 interface Props {
   setDate: (date: Date) => void;
   date: Date;
 }
-const DateSelect = ({setDate, date}: Props) => {
+const DateSelect = ({ setDate, date }: Props) => {
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -20,7 +20,6 @@ const DateSelect = ({setDate, date}: Props) => {
         date={date}
         onConfirm={d => {
           setOpen(false);
-          console.log(d);
           setDate(d);
         }}
         onCancel={() => {

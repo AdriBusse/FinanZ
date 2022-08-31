@@ -2,22 +2,21 @@ export interface IGetETFDetails {
   getETF: {
     id: string;
     name: string;
-    short: string;
-    worth: number;
+    title: string;
+    isin: string;
+    wkn: string;
     deposited: number;
-    transactions: Array<Transactions>;
-    snapshots: Array<Snapshots>;
+    worth: number;
+    amount: number;
+    transactions: Array<Transaction>;
   };
 }
 
-interface Transactions {
+export interface Transaction {
   id: string;
+  invest: number;
+  fee: number;
   amount: number;
-  createdAt: string;
-}
-
-interface Snapshots {
-  id: string;
   value: number;
   createdAt: string;
 }

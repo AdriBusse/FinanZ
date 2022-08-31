@@ -1,34 +1,33 @@
-import {Alert, FlatList, TouchableOpacity, View} from 'react-native';
+import { Alert, FlatList, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import {useMutation, useQuery} from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import ErrorAlert from '../../components/shared/ErrorAlert';
-import {GETEXPENSES} from '../../queries/GetExpenses';
-import {IGetExpenses} from '../../queries/types/IGetExpenses';
-import {DELETEEXPENSE} from '../../queries/mutations/Expenses/DeleteExpense';
-import {globalStyles} from '../../styles/global';
+import { GETEXPENSES } from '../../queries/GetExpenses';
+import { IGetExpenses } from '../../queries/types/IGetExpenses';
+import { DELETEEXPENSE } from '../../queries/mutations/Expenses/DeleteExpense';
+import { globalStyles } from '../../styles/global';
 import CCard from '../../components/shared/CCard';
 import CText from '../../components/shared/CText';
 import Icon from 'react-native-vector-icons/Feather';
-import {Colors1} from '../../styles/color';
+import { Colors1 } from '../../styles/color';
 import AddExpenseModal from '../../components/modals/Expenses/AddExpenseModal';
 import CFloatingButton from '../../components/shared/CFloatingButton';
 import OptionHeader from '../../components/shared/OptionHeader';
 import DeleteIcon from '../../components/shared/DeleteIcon';
 import Spinner from '../../components/shared/Spinner';
-import {formatNumber} from '../../helpers/formatNumber';
+import { formatNumber } from '../../helpers/formatNumber';
 
 const Expense = (props: {
-  navigation: {navigate: (arg0: string, arg1: {expenseId: any}) => void};
+  navigation: { navigate: (arg0: string, arg1: { expenseId: any }) => void };
 }) => {
   const [visibleModal, setVisibleModal] = React.useState(false); //if Modal for add Depot is Visible
 
-  const {data, loading, error} = useQuery<IGetExpenses>(GETEXPENSES, {
+  const { data, loading, error } = useQuery<IGetExpenses>(GETEXPENSES, {
     fetchPolicy: 'network-only',
   });
-  console.log(data);
 
   const [deleteExpense] = useMutation(DELETEEXPENSE, {
-    refetchQueries: [{query: GETEXPENSES}],
+    refetchQueries: [{ query: GETEXPENSES }],
   });
   const handleDelete = (id: string) => {
     Alert.alert(
@@ -37,7 +36,7 @@ const Expense = (props: {
       [
         {
           text: "yes, i'm sure",
-          onPress: () => deleteExpense({variables: {id}}),
+          onPress: () => deleteExpense({ variables: { id } }),
         },
         {
           text: 'Cancel',
@@ -59,7 +58,7 @@ const Expense = (props: {
       <AddExpenseModal toggle={setVisibleModal} visible={visibleModal} />
       <CFloatingButton onPress={() => setVisibleModal(true)} />
       <OptionHeader>
-        <View style={{marginRight: 'auto'}}>
+        <View style={{ marginRight: 'auto' }}>
           <CText heading>Expenses</CText>
         </View>
         <Icon
@@ -75,8 +74,7 @@ const Expense = (props: {
       </OptionHeader>
       <FlatList
         data={data!.getExpenses}
-        renderItem={({item}) => {
-          //console.log(item.trans);
+        renderItem={({ item }) => {
           return (
             <TouchableOpacity
               onPress={() =>
@@ -84,8 +82,8 @@ const Expense = (props: {
                   expenseId: item.id,
                 })
               }>
-              <CCard>
-                <View style={globalStyles.transCard}>
+              <CCard styles={globalStyles.shadow}>
+                <View style={[globalStyles.transCard]}>
                   <CText bold={true}>{item.title}</CText>
 
                   <CText>{`${formatNumber(item.sum)} ${item.currency}`}</CText>

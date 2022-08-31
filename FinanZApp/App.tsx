@@ -46,11 +46,12 @@ const App = () => {
                 tabBarStyle: {
                   backgroundColor: Colors1.lighter,
                   position: 'absolute',
-                  bottom: 10,
+                  bottom: 30,
                   right: 15,
                   left: 15,
                   borderRadius: 15,
                   height: 60,
+
                   ...styles.shadow,
                 },
                 tabBarIcon: ({color, size, focused}) => {
@@ -113,5 +114,6 @@ const styles = StyleSheet.create({
   center: {
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: 15,
   },
 });
