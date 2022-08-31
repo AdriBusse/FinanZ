@@ -11,23 +11,37 @@ export class CreateETFTransactionResolver {
   @UseMiddleware(isAuth)
   async createETFTransaction(
     @Arg("etfId") depotId: string,
-    @Arg("invest") invest: number,
-    @Arg("fee", { defaultValue: 0 }) fee: number,
+    @Arg("invest", { nullable: true }) invest: number,
+    @Arg("fee", { nullable: true, defaultValue: 0 }) fee: number,
     @Arg("date", { nullable: true }) date: string,
     @Ctx() ctx: MyContext
   ): Promise<ETFTransaction> {
     const user = ctx.res.locals.user;
-    const etf = await ETF.findOneOrFail({ id: depotId, user });
+    const etf = await ETF.findOneOrFail(
+      { id: depotId, user },
+      { relations: ["transactions"] }
+    );
     const lastquote = await LemonAPI.lastQuotes(etf.isin);
     if (!lastquote) {
       throw new Error(
         "Something went wrong while creating the ETFTransaction (external Api didnt response)"
       );
     }
+
     const etfTransaction = new ETFTransaction();
-    etfTransaction.invest = invest;
-    etfTransaction.fee = fee;
-    etfTransaction.amount = invest / lastquote.a;
+    etfTransaction.invest = invest ? invest : 0;
+    etfTransaction.fee = fee ? fee : 0;
+    etfTransaction.amount = invest
+      ? parseFloat((invest / lastquote.a).toFixed(2))
+      : 0;
+
+    //how many total pices of the etf you own
+    let totalAmount = etf.transactions.reduce((acc, cur) => {
+      return acc + cur.amount;
+    }, 0);
+    totalAmount += etfTransaction.amount;
+
+    etfTransaction.value = parseFloat((totalAmount * lastquote.a).toFixed(2));
     etfTransaction.etf = etf;
     etfTransaction.createdAt = date ? new Date(date) : new Date();
 

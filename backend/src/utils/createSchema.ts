@@ -23,14 +23,11 @@ import { UserResolver } from "../modules/graphql/ClassResolver/User.resolver";
 import { UpdateSavingTransactionResolver } from "../modules/graphql/Saving/Transaction/UpdateTransaction.resolver";
 import { GetETFResolver } from "../modules/graphql/ETF/ETF/GetETF.resolver";
 import { DeleteETFTransactionResolver } from "../modules/graphql/ETF/ETFTransaction/DeleteETFTransaction.resolver";
-import { DeleteETFSnapshotResolver } from "../modules/graphql/ETF/ETFSnapshot/DeleteETFSnapshot.resolver";
 import { DeleteETFResolver } from "../modules/graphql/ETF/ETF/DeleteETF.resolver";
 import { ETFTransactionResolver } from "../modules/graphql/ClassResolver/ETFTransaction.resolver";
 import { CreateETFTransactionResolver } from "../modules/graphql/ETF/ETFTransaction/CreateETFTransaction.resolver";
-import { CreateETFSnapshotResolver } from "../modules/graphql/ETF/ETFSnapshot/CreateETFSnapshot.resolver";
 import { GetETFsResolver } from "../modules/graphql/ETF/ETF/GetETFs.resolver";
 import { CreateETFResolver } from "../modules/graphql/ETF/ETF/CreateETF.resolver";
-import { ETFSnapshotResolver } from "../modules/graphql/ClassResolver/ETFSnapshot.resolver";
 import { ETFResolver } from "../modules/graphql/ClassResolver/ETF.resolver";
 import { DeleteSavingTransactionResolver } from "../modules/graphql/Saving/Transaction/DeleteSavingTransaction.resolver";
 import { DeleteSavingDepotResolver } from "../modules/graphql/Saving/Depot/DeleteSavingDepot.resolver";
@@ -65,15 +62,12 @@ export const createSchema = () => {
       UpdateSavingTransactionResolver,
 
       ETFResolver,
-      ETFSnapshotResolver,
       ETFTransactionResolver,
       CreateETFResolver,
       GetETFsResolver,
       GetETFResolver,
-      CreateETFSnapshotResolver,
       CreateETFTransactionResolver,
       DeleteETFResolver,
-      DeleteETFSnapshotResolver,
       DeleteETFTransactionResolver,
       SearchETFResolver,
 

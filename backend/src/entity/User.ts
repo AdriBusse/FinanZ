@@ -3,7 +3,6 @@ import { Expense } from "./Expense";
 import { SavingTransaction } from "./SavingTransaction";
 import { SavingDepot } from "./SavingDepot";
 import { ETFTransaction } from "./ETFTransaction";
-import { ETFSnapshot } from "./ETFSnapshot";
 import { ETF } from "./ETF";
 import { IsEmail, Length } from "class-validator";
 import { Field, ID, ObjectType } from "type-graphql";
@@ -63,10 +62,6 @@ export class User extends BaseEntity {
   @Field(() => [ETF])
   @OneToMany(() => ETF, (etf) => etf.user)
   etfs: ETF[];
-
-  @Field(() => [ETFSnapshot])
-  @OneToMany(() => ETFSnapshot, (etfs) => etfs.user)
-  etfSnapshots: ETFSnapshot[];
 
   @Field(() => [ETFTransaction])
   @OneToMany(() => ETFTransaction, (etft) => etft.user)

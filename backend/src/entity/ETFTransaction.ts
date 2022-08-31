@@ -31,6 +31,10 @@ export class ETFTransaction extends BaseEntity {
   @Column({ type: "float", default: 0 })
   amount: number;
 
+  @Field({ description: "How much is the ETF worth this time" })
+  @Column({ type: "float", default: 0 })
+  value: number;
+
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.etfTransactions)
   user: User;

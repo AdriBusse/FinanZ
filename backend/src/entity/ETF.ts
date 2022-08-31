@@ -1,4 +1,3 @@
-import { ETFSnapshot } from "./ETFSnapshot";
 import { ETFTransaction } from "./ETFTransaction";
 import {
   Entity,
@@ -57,10 +56,6 @@ export class ETF extends BaseEntity {
   @Field(() => [ETFTransaction], { nullable: true })
   @OneToMany(() => ETFTransaction, (trans) => trans.etf)
   transactions: ETFTransaction[];
-
-  @Field(() => [ETFSnapshot], { nullable: true })
-  @OneToMany(() => ETFSnapshot, (trans) => trans.etf)
-  snapshots: ETFSnapshot[];
 
   @Field()
   @CreateDateColumn()
