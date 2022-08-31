@@ -13,13 +13,14 @@ import DeleteIcon from '../../components/shared/DeleteIcon';
 import OptionHeader from '../../components/shared/OptionHeader';
 import Spinner from '../../components/shared/Spinner';
 import {formatNumber} from '../../helpers/formatNumber';
+import {IGetDepots} from '../../queries/types/IGetDepots';
 
 export default function Tagesgeld(props: {
   navigation: {navigate: (arg0: string, arg1: {item: any}) => void};
 }) {
   const [visibleModal, setVisibleModal] = React.useState(false); //if Modal for add Depot is Visible
 
-  const {data, loading, error} = useQuery(GETDEPOTS, {
+  const {data, loading, error} = useQuery<IGetDepots>(GETDEPOTS, {
     fetchPolicy: 'network-only',
   });
   const [deleteDepot] = useMutation(DELETESAVINGDEPOT, {
@@ -55,11 +56,20 @@ export default function Tagesgeld(props: {
         <CFloatingButton onPress={() => setVisibleModal(true)} />
         <OptionHeader>
           <View style={{marginRight: 'auto'}}>
-            <CText heading>Savings</CText>
+            <CText heading>
+              {'Savings: ' +
+                formatNumber(
+                  data!.getSavingDepots.reduce(
+                    (acc, curr) => acc + curr.sum,
+                    0,
+                  ) || 0,
+                ) +
+                '€'}
+            </CText>
           </View>
         </OptionHeader>
         <FlatList
-          data={data.getSavingDepots}
+          data={data!.getSavingDepots}
           renderItem={({item}) => {
             //console.log(item.trans);
             return (

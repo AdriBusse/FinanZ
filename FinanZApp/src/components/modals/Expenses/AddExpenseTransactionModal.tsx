@@ -1,17 +1,17 @@
-import React, {useState} from 'react';
-import {View} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import CButton from '../../shared/CButton';
 import * as yup from 'yup';
-import {Formik} from 'formik';
-import {globalStyles} from '../../../styles/global';
-import {useMutation} from '@apollo/client';
+import { Formik } from 'formik';
+import { globalStyles } from '../../../styles/global';
+import { useMutation } from '@apollo/client';
 import ErrorAlert from '../../shared/ErrorAlert';
 import CText from '../../shared/CText';
-import {CREATEEXPANSETRANSACTION} from '../../../queries/mutations/Expenses/CreateExpenseTransaction';
+import { CREATEEXPANSETRANSACTION } from '../../../queries/mutations/Expenses/CreateExpenseTransaction';
 import CModal from '../../shared/CModal';
 import CategoryDropDown from '../../Expense/CategoryDropDown';
 import CTextInput from '../../shared/CTextInput';
-import {GETEXPENSE} from '../../../queries/GetExpense';
+import { GETEXPENSE } from '../../../queries/GetExpense';
 import DateSelect from '../../shared/DateSelect';
 
 interface Props {
@@ -26,14 +26,11 @@ const inputSchema = yup.object({
   categoryId: yup.string(),
 });
 
-function AddExpenseTransactionModal({visible, toggle, expenseId}: Props) {
+function AddExpenseTransactionModal({ visible, toggle, expenseId }: Props) {
   const [date, setDate] = useState(new Date());
 
   const [addTransaction] = useMutation(CREATEEXPANSETRANSACTION, {
-    refetchQueries: [{query: GETEXPENSE, variables: {id: expenseId}}],
-    onCompleted: dada => {
-      console.log(dada);
-    },
+    refetchQueries: [{ query: GETEXPENSE, variables: { id: expenseId } }],
     onError: err => {
       console.log(err.message);
     },
@@ -49,7 +46,7 @@ function AddExpenseTransactionModal({visible, toggle, expenseId}: Props) {
             expenseId: expenseId,
             categoryId: null,
           }}
-          onSubmit={({describtion, amount, categoryId}) => {
+          onSubmit={({ describtion, amount, categoryId }) => {
             addTransaction({
               variables: {
                 expenseId,
@@ -65,7 +62,7 @@ function AddExpenseTransactionModal({visible, toggle, expenseId}: Props) {
           {formikProps => {
             return (
               <View style={globalStyles.container}>
-                <View style={{paddingBottom: 5}}>
+                <View style={styles.pB}>
                   <CText heading={true}>Add a Transaction:</CText>
                   <CTextInput
                     value={formikProps.values.describtion}
@@ -83,7 +80,7 @@ function AddExpenseTransactionModal({visible, toggle, expenseId}: Props) {
                       </ErrorAlert>
                     )}
                 </View>
-                <View style={{paddingBottom: 5}}>
+                <View style={styles.pB}>
                   <CTextInput
                     value={formikProps.values.amount}
                     onChangeText={formikProps.handleChange('amount')}
@@ -97,13 +94,13 @@ function AddExpenseTransactionModal({visible, toggle, expenseId}: Props) {
                     <ErrorAlert>{formikProps.errors.amount}</ErrorAlert>
                   )}
                 </View>
-                <View style={{paddingBottom: 5}}>
+                <View style={styles.pB}>
                   <CategoryDropDown
                     value={formikProps.values.categoryId}
                     changeValue={formikProps.handleChange('categoryId')}
                   />
                 </View>
-                <View style={{paddingBottom: 5}}>
+                <View style={styles.pB}>
                   <DateSelect setDate={setDate} date={date} />
                 </View>
                 <CButton
@@ -118,5 +115,9 @@ function AddExpenseTransactionModal({visible, toggle, expenseId}: Props) {
     </CModal>
   );
 }
-
+const styles = StyleSheet.create({
+  pB: {
+    paddingBottom: 5,
+  },
+});
 export default AddExpenseTransactionModal;

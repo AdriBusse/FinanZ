@@ -1,32 +1,32 @@
-import {useMutation, useQuery} from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import React from 'react';
-import {View, TouchableOpacity, Pressable, SectionList} from 'react-native';
+import { View, TouchableOpacity, Pressable, SectionList } from 'react-native';
 import CCard from '../../components/shared/CCard';
-import {globalStyles} from '../../styles/global';
+import { globalStyles } from '../../styles/global';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ErrorAlert from '../../components/shared/ErrorAlert';
 import CText from '../../components/shared/CText';
 import moment from 'moment';
-import {GETEXPENSE} from '../../queries/GetExpense';
-import {IGetExpense} from '../../queries/types/IGetExpense';
+import { GETEXPENSE } from '../../queries/GetExpense';
+import { IGetExpense } from '../../queries/types/IGetExpense';
 import AddExpenseTransactionModal from '../../components/modals/Expenses/AddExpenseTransactionModal';
-import {DELETEEXPENSETRANSACTION} from '../../queries/mutations/Expenses/DeleteExpenseTransaction';
-import {GETEXPENSES} from '../../queries/GetExpenses';
+import { DELETEEXPENSETRANSACTION } from '../../queries/mutations/Expenses/DeleteExpenseTransaction';
+import { GETEXPENSES } from '../../queries/GetExpenses';
 import UpdateExpenseTransactionModal from '../../components/modals/Expenses/UpdateExpenseTransactionModal';
-import {Colors1} from '../../styles/color';
+import { Colors1 } from '../../styles/color';
 import UpdateExpenseModal from '../../components/modals/Expenses/UpdateExpenseModal';
 import CFloatingButton from '../../components/shared/CFloatingButton';
 import OptionHeader from '../../components/shared/OptionHeader';
 import ShowExpenseByCategoryModal from '../../components/modals/Expenses/ShowExpenseByCategory';
 import Spinner from '../../components/shared/Spinner';
-import {formatNumber} from '../../helpers/formatNumber';
-import {groupExpenseTransactions} from '../../helpers/groupExpenseTransactions';
+import { formatNumber } from '../../helpers/formatNumber';
+import { groupExpenseTransactions } from '../../helpers/groupExpenseTransactions';
 
-export default function ExpenseDetails({route}: any) {
-  const {expenseId} = route.params;
+export default function ExpenseDetails({ route }: any) {
+  const { expenseId } = route.params;
 
-  const {data, loading, error} = useQuery<IGetExpense>(GETEXPENSE, {
-    variables: {id: expenseId},
+  const { data, loading, error } = useQuery<IGetExpense>(GETEXPENSE, {
+    variables: { id: expenseId },
     skip: !expenseId,
     //fetchPolicy: 'network-only',
   });
@@ -48,7 +48,7 @@ export default function ExpenseDetails({route}: any) {
     },
     refetchQueries: [
       GETEXPENSES,
-      {query: GETEXPENSE, variables: {id: expenseId}},
+      { query: GETEXPENSE, variables: { id: expenseId } },
     ],
   });
   const showUpdate = (
@@ -69,7 +69,7 @@ export default function ExpenseDetails({route}: any) {
   };
   const clickDeleteTrans = (deleteId: string) => {
     deleteTrans({
-      variables: {id: deleteId},
+      variables: { id: deleteId },
     });
   };
 
@@ -80,9 +80,8 @@ export default function ExpenseDetails({route}: any) {
   if (loading) {
     return <Spinner />;
   }
-  const {title, sum, currency, archived, transactions, expenseByCategory} =
+  const { title, sum, currency, archived, transactions, expenseByCategory } =
     data!.getExpense;
-  console.log(expenseByCategory);
   let groupedSectionDate =
     transactions &&
     transactions.map(tr => {
@@ -116,6 +115,7 @@ export default function ExpenseDetails({route}: any) {
           visible={showDetails}
           toggle={() => setShowDetails(false)}
           categories={expenseByCategory}
+          all={sum}
         />
       )}
       {focusItem && (
@@ -134,7 +134,7 @@ export default function ExpenseDetails({route}: any) {
         />
       )}
       <OptionHeader>
-        <View style={{marginRight: 'auto'}}>
+        <View style={{ marginRight: 'auto' }}>
           <CText heading>{title + ':'}</CText>
         </View>
         <Icon
@@ -153,11 +153,11 @@ export default function ExpenseDetails({route}: any) {
         sections={groupExpenseTransactions(groupedSectionDate)}
         keyExtractor={(item, index) => item.id + index}
         renderSectionHeader={item => (
-          <CText style={{fontWeight: 'bold', marginTop: 5}}>
+          <CText style={{ fontWeight: 'bold', marginTop: 5 }}>
             {moment(item.section.title).format('DD MMM, YY')}
           </CText>
         )}
-        renderItem={({item}) => {
+        renderItem={({ item }) => {
           return (
             <Pressable
               onPress={() =>
@@ -176,8 +176,6 @@ export default function ExpenseDetails({route}: any) {
                   <CText>{moment(item.createdAt).format('DD MMM, YY')}</CText>
                   <TouchableOpacity
                     onPress={() => {
-                      console.log('id: ' + item.id);
-
                       clickDeleteTrans(item.id);
                     }}>
                     <Icon name="trash" size={20} color="#c8cbd6" />

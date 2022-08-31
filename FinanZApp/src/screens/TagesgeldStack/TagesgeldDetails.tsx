@@ -1,6 +1,6 @@
 import {useMutation, useQuery} from '@apollo/client';
 import React from 'react';
-import {View, FlatList, TouchableOpacity} from 'react-native';
+import {View, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
 import CCard from '../../components/shared/CCard';
 import {GETDEPOT} from '../../queries/GetDepot';
 import {DELETESAVINGTRANSACTION} from '../../queries/mutations/Savings/DeleteTransaction';
@@ -40,15 +40,13 @@ export default function TagesgeldDetails({route}: any) {
     describtion: string;
   }>();
   const [deleteTrans] = useMutation(DELETESAVINGTRANSACTION, {
-    refetchQueries: [GETDEPOT],
+    refetchQueries: [{query: GETDEPOT, variables: {id: depotId}}],
   });
 
-  const [opac, setOpac] = React.useState(1);
   const clickDeleteTrans = (deleteId: string) => {
     deleteTrans({
       variables: {id: deleteId},
     });
-    setOpac(0.5);
   };
 
   if (error) {
@@ -98,7 +96,7 @@ export default function TagesgeldDetails({route}: any) {
         }}
       />
       <OptionHeader>
-        <View style={{marginRight: 'auto'}}>
+        <View style={styles.marginRightAuto}>
           <CText heading>{`${name}`}</CText>
         </View>
         <Icon
@@ -127,11 +125,12 @@ export default function TagesgeldDetails({route}: any) {
                   });
                   setShowUpdateSavingTransaction(true);
                 }}>
-                <View style={[globalStyles.transCard, {opacity: opac}]}>
+                <View style={[globalStyles.transCard]}>
                   <CText bold={true}>{item.describtion}</CText>
                   <CText
                     style={{
-                      color: item.amount >= 0 ? '#2CB67D' : '#e94e4e',
+                      color:
+                        item.amount >= 0 ? Colors1.positive : Colors1.negative,
                     }}>{`${formatNumber(item.amount)} €`}</CText>
                   <CText>{moment(item.createdAt).format('DD MMM, YY')}</CText>
                   <DeleteIcon onDelete={() => clickDeleteTrans(item.id)} />
@@ -144,3 +143,9 @@ export default function TagesgeldDetails({route}: any) {
     </View>
   );
 }
+
+export const styles = StyleSheet.create({
+  marginRightAuto: {
+    marginRight: 'auto',
+  },
+});

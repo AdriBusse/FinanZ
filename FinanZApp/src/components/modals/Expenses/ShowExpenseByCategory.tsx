@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import {IExpenseByCategory} from '../../../queries/types/IGetExpense';
 import {globalStyles} from '../../../styles/global';
 import CCard from '../../shared/CCard';
@@ -14,33 +14,50 @@ interface Props {
   visible: boolean;
   toggle: CallableFunction;
   categories: IExpenseByCategory[];
+  all: number;
 }
-function ShowExpenseByCategoryModal({visible, toggle, categories}: Props) {
+function ShowExpenseByCategoryModal({visible, toggle, categories, all}: Props) {
   return (
     <CModal size="full" visible={visible} onClose={toggle}>
-      <ScrollView style={[globalStyles.scroll]}>
-        <PieChartByCategory categories={categories} />
-        {categories.map((category, index) => {
-          return (
-            <View>
-              <CCard key={index}>
-                <View
-                  style={[
-                    globalStyles.transCard,
-                    {backgroundColor: Colors1.primary},
-                    {padding: 5, alignItems: 'center', borderRadius: 5},
-                  ]}>
-                  <Icon name={category.icon} color={category.color} />
-                  <CText>{category.name}</CText>
-                  <CText>{formatNumber(category.amount)}</CText>
-                </View>
-              </CCard>
-            </View>
-          );
-        })}
-      </ScrollView>
+      <View>
+        <PieChartByCategory categories={categories} all={all} />
+        <FlatList
+          data={categories}
+          renderItem={({item}) => (
+            <CCard>
+              <View
+                style={[
+                  styles.shadow,
+                  {shadowColor: item.color},
+                  globalStyles.transCard,
+                  styles.list,
+                ]}>
+                <Icon name={item.icon} color={item.color} />
+                <CText>{item.name}</CText>
+                <CText>{formatNumber(item.amount)}</CText>
+              </View>
+            </CCard>
+          )}
+        />
+      </View>
     </CModal>
   );
 }
-
+const styles = StyleSheet.create({
+  list: {
+    padding: 5,
+    alignItems: 'center',
+    borderRadius: 5,
+    backgroundColor: Colors1.primary,
+  },
+  shadow: {
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.5,
+    elevation: 5,
+  },
+});
 export default ShowExpenseByCategoryModal;

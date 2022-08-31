@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import CButton from '../../shared/CButton';
 import * as yup from 'yup';
 import {Formik} from 'formik';
@@ -18,19 +18,16 @@ interface Props {
   etfId: string;
 }
 const inputSchema = yup.object({
-  amount: yup.number().required(),
+  invest: yup.number().required(),
+  fee: yup.number().required(),
   id: yup.string(),
 });
 
 function AddETFTransactionModal({visible, toggle, etfId}: Props) {
   const [addTransaction] = useMutation(CREATEETFTRANSACTION, {
     refetchQueries: [{query: GETETFDETAIL, variables: {id: etfId}}],
-    onCompleted: dada => {
-      console.log(dada);
-    },
     onError: err => {
       console.log('__-Err');
-
       console.log(err);
     },
   });
@@ -38,11 +35,12 @@ function AddETFTransactionModal({visible, toggle, etfId}: Props) {
     <CModal size="half" visible={visible} onClose={toggle}>
       <View style={globalStyles.container}>
         <Formik
-          initialValues={{amount: '', id: etfId}}
+          initialValues={{invest: '', fee: '0', id: etfId}}
           onSubmit={values => {
             addTransaction({
               variables: {
-                amount: parseFloat(values.amount),
+                invest: parseFloat(values.invest),
+                fee: parseFloat(values.fee),
                 etfId: values.id,
               },
             });
@@ -54,15 +52,30 @@ function AddETFTransactionModal({visible, toggle, etfId}: Props) {
               <View style={[globalStyles.container, globalStyles.scroll]}>
                 <CText heading={true}>Add a Transaction:</CText>
                 <CTextInput
-                  value={formikProps.values.amount}
-                  onChangeText={formikProps.handleChange('amount')}
+                  value={formikProps.values.invest}
+                  onChangeText={formikProps.handleChange('invest')}
                   placeholder={'Amount of Investment'}
                   selectTextOnFocus={false}
                   keyboardType={'numeric'}
-                  onBlur={() => formikProps.handleBlur('amount')}
+                  onBlur={() => formikProps.handleBlur('invest')}
                 />
-                {formikProps.touched.amount && formikProps.errors.amount && (
-                  <ErrorAlert>{formikProps.errors.amount}</ErrorAlert>
+                {formikProps.touched.invest && formikProps.errors.invest && (
+                  <ErrorAlert>{formikProps.errors.invest}</ErrorAlert>
+                )}
+
+                <View style={styles.mBmT}>
+                  <CText>Fees:</CText>
+                  <CTextInput
+                    value={formikProps.values.fee}
+                    onChangeText={formikProps.handleChange('fee')}
+                    placeholder={'Fee'}
+                    selectTextOnFocus={true}
+                    keyboardType={'numeric'}
+                    onBlur={() => formikProps.handleBlur('fee')}
+                  />
+                </View>
+                {formikProps.touched.fee && formikProps.errors.fee && (
+                  <ErrorAlert>{formikProps.errors.fee}</ErrorAlert>
                 )}
 
                 <CButton
@@ -78,4 +91,10 @@ function AddETFTransactionModal({visible, toggle, etfId}: Props) {
   );
 }
 
+const styles = StyleSheet.create({
+  mBmT: {
+    marginBottom: 10,
+    marginTop: 10,
+  },
+});
 export default AddETFTransactionModal;

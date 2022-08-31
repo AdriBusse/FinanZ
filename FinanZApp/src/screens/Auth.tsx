@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {useQuery} from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import React from 'react';
-import {Button, TouchableOpacity, Text, View} from 'react-native';
+import { Button, TouchableOpacity, Text, View } from 'react-native';
 import CButton from '../components/shared/CButton';
-import {globalStyles} from '../styles/global';
-import {useAuth} from '../hooks/useAuth';
+import { globalStyles } from '../styles/global';
+import { useAuth } from '../hooks/useAuth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CText from '../components/shared/CText';
 
 export default function Auth(props: {
-  navigation: {navigate: (arg0: string) => any};
+  navigation: { navigate: (arg0: string) => any };
 }) {
-  const {authData, loading, login, logout} = useAuth();
+  const { authData, loading, login, logout } = useAuth();
 
   const renderLogin = () => {
     return (

@@ -1,9 +1,10 @@
 import {gql} from '@apollo/client';
 
 export const CREATEETF = gql`
-  mutation createETF($name: String!, $short: String!) {
-    createETF(name: $name, short: $short) {
+  mutation CREATEEFT($isin: String!) {
+    createETF(isin: $isin) {
       id
+      name
     }
   }
 `;

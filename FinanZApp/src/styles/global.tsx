@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {Colors1} from './color';
+import { StyleSheet } from 'react-native';
+import { Colors1 } from './color';
 
 export const globalStyles = StyleSheet.create({
   container: {
@@ -54,5 +54,18 @@ export const globalStyles = StyleSheet.create({
   },
   scroll: {
     overflow: 'scroll',
+  },
+  marginRightAuto: {
+    marginRight: 'auto',
+  },
+  shadow: {
+    shadowColor: '#7F5DF0',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.5,
+    elevation: 5,
   },
 });

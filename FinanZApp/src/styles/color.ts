@@ -22,4 +22,6 @@ export const Colors1 = {
   button: '#7F5AF0',
   cardBorderFrom: '#18316c',
   cardBorderTo: '#18316c',
+  positive: '#2CB67D',
+  negative: '#e94e4e',
 };

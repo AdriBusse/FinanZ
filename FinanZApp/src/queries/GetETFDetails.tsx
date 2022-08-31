@@ -1,20 +1,21 @@
 import {gql} from '@apollo/client';
 
 export const GETETFDETAIL = gql`
-  query getETF($id: String!) {
+  query GETETFDETAILS($id: String!) {
     getETF(id: $id) {
       id
       name
-      short
-      worth
+      title
+      isin
+      wkn
       deposited
+      worth
+      amount
       transactions {
         id
+        invest
+        fee
         amount
-        createdAt
-      }
-      snapshots {
-        id
         value
         createdAt
       }

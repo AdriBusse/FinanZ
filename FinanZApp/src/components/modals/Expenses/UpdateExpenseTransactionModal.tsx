@@ -1,6 +1,6 @@
 import {useMutation} from '@apollo/client';
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {UPDATEEXPENSETRANSACTION} from '../../../queries/mutations/Expenses/UpdateExpenseTransaction';
 import {globalStyles} from '../../../styles/global';
 import CategoryDropDown from '../../Expense/CategoryDropDown';
@@ -62,7 +62,7 @@ function UpdateExpenseTransactionModal({
   return (
     <CModal size="full" visible={visible} onClose={toggle}>
       <View style={[globalStyles.container, globalStyles.scroll]}>
-        <View style={{paddingBottom: 5}}>
+        <View style={styles.pB}>
           <CText>Describtion:</CText>
           <CTextInput
             value={newDesc}
@@ -72,7 +72,7 @@ function UpdateExpenseTransactionModal({
             keyboardType={'default'}
           />
         </View>
-        <View style={{paddingBottom: 5}}>
+        <View style={styles.pB}>
           <CText>Amount:</CText>
           <CTextInput
             value={newAmount}
@@ -82,12 +82,11 @@ function UpdateExpenseTransactionModal({
             keyboardType={'numeric'}
           />
         </View>
-        <View style={{paddingBottom: 5}}>
+        <View style={styles.pB}>
           <CText>Category:</CText>
           <CategoryDropDown changeValue={setNewCategory} value={category} />
         </View>
-        <View style={{paddingBottom: 5}}>
-          <CText>Created:</CText>
+        <View style={styles.pB}>
           <DateSelect setDate={setDate} date={date} />
         </View>
       </View>
@@ -109,4 +108,9 @@ function UpdateExpenseTransactionModal({
   );
 }
 
+const styles = StyleSheet.create({
+  pB: {
+    paddingBottom: 5,
+  },
+});
 export default UpdateExpenseTransactionModal;
