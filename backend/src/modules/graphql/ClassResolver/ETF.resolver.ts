@@ -67,12 +67,9 @@ export class ETFResolver implements ResolverInterface<ETF> {
       return acc + curr.amount;
     }, 0);
 
-    const res = await LemonAPI.lastQuotes(etf.isin);
-    if (!res) {
-      throw new Error("Something went wrong while getting the ETF worth");
-    }
+    const worth = await LemonAPI.getETFWorth(etf.isin, amount);
 
-    return parseFloat((amount * res.a).toFixed(2));
+    return worth;
   }
 
   @FieldResolver()

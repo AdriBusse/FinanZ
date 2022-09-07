@@ -43,6 +43,23 @@ export class LemonAPI {
       return undefined;
     }
   };
+
+  static getETFWorth = async (
+    isin: string,
+    amount: number
+  ): Promise<number> => {
+    try {
+      const res = await this.lastQuotes(isin);
+      if (!res) {
+        throw new Error("Something went wrong while getting the ETF worth");
+      }
+
+      return parseFloat((amount * res.a).toFixed(2));
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  };
 }
 interface QuoteResponse {
   time: string;
