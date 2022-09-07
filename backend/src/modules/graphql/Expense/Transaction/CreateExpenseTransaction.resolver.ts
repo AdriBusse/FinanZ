@@ -36,6 +36,7 @@ export class CreateExpenseTransactionResolver {
     newTransaction.amount = amount;
     newTransaction.expense = expense;
     newTransaction.createdAt = date ? new Date(date) : new Date();
+    console.log("DATE________" + newTransaction.createdAt);
 
     newTransaction.user = user;
 

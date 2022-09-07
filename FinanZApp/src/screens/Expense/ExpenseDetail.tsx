@@ -21,6 +21,8 @@ import ShowExpenseByCategoryModal from '../../components/modals/Expenses/ShowExp
 import Spinner from '../../components/shared/Spinner';
 import { formatNumber } from '../../helpers/formatNumber';
 import { groupExpenseTransactions } from '../../helpers/groupExpenseTransactions';
+import { abs } from 'react-native-reanimated';
+import DeleteIcon from '../../components/shared/DeleteIcon';
 
 export default function ExpenseDetails({ route }: any) {
   const { expenseId } = route.params;
@@ -82,6 +84,7 @@ export default function ExpenseDetails({ route }: any) {
   }
   const { title, sum, currency, archived, transactions, expenseByCategory } =
     data!.getExpense;
+
   let groupedSectionDate =
     transactions &&
     transactions.map(tr => {
@@ -174,12 +177,7 @@ export default function ExpenseDetails({ route }: any) {
                   <CText bold={true}>{item.describtion}</CText>
                   <CText>{`${formatNumber(item.amount)} ${currency}`}</CText>
                   <CText>{moment(item.createdAt).format('DD MMM, YY')}</CText>
-                  <TouchableOpacity
-                    onPress={() => {
-                      clickDeleteTrans(item.id);
-                    }}>
-                    <Icon name="trash" size={20} color="#c8cbd6" />
-                  </TouchableOpacity>
+                  <DeleteIcon onDelete={() => clickDeleteTrans(item.id)} />
                 </View>
               </CCard>
             </Pressable>

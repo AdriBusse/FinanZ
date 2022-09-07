@@ -39,6 +39,7 @@ import { CreateSavingDepotResolver } from "../modules/graphql/Saving/Depot/Creat
 import { GetSavingDepotsResolver } from "../modules/graphql/Saving/Depot/GetSavingDepots.resolver";
 import { buildSchema } from "type-graphql";
 import { DeleteExpenseTransactionResolver } from "../modules/graphql/Expense/Transaction/DeleteExpenseTransaction.resolver";
+import { Summary } from "../modules/graphql/User/summary.resolver";
 
 export const createSchema = () => {
   return buildSchema({
@@ -88,6 +89,8 @@ export const createSchema = () => {
       DeleteExpenseCategoryResolver,
       GetExpenseCategoriesResolver,
       UpdateExpenseCategoryResolver,
+
+      Summary,
     ],
   });
 };

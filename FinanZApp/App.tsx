@@ -1,24 +1,27 @@
-import {ApolloProvider} from '@apollo/client';
-import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
+import { ApolloProvider } from '@apollo/client';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import React from 'react';
 import Home from './src/screens/Home';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TagesgeldStack from './src/screens/TagesgeldStack';
 import ETFStack from './src/screens/ETFStack';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {AuthProvider} from './src/context/AuthContext';
+import { AuthProvider } from './src/context/AuthContext';
 import Auth from './src/screens/Auth';
-import {useAuth} from './src/hooks/useAuth';
-import {client} from './src/config/apolloClient';
-import {Colors1} from './src/styles/color';
-import {StyleSheet, Text, View} from 'react-native';
+import { useAuth } from './src/hooks/useAuth';
+import { client } from './src/config/apolloClient';
+import { Colors1 } from './src/styles/color';
+import { LogBox, StyleSheet, Text, View } from 'react-native';
 import Expense from './src/screens/ExpenseStack';
 import Background from './src/components/shared/Background';
 
 const App = () => {
+  // just during on device testing
+  LogBox.ignoreAllLogs();
+
   // const Stack = createNativeStackNavigator();
   const Tab = createBottomTabNavigator();
-  const {authData} = useAuth();
+  const { authData } = useAuth();
   console.log(authData);
 
   const MyTheme = {
@@ -36,7 +39,7 @@ const App = () => {
           <NavigationContainer theme={MyTheme}>
             <Tab.Navigator
               initialRouteName="Home"
-              screenOptions={({route}) => ({
+              screenOptions={({ route }) => ({
                 unmountOnBlur: true,
                 headerShown: false,
                 tabBarShowLabel: false,
@@ -46,15 +49,14 @@ const App = () => {
                 tabBarStyle: {
                   backgroundColor: Colors1.lighter,
                   position: 'absolute',
-                  bottom: 30,
-                  right: 15,
-                  left: 15,
-                  borderRadius: 15,
+                  bottom: 0,
+                  right: 0,
+                  left: 0,
+                  borderTopLeftRadius: 15,
+                  borderTopRightRadius: 15,
                   height: 60,
-
-                  ...styles.shadow,
                 },
-                tabBarIcon: ({color, size, focused}) => {
+                tabBarIcon: ({ color, size, focused }) => {
                   let iconName = '';
                   if (route.name === 'Home') {
                     iconName = 'home';
