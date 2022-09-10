@@ -124,7 +124,7 @@ export default function Home(props: {
   const box2 = () => {
     return (
       <Pressable onPress={() => props.navigation.navigate('Sparen', undefined)}>
-        <CText>{`${data?.summary.savingValue} €`}</CText>
+        <CText>{`${data?.summary.savingValue.toFixed(2)} €`}</CText>
         <CText bold style={{ color: Colors1.secondaryText }}>
           All Savings
         </CText>
@@ -221,7 +221,8 @@ export default function Home(props: {
       {data && (
         <ScrollView>
           <CText style={{ fontSize: 24, padding: 5 }} bold>
-            {data.summary.etfWorth + data.summary.savingValue + ' €'}
+            {(data.summary.etfWorth + data.summary.savingValue).toFixed(2) +
+              ' €'}
           </CText>
           <CText
             style={{

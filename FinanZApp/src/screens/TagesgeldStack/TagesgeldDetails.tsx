@@ -1,10 +1,10 @@
-import {useMutation, useQuery} from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import React from 'react';
-import {View, FlatList, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import CCard from '../../components/shared/CCard';
-import {GETDEPOT} from '../../queries/GetDepot';
-import {DELETESAVINGTRANSACTION} from '../../queries/mutations/Savings/DeleteTransaction';
-import {globalStyles} from '../../styles/global';
+import { GETDEPOT } from '../../queries/GetDepot';
+import { DELETESAVINGTRANSACTION } from '../../queries/mutations/Savings/DeleteTransaction';
+import { globalStyles } from '../../styles/global';
 import AddSavingTransactionModal from '../../components/modals/Savings/AddSavingTransactionModal.tsx';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ErrorAlert from '../../components/shared/ErrorAlert';
@@ -12,19 +12,20 @@ import CText from '../../components/shared/CText';
 import moment from 'moment';
 import CFloatingButton from '../../components/shared/CFloatingButton';
 import OptionHeader from '../../components/shared/OptionHeader';
-import {Colors1} from '../../styles/color';
-import {IGetDepot} from '../../queries/types/IGetDepot';
+import { Colors1 } from '../../styles/color';
+import { IGetDepot } from '../../queries/types/IGetDepot';
 import UpdateSavingDepotModal from '../../components/modals/Savings/UpdateSavingDepotModal';
 import UpdateSavingTransactionModal from '../../components/modals/Savings/UpdateSavingTransactionModal';
 import DeleteIcon from '../../components/shared/DeleteIcon';
 import Spinner from '../../components/shared/Spinner';
-import {formatNumber} from '../../helpers/formatNumber';
+import { formatNumber } from '../../helpers/formatNumber';
+import EmptyList from '../../components/shared/EmptyList';
 
-export default function TagesgeldDetails({route}: any) {
-  const {item: depotId} = route.params;
+export default function TagesgeldDetails({ route }: any) {
+  const { item: depotId } = route.params;
 
-  const {data, loading, error} = useQuery<IGetDepot>(GETDEPOT, {
-    variables: {id: depotId},
+  const { data, loading, error } = useQuery<IGetDepot>(GETDEPOT, {
+    variables: { id: depotId },
     skip: !depotId,
     fetchPolicy: 'network-only',
   });
@@ -40,12 +41,12 @@ export default function TagesgeldDetails({route}: any) {
     describtion: string;
   }>();
   const [deleteTrans] = useMutation(DELETESAVINGTRANSACTION, {
-    refetchQueries: [{query: GETDEPOT, variables: {id: depotId}}],
+    refetchQueries: [{ query: GETDEPOT, variables: { id: depotId } }],
   });
 
   const clickDeleteTrans = (deleteId: string) => {
     deleteTrans({
-      variables: {id: deleteId},
+      variables: { id: deleteId },
     });
   };
 
@@ -56,7 +57,7 @@ export default function TagesgeldDetails({route}: any) {
   if (loading) {
     return <Spinner />;
   }
-  const {name, sum, transactions} = data!.getSavingDepot;
+  const { name, sum, transactions } = data!.getSavingDepot;
 
   return (
     <View style={globalStyles.container}>
@@ -110,9 +111,16 @@ export default function TagesgeldDetails({route}: any) {
       </OptionHeader>
       <CText heading={true}>{`${formatNumber(sum)} €`}</CText>
 
+      {transactions.length < 0 && (
+        <EmptyList
+          heading={'Nothing inside here.'}
+          subHeading={'Go and Create your first saving.'}
+          createNew={() => setShowSeeAdd(true)}
+        />
+      )}
       <FlatList
         data={transactions}
-        renderItem={({item}) => {
+        renderItem={({ item }) => {
           return (
             <CCard>
               <TouchableOpacity

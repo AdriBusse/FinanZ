@@ -1,30 +1,31 @@
-import {useMutation, useQuery} from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import React from 'react';
-import {View, TouchableOpacity, FlatList, Alert} from 'react-native';
+import { View, TouchableOpacity, FlatList, Alert } from 'react-native';
 import CCard from '../../components/shared/CCard';
 import AddDepotModal from '../../components/modals/Savings/AddDepotModal';
 import ErrorAlert from '../../components/shared/ErrorAlert';
 import CText from '../../components/shared/CText';
-import {GETDEPOTS} from '../../queries/GetDepots';
-import {DELETESAVINGDEPOT} from '../../queries/mutations/Savings/DeleteDepot';
-import {globalStyles} from '../../styles/global';
+import { GETDEPOTS } from '../../queries/GetDepots';
+import { DELETESAVINGDEPOT } from '../../queries/mutations/Savings/DeleteDepot';
+import { globalStyles } from '../../styles/global';
 import CFloatingButton from '../../components/shared/CFloatingButton';
 import DeleteIcon from '../../components/shared/DeleteIcon';
 import OptionHeader from '../../components/shared/OptionHeader';
 import Spinner from '../../components/shared/Spinner';
-import {formatNumber} from '../../helpers/formatNumber';
-import {IGetDepots} from '../../queries/types/IGetDepots';
+import { formatNumber } from '../../helpers/formatNumber';
+import { IGetDepots } from '../../queries/types/IGetDepots';
+import EmptyList from '../../components/shared/EmptyList';
 
 export default function Tagesgeld(props: {
-  navigation: {navigate: (arg0: string, arg1: {item: any}) => void};
+  navigation: { navigate: (arg0: string, arg1: { item: any }) => void };
 }) {
   const [visibleModal, setVisibleModal] = React.useState(false); //if Modal for add Depot is Visible
 
-  const {data, loading, error} = useQuery<IGetDepots>(GETDEPOTS, {
+  const { data, loading, error } = useQuery<IGetDepots>(GETDEPOTS, {
     fetchPolicy: 'network-only',
   });
   const [deleteDepot] = useMutation(DELETESAVINGDEPOT, {
-    refetchQueries: [{query: GETDEPOTS}],
+    refetchQueries: [{ query: GETDEPOTS }],
   });
   const handleDelete = (id: string) => {
     Alert.alert(
@@ -33,7 +34,7 @@ export default function Tagesgeld(props: {
       [
         {
           text: "yes, i'm sure",
-          onPress: () => deleteDepot({variables: {id}}),
+          onPress: () => deleteDepot({ variables: { id } }),
         },
         {
           text: 'Cancel',
@@ -55,7 +56,7 @@ export default function Tagesgeld(props: {
         <AddDepotModal toggle={setVisibleModal} visible={visibleModal} />
         <CFloatingButton onPress={() => setVisibleModal(true)} />
         <OptionHeader>
-          <View style={{marginRight: 'auto'}}>
+          <View style={{ marginRight: 'auto' }}>
             <CText heading>
               {'Savings: ' +
                 formatNumber(
@@ -68,14 +69,22 @@ export default function Tagesgeld(props: {
             </CText>
           </View>
         </OptionHeader>
+        {data!.getSavingDepots.length < 0 && (
+          <EmptyList
+            heading={'No Savings created until now.'}
+            subHeading={'Start with create your first pocket.'}
+            createNew={() => setVisibleModal(true)}
+          />
+        )}
         <FlatList
           data={data!.getSavingDepots}
-          renderItem={({item}) => {
-            //console.log(item.trans);
+          renderItem={({ item }) => {
             return (
               <TouchableOpacity
                 onPress={() =>
-                  props.navigation.navigate('TagesgeldDetails', {item: item.id})
+                  props.navigation.navigate('TagesgeldDetails', {
+                    item: item.id,
+                  })
                 }>
                 <CCard>
                   <View style={globalStyles.transCard}>

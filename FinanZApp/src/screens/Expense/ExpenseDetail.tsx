@@ -23,6 +23,8 @@ import { formatNumber } from '../../helpers/formatNumber';
 import { groupExpenseTransactions } from '../../helpers/groupExpenseTransactions';
 import { abs } from 'react-native-reanimated';
 import DeleteIcon from '../../components/shared/DeleteIcon';
+import CButton from '../../components/shared/CButton';
+import EmptyList from '../../components/shared/EmptyList';
 
 export default function ExpenseDetails({ route }: any) {
   const { expenseId } = route.params;
@@ -152,6 +154,13 @@ export default function ExpenseDetails({ route }: any) {
       <TouchableOpacity onPress={() => setShowDetails(true)}>
         <CText heading={true}>{`${formatNumber(sum)} ${currency}`}</CText>
       </TouchableOpacity>
+      {data?.getExpense.transactions.length === 0 && (
+        <EmptyList
+          heading={'No Transactions until now.'}
+          subHeading={'Create your first one...'}
+          createNew={() => setShowSeeAdd(true)}
+        />
+      )}
       <SectionList
         sections={groupExpenseTransactions(groupedSectionDate)}
         keyExtractor={(item, index) => item.id + index}

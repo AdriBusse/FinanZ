@@ -16,19 +16,18 @@ import OptionHeader from '../../components/shared/OptionHeader';
 import DeleteIcon from '../../components/shared/DeleteIcon';
 import Spinner from '../../components/shared/Spinner';
 import { formatNumber } from '../../helpers/formatNumber';
+import { GETARCHIVEDEXPENSES } from '../../queries/GetArchivedExpenses';
 import EmptyList from '../../components/shared/EmptyList';
 
-const Expense = (props: {
+const ArchivedExpense = (props: {
   navigation: { navigate: (arg0: string, arg1: { expenseId: any }) => void };
 }) => {
-  const [visibleModal, setVisibleModal] = React.useState(false); //if Modal for add Expense is Visible
-
-  const { data, loading, error } = useQuery<IGetExpenses>(GETEXPENSES, {
+  const { data, loading, error } = useQuery<IGetExpenses>(GETARCHIVEDEXPENSES, {
     fetchPolicy: 'network-only',
   });
 
   const [deleteExpense] = useMutation(DELETEEXPENSE, {
-    refetchQueries: [{ query: GETEXPENSES }],
+    refetchQueries: [{ query: GETARCHIVEDEXPENSES }],
   });
   const handleDelete = (id: string) => {
     Alert.alert(
@@ -56,39 +55,15 @@ const Expense = (props: {
 
   return (
     <View style={[globalStyles.container]}>
-      <AddExpenseModal toggle={setVisibleModal} visible={visibleModal} />
-      <CFloatingButton onPress={() => setVisibleModal(true)} />
-      <OptionHeader>
-        <View style={{ marginRight: 'auto' }}>
-          <CText heading>Expenses</CText>
-        </View>
-        <Icon
-          onPress={() =>
-            props.navigation.navigate('ArchivedExpenses', {
-              expenseId: undefined,
-            })
-          }
-          style={{ marginRight: 15 }}
-          name="archive"
-          size={20}
-          color={Colors1.secondaryText}
-        />
-        <Icon
-          onPress={() =>
-            props.navigation.navigate('CategorySettings', {
-              expenseId: undefined,
-            })
-          }
-          name="settings"
-          size={20}
-          color={Colors1.secondaryText}
-        />
-      </OptionHeader>
+      <CText style={{ marginBottom: 20 }} heading>
+        Archived Expenses
+      </CText>
       {data?.getExpenses.length === 0 && (
         <EmptyList
-          heading={'No Expenses created.'}
-          subHeading={'Get started with your first one...'}
-          createNew={() => setVisibleModal(true)}
+          heading={'No archived Expenses yet.'}
+          subHeading={
+            'Go to Expense Settings for archive.\nArchived Expenses wont show up in the overview.'
+          }
         />
       )}
       <FlatList
@@ -117,4 +92,4 @@ const Expense = (props: {
   );
 };
 
-export default Expense;
+export default ArchivedExpense;

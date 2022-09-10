@@ -28,6 +28,11 @@ const ETFDetailsCollabsible = ({ transactions, etfId }: Props) => {
     },
   });
 
+  const handleTransDelete = (deleteId: string) => {
+    deleteTrans({
+      variables: { id: deleteId },
+    });
+  };
   const renderTransactions = () => {
     return (
       <View style={styles.marginBottom}>
@@ -61,7 +66,9 @@ const ETFDetailsCollabsible = ({ transactions, etfId }: Props) => {
                   onPress={() => {
                     handleTransDelete(transaction.id);
                   }}>
-                  <DeleteIcon onDelete={() => console.log('handleDelete')} />
+                  <DeleteIcon
+                    onDelete={() => handleTransDelete(transaction.id)}
+                  />
                 </TouchableOpacity>
               </View>
             </CCard>
@@ -71,11 +78,6 @@ const ETFDetailsCollabsible = ({ transactions, etfId }: Props) => {
     );
   };
 
-  const handleTransDelete = (deleteId: string) => {
-    deleteTrans({
-      variables: { id: deleteId },
-    });
-  };
   return (
     <View>
       <TouchableOpacity

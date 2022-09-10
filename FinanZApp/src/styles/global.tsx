@@ -4,7 +4,7 @@ import { Colors1 } from './color';
 export const globalStyles = StyleSheet.create({
   container: {
     padding: 20,
-    marginBottom: 70,
+    marginBottom: 42,
     flex: 1,
   },
   modalContent: {

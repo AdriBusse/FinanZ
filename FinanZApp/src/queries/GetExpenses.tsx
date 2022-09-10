@@ -1,8 +1,8 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const GETEXPENSES = gql`
   query GETEXPENSES {
-    getExpenses {
+    getExpenses(archived: false) {
       id
       title
       sum
