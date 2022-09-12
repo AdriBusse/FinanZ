@@ -1,16 +1,20 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import CButton from '../../shared/CButton';
 import * as yup from 'yup';
-import {Formik} from 'formik';
-import {globalStyles} from '../../../styles/global';
-import {useMutation} from '@apollo/client';
-import {CREATEETFTRANSACTION} from '../../../queries/mutations/ETF/CreateETFTransaction';
-import {GETETFDETAIL} from '../../../queries/GetETFDetails';
+import { Formik } from 'formik';
+import { globalStyles } from '../../../styles/global';
+import { useMutation } from '@apollo/client';
+import { CREATEETFTRANSACTION } from '../../../queries/mutations/ETF/CreateETFTransaction';
+import { GETETFDETAIL } from '../../../queries/GetETFDetails';
 import CText from '../../shared/CText';
 import ErrorAlert from '../../shared/ErrorAlert';
 import CModal from '../../shared/CModal';
 import CTextInput from '../../shared/CTextInput';
+import {
+  ICreateETFTransaction,
+  IReturn,
+} from '../../../queries/types/mutations/ETF/ICreateETFTransaction';
 
 interface Props {
   visible: boolean;
@@ -23,19 +27,22 @@ const inputSchema = yup.object({
   id: yup.string(),
 });
 
-function AddETFTransactionModal({visible, toggle, etfId}: Props) {
-  const [addTransaction] = useMutation(CREATEETFTRANSACTION, {
-    refetchQueries: [{query: GETETFDETAIL, variables: {id: etfId}}],
-    onError: err => {
-      console.log('__-Err');
-      console.log(err);
+function AddETFTransactionModal({ visible, toggle, etfId }: Props) {
+  const [addTransaction] = useMutation<IReturn, ICreateETFTransaction>(
+    CREATEETFTRANSACTION,
+    {
+      refetchQueries: [{ query: GETETFDETAIL, variables: { id: etfId } }],
+      onError: err => {
+        console.log('__-Err');
+        console.log(err);
+      },
     },
-  });
+  );
   return (
     <CModal size="half" visible={visible} onClose={toggle}>
       <View style={globalStyles.container}>
         <Formik
-          initialValues={{invest: '', fee: '0', id: etfId}}
+          initialValues={{ invest: '', fee: '0', id: etfId }}
           onSubmit={values => {
             addTransaction({
               variables: {

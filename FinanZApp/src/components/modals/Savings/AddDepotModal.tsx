@@ -1,16 +1,20 @@
-import {useMutation} from '@apollo/client';
-import {Formik} from 'formik';
+import { useMutation } from '@apollo/client';
+import { Formik } from 'formik';
 import React from 'react';
-import {Keyboard, Modal, TouchableWithoutFeedback, View} from 'react-native';
+import { Keyboard, Modal, TouchableWithoutFeedback, View } from 'react-native';
 import * as yup from 'yup';
-import {GETDEPOTS} from '../../../queries/GetDepots';
-import {CREATESAVINGDEPOT} from '../../../queries/mutations/Savings/CreateSavingDepot';
-import {globalStyles} from '../../../styles/global';
+import { GETDEPOTS } from '../../../queries/GetDepots';
+import { CREATESAVINGDEPOT } from '../../../queries/mutations/Savings/CreateSavingDepot';
+import { globalStyles } from '../../../styles/global';
 import CButton from '../../shared/CButton';
 import ErrorAlert from '../../shared/ErrorAlert';
 import CText from '../../shared/CText';
 import CTextInput from '../../shared/CTextInput';
 import CloseModal from '../helper/CloseModal';
+import {
+  ICreateSavingDepot,
+  IReturn,
+} from '../../../queries/types/mutations/Savings/ICreateSavingDepot';
 
 const transSchema = yup.object({
   name: yup.string().required(),
@@ -21,10 +25,13 @@ interface Props {
   visible: boolean;
   toggle: CallableFunction;
 }
-function AddDepotModal({visible, toggle}: Props) {
-  const [addDepot] = useMutation(CREATESAVINGDEPOT, {
-    refetchQueries: [{query: GETDEPOTS}],
-  });
+function AddDepotModal({ visible, toggle }: Props) {
+  const [addDepot] = useMutation<IReturn, ICreateSavingDepot>(
+    CREATESAVINGDEPOT,
+    {
+      refetchQueries: [{ query: GETDEPOTS }],
+    },
+  );
   return (
     <Modal
       statusBarTranslucent={true}
@@ -38,7 +45,7 @@ function AddDepotModal({visible, toggle}: Props) {
             <CloseModal closeFunktion={() => toggle(false)} />
             <View style={[globalStyles.container, globalStyles.scroll]}>
               <Formik
-                initialValues={{name: '', short: ''}}
+                initialValues={{ name: '', short: '' }}
                 validationSchema={transSchema}
                 onSubmit={values => {
                   addDepot({
@@ -53,7 +60,7 @@ function AddDepotModal({visible, toggle}: Props) {
                   return (
                     <View style={globalStyles.container}>
                       <CText heading={true}>Add a new Saving Depot:</CText>
-                      <View style={{paddingBottom: 5}}>
+                      <View style={{ paddingBottom: 5 }}>
                         <CTextInput
                           value={formikProps.values.name}
                           onChangeText={formikProps.handleChange('name')}
@@ -67,7 +74,7 @@ function AddDepotModal({visible, toggle}: Props) {
                             <ErrorAlert>{formikProps.errors.name}</ErrorAlert>
                           )}
                       </View>
-                      <View style={{paddingBottom: 5}}>
+                      <View style={{ paddingBottom: 5 }}>
                         <CTextInput
                           value={formikProps.values.short}
                           onChangeText={formikProps.handleChange('short')}

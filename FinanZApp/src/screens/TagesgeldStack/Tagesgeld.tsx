@@ -6,7 +6,7 @@ import AddDepotModal from '../../components/modals/Savings/AddDepotModal';
 import ErrorAlert from '../../components/shared/ErrorAlert';
 import CText from '../../components/shared/CText';
 import { GETDEPOTS } from '../../queries/GetDepots';
-import { DELETESAVINGDEPOT } from '../../queries/mutations/Savings/DeleteDepot';
+import { DELETESAVINGDEPOT } from '../../queries/mutations/Savings/DeleteSavingDepot';
 import { globalStyles } from '../../styles/global';
 import CFloatingButton from '../../components/shared/CFloatingButton';
 import DeleteIcon from '../../components/shared/DeleteIcon';
@@ -15,6 +15,7 @@ import Spinner from '../../components/shared/Spinner';
 import { formatNumber } from '../../helpers/formatNumber';
 import { IGetDepots } from '../../queries/types/IGetDepots';
 import EmptyList from '../../components/shared/EmptyList';
+import { IDeleteDepot } from '../../queries/types/mutations/Savings/IDeleteSavingDepot';
 
 export default function Tagesgeld(props: {
   navigation: { navigate: (arg0: string, arg1: { item: any }) => void };
@@ -24,7 +25,7 @@ export default function Tagesgeld(props: {
   const { data, loading, error } = useQuery<IGetDepots>(GETDEPOTS, {
     fetchPolicy: 'network-only',
   });
-  const [deleteDepot] = useMutation(DELETESAVINGDEPOT, {
+  const [deleteDepot] = useMutation<boolean, IDeleteDepot>(DELETESAVINGDEPOT, {
     refetchQueries: [{ query: GETDEPOTS }],
   });
   const handleDelete = (id: string) => {

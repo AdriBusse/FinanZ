@@ -14,6 +14,10 @@ import { ISearchETF } from '../../../queries/types/ISearchETF';
 import Spinner from '../../shared/Spinner';
 import CCard from '../../shared/CCard';
 import { Colors1 } from '../../../styles/color';
+import {
+  ICreateETF,
+  IReturn,
+} from '../../../queries/types/mutations/ETF/ICreateETF';
 
 interface Props {
   visible: boolean;
@@ -22,9 +26,11 @@ interface Props {
 function AddETFModal({ visible, toggle }: Props) {
   const [searchKey, setSearchKey] = useState('');
   const [selection, setSelection] = useState<string | undefined>();
-  const [addETF] = useMutation(CREATEETF, {
+  const [addETF] = useMutation<IReturn, ICreateETF>(CREATEETF, {
     refetchQueries: [{ query: GETETFDATA }],
-    onCompleted: () => {
+    onCompleted: d => {
+      console.log(d);
+
       setSearchKey('');
       toggle(false);
     },

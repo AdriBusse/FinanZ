@@ -13,6 +13,10 @@ import CategoryDropDown from '../../Expense/CategoryDropDown';
 import CTextInput from '../../shared/CTextInput';
 import { GETEXPENSE } from '../../../queries/GetExpense';
 import DateSelect from '../../shared/DateSelect';
+import {
+  ICreateExpenseTransaction,
+  IReturn,
+} from '../../../queries/types/mutations/Expense/ICreateExpenseTransaction';
 
 interface Props {
   visible: boolean;
@@ -29,12 +33,15 @@ const inputSchema = yup.object({
 function AddExpenseTransactionModal({ visible, toggle, expenseId }: Props) {
   const [date, setDate] = useState(new Date());
 
-  const [addTransaction] = useMutation(CREATEEXPANSETRANSACTION, {
-    refetchQueries: [{ query: GETEXPENSE, variables: { id: expenseId } }],
-    onError: err => {
-      console.log(err.message);
+  const [addTransaction] = useMutation<IReturn, ICreateExpenseTransaction>(
+    CREATEEXPANSETRANSACTION,
+    {
+      refetchQueries: [{ query: GETEXPENSE, variables: { id: expenseId } }],
+      onError: err => {
+        console.log(err.message);
+      },
     },
-  });
+  );
 
   return (
     <CModal size="half" visible={visible} onClose={toggle}>
@@ -44,7 +51,7 @@ function AddExpenseTransactionModal({ visible, toggle, expenseId }: Props) {
             describtion: '',
             amount: '',
             expenseId: expenseId,
-            categoryId: null,
+            categoryId: undefined,
           }}
           onSubmit={({ describtion, amount, categoryId }) => {
             addTransaction({

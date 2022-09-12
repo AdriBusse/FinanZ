@@ -17,6 +17,10 @@ import ErrorAlert from '../../shared/ErrorAlert';
 import CText from '../../shared/CText';
 import CloseModal from '../helper/CloseModal';
 import CTextInput from '../../shared/CTextInput';
+import {
+  ICreateSavingTransaction,
+  IReturn,
+} from '../../../queries/types/mutations/Savings/ICreateSavingTransaction';
 
 interface Props {
   visible: boolean;
@@ -30,12 +34,15 @@ const inputSchema = yup.object({
 });
 
 function AddSavingTransactionModal({ visible, toggle, depotId }: Props) {
-  const [addTransaction] = useMutation(CREATESAVINGTRANSACTION, {
-    refetchQueries: [{ query: GETDEPOTS, variables: { id: depotId } }],
-    onError: err => {
-      console.log(err);
+  const [addTransaction] = useMutation<IReturn, ICreateSavingTransaction>(
+    CREATESAVINGTRANSACTION,
+    {
+      refetchQueries: [{ query: GETDEPOTS, variables: { id: depotId } }],
+      onError: err => {
+        console.log(err);
+      },
     },
-  });
+  );
   return (
     <Modal
       statusBarTranslucent={true}

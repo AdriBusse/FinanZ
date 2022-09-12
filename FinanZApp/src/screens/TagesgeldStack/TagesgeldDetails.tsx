@@ -3,7 +3,7 @@ import React from 'react';
 import { View, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import CCard from '../../components/shared/CCard';
 import { GETDEPOT } from '../../queries/GetDepot';
-import { DELETESAVINGTRANSACTION } from '../../queries/mutations/Savings/DeleteTransaction';
+import { DELETESAVINGTRANSACTION } from '../../queries/mutations/Savings/DeleteSavingTransaction';
 import { globalStyles } from '../../styles/global';
 import AddSavingTransactionModal from '../../components/modals/Savings/AddSavingTransactionModal.tsx';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -20,6 +20,7 @@ import DeleteIcon from '../../components/shared/DeleteIcon';
 import Spinner from '../../components/shared/Spinner';
 import { formatNumber } from '../../helpers/formatNumber';
 import EmptyList from '../../components/shared/EmptyList';
+import { IDeleteSavingTransaction } from '../../queries/types/mutations/Savings/IDeleteSavingTransaction';
 
 export default function TagesgeldDetails({ route }: any) {
   const { item: depotId } = route.params;
@@ -40,9 +41,12 @@ export default function TagesgeldDetails({ route }: any) {
     date: string;
     describtion: string;
   }>();
-  const [deleteTrans] = useMutation(DELETESAVINGTRANSACTION, {
-    refetchQueries: [{ query: GETDEPOT, variables: { id: depotId } }],
-  });
+  const [deleteTrans] = useMutation<boolean, IDeleteSavingTransaction>(
+    DELETESAVINGTRANSACTION,
+    {
+      refetchQueries: [{ query: GETDEPOT, variables: { id: depotId } }],
+    },
+  );
 
   const clickDeleteTrans = (deleteId: string) => {
     deleteTrans({

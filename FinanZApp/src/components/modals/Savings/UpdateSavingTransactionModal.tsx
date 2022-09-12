@@ -1,19 +1,21 @@
-import {useMutation} from '@apollo/client';
-import React, {useState} from 'react';
-import {View} from 'react-native';
-import {globalStyles} from '../../../styles/global';
+import { useMutation } from '@apollo/client';
+import React, { useState } from 'react';
+import { View } from 'react-native';
+import { globalStyles } from '../../../styles/global';
 import CButton from '../../shared/CButton';
 import CText from '../../shared/CText';
 import CModal from '../../shared/CModal';
 import CTextInput from '../../shared/CTextInput';
 
-import {
-  InputType,
-  UPDATESAVINGTRANSACTION,
-} from '../../../queries/mutations/Savings/UpdateSavingTransaction';
-import {GETDEPOTS} from '../../../queries/GetDepots';
-import {GETDEPOT} from '../../../queries/GetDepot';
+import { UPDATESAVINGTRANSACTION } from '../../../queries/mutations/Savings/UpdateSavingTransaction';
+import { GETDEPOTS } from '../../../queries/GetDepots';
+import { GETDEPOT } from '../../../queries/GetDepot';
 import DateSelect from '../../shared/DateSelect';
+
+import {
+  IUpdateSavingTransaction,
+  IReturn,
+} from '../../../queries/types/mutations/Savings/IUpdateSavingTransaction';
 
 interface Props {
   visible: boolean;
@@ -37,22 +39,25 @@ function UpdateSavingTransactionModal({
   const [newAmount, setNewAmount] = useState(amount.toString());
   const [date, setDate] = useState(new Date(createdAt));
 
-  const [updateSavingTransaction] = useMutation<any, InputType>(
-    UPDATESAVINGTRANSACTION,
-    {
-      onError: err => {
-        console.log(err.message);
-      },
-      onCompleted: () => {
-        toggle(false);
-      },
-      refetchQueries: [GETDEPOTS, {query: GETDEPOT, variables: {id: depotId}}],
+  const [updateSavingTransaction] = useMutation<
+    IReturn,
+    IUpdateSavingTransaction
+  >(UPDATESAVINGTRANSACTION, {
+    onError: err => {
+      console.log(err.message);
     },
-  );
+    onCompleted: () => {
+      toggle(false);
+    },
+    refetchQueries: [
+      GETDEPOTS,
+      { query: GETDEPOT, variables: { id: depotId } },
+    ],
+  });
   return (
     <CModal size="full" visible={visible} onClose={toggle}>
       <View style={[globalStyles.container, globalStyles.scroll]}>
-        <View style={{paddingBottom: 5}}>
+        <View style={{ paddingBottom: 5 }}>
           <CText>Describtion:</CText>
           <CTextInput
             value={newDesc}
@@ -62,7 +67,7 @@ function UpdateSavingTransactionModal({
             keyboardType={'default'}
           />
         </View>
-        <View style={{paddingBottom: 5}}>
+        <View style={{ paddingBottom: 5 }}>
           <CText>Amount:</CText>
           <CTextInput
             value={newAmount}
@@ -72,7 +77,7 @@ function UpdateSavingTransactionModal({
             keyboardType={'numeric'}
           />
         </View>
-        <View style={{paddingBottom: 5}}>
+        <View style={{ paddingBottom: 5 }}>
           <DateSelect setDate={setDate} date={date} />
         </View>
       </View>

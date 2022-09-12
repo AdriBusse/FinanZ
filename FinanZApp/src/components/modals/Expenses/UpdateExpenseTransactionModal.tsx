@@ -1,22 +1,26 @@
-import {useMutation} from '@apollo/client';
-import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {UPDATEEXPENSETRANSACTION} from '../../../queries/mutations/Expenses/UpdateExpenseTransaction';
-import {globalStyles} from '../../../styles/global';
+import { useMutation } from '@apollo/client';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { UPDATEEXPENSETRANSACTION } from '../../../queries/mutations/Expenses/UpdateExpenseTransaction';
+import { globalStyles } from '../../../styles/global';
 import CategoryDropDown from '../../Expense/CategoryDropDown';
 import CButton from '../../shared/CButton';
 import CText from '../../shared/CText';
 import CModal from '../../shared/CModal';
 import CTextInput from '../../shared/CTextInput';
 
-import {GETEXPENSES} from '../../../queries/GetExpenses';
-import {GETEXPENSE} from '../../../queries/GetExpense';
+import { GETEXPENSES } from '../../../queries/GetExpenses';
+import { GETEXPENSE } from '../../../queries/GetExpense';
 import DateSelect from '../../shared/DateSelect';
+import {
+  IUpdateExpenseTransaction,
+  IReturn,
+} from '../../../queries/types/mutations/Expense/IUpdateExpenseTransaction';
 
 interface Props {
   visible: boolean;
   toggle: CallableFunction;
-  transactionId: String;
+  transactionId: string;
   describtion: string;
   amount: number;
   category: string;
@@ -39,14 +43,8 @@ function UpdateExpenseTransactionModal({
   const [date, setDate] = useState(new Date(createdAt));
 
   const [updateExpenseTransaction] = useMutation<
-    any,
-    {
-      transactionId: String;
-      amount: Number;
-      describtion: String;
-      categoryId: string;
-      date: String;
-    }
+    IReturn,
+    IUpdateExpenseTransaction
   >(UPDATEEXPENSETRANSACTION, {
     onError: err => {
       console.log(err.message);
@@ -56,7 +54,7 @@ function UpdateExpenseTransactionModal({
     },
     refetchQueries: [
       GETEXPENSES,
-      {query: GETEXPENSE, variables: {id: expenseId}},
+      { query: GETEXPENSE, variables: { id: expenseId } },
     ],
   });
   return (

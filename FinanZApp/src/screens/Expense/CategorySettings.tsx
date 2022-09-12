@@ -16,6 +16,7 @@ import CFloatingButton from '../../components/shared/CFloatingButton';
 import DeleteIcon from '../../components/shared/DeleteIcon';
 import OptionHeader from '../../components/shared/OptionHeader';
 import Spinner from '../../components/shared/Spinner';
+import { IDeleteExpenseCategory } from '../../queries/types/mutations/Expense/IDeleteExpenseCategory';
 
 const CategorySettings = () => {
   const [showAdd, setShowAdd] = useState(false);
@@ -28,12 +29,15 @@ const CategorySettings = () => {
     color: string;
     name: string;
   }>();
-  const [deleteCategory] = useMutation(DELETEEXPENSECATEGORY, {
-    refetchQueries: [GETEXPENSECATEGORIES],
-    onError: err => {
-      console.log(err);
+  const [deleteCategory] = useMutation<boolean, IDeleteExpenseCategory>(
+    DELETEEXPENSECATEGORY,
+    {
+      refetchQueries: [GETEXPENSECATEGORIES],
+      onError: err => {
+        console.log(err);
+      },
     },
-  });
+  );
   const showUpdateModal = (
     id: string,
     icon: string,

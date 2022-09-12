@@ -1,15 +1,17 @@
-import {useMutation} from '@apollo/client';
-import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {GETEXPENSECATEGORIES} from '../../../queries/GetExpenseCategories';
-import {UPDATEEXPENSECATEGORY} from '../../../queries/mutations/Expenses/UpdateExpenseCategory';
-import {globalStyles} from '../../../styles/global';
+import { useMutation } from '@apollo/client';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { GETEXPENSECATEGORIES } from '../../../queries/GetExpenseCategories';
+import { UPDATEEXPENSECATEGORY } from '../../../queries/mutations/Expenses/UpdateExpenseCategory';
+import { globalStyles } from '../../../styles/global';
 import ColorDropDown from '../../DropDown/ColorDropDown';
 import IconDropDown from '../../DropDown/IconDropDown';
 import CButton from '../../shared/CButton';
 import CText from '../../shared/CText';
 import CModal from '../../shared/CModal';
 import CTextInput from '../../shared/CTextInput';
+import { IUpdateExpenseCategory } from '../../../queries/types/mutations/Expense/IUpdateExpenseCategory';
+import { IReturn } from '../../../queries/types/mutations/ETF/ICreateETFTransaction';
 
 interface Props {
   visible: boolean;
@@ -30,20 +32,15 @@ function UpdateExpenseCategoryModal({
   const [newName, setNewName] = useState(name);
   const [newIcon, setNewIcon] = useState(icon);
   const [newColor, setNewColor] = useState(color);
-  const [updateExpenseCategory] = useMutation<
-    any,
+  const [updateExpenseCategory] = useMutation<IReturn, IUpdateExpenseCategory>(
+    UPDATEEXPENSECATEGORY,
     {
-      id: String;
-      name: String;
-      icon: String;
-      color: String;
-    }
-  >(UPDATEEXPENSECATEGORY, {
-    onError: err => {
-      console.log(err);
+      onError: err => {
+        console.log(err);
+      },
+      refetchQueries: [GETEXPENSECATEGORIES],
     },
-    refetchQueries: [GETEXPENSECATEGORIES],
-  });
+  );
   return (
     <CModal size="full" visible={visible} onClose={toggle}>
       <View style={[globalStyles.container, globalStyles.scroll]}>
