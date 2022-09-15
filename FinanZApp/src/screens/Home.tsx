@@ -23,6 +23,7 @@ import CText from '../components/shared/CText';
 import CCard from '../components/shared/CCard';
 import UpdateExpenseTransactionModal from '../components/modals/Expenses/UpdateExpenseTransactionModal';
 import Spinner from '../components/shared/Spinner';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function Home(props: {
   navigation: {
@@ -54,24 +55,25 @@ export default function Home(props: {
     fetchPolicy: 'network-only',
   });
 
-  const showUpdate = (
-    id: string,
-    amount: number,
-    describtion: string,
-    categoryId: string | null,
-    createdAt: string,
-    expenseId: string,
-  ) => {
-    setFocusItem({
-      transactionId: id,
-      amount: amount,
-      describtion: describtion,
-      categoryId: categoryId || '',
-      createdAt,
-      expenseId,
-    });
-    setShowSeeUpdate(true);
+  const crypto = () => {
+    return (
+      <View style={styles.box}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <CText bold style={{ fontSize: 20, marginBottom: 7 }}>
+            Crypto Space
+          </CText>
+          <MaterialCommunityIcons name="ethereum" size={20} />
+          <MaterialCommunityIcons name="bitcoin" size={20} />
+        </View>
+        <CButton
+          outline
+          title="Visit"
+          onPress={() => props.navigation.navigate('Crypto', undefined)}
+        />
+      </View>
+    );
   };
+
   //today spent
   const box1 = () => {
     return (
@@ -234,6 +236,7 @@ export default function Home(props: {
           </CText>
           <View style={styles.wrapper}>
             <View style={styles.left}>
+              <View style={styles.box}>{crypto()}</View>
               <View style={styles.box}>{box1()}</View>
               <View style={styles.box}>{box2()}</View>
             </View>
