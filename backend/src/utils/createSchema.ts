@@ -1,3 +1,8 @@
+import { GetCoinGraphHistory } from "./../modules/graphql/Cryptocurrency/GetCoinGraphHistory.resolver";
+import { GetCoinDetails } from "./../modules/graphql/Cryptocurrency/GetCoinDetails.resolver";
+import { SearchCryptoCoin } from "./../modules/graphql/Cryptocurrency/SearchCryptoCoin.resolver";
+import { getSupportedVsCurrencies } from "./../modules/graphql/Cryptocurrency/GetSupportedVSCurrencies.resolver";
+import { GetMarketData } from "./../modules/graphql/Cryptocurrency/GetMarketData.resolver";
 import { SearchETFResolver } from "./../modules/graphql/ETF/ETF/SearchETF.resolver";
 import { UpdateSavingDepotResolver } from "./../modules/graphql/Saving/Depot/UpdateSavingDepot.resolver";
 import { UpdateExpenseResolver } from "./../modules/graphql/Expense/Expense/UpdateExpense.resolver";
@@ -91,6 +96,12 @@ export const createSchema = () => {
       UpdateExpenseCategoryResolver,
 
       Summary,
+
+      GetMarketData,
+      getSupportedVsCurrencies,
+      SearchCryptoCoin,
+      GetCoinDetails,
+      GetCoinGraphHistory,
     ],
   });
 };

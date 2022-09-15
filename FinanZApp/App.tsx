@@ -14,6 +14,7 @@ import { Colors1 } from './src/styles/color';
 import { LogBox, StyleSheet, Text, View } from 'react-native';
 import Expense from './src/screens/ExpenseStack';
 import Background from './src/components/shared/Background';
+import CryptocurrencyStack from './src/screens/CryptocurrencyStack';
 
 const App = () => {
   // just during on device testing
@@ -68,6 +69,8 @@ const App = () => {
                     iconName = 'user';
                   } else if (route.name === 'Expense') {
                     iconName = 'money';
+                  } else if (route.name === 'Crypto') {
+                    iconName = 'bitcoin';
                   }
                   // return any NavBar Component
                   return (
@@ -90,6 +93,7 @@ const App = () => {
               <Tab.Screen name="Sparen" component={TagesgeldStack} />
               <Tab.Screen name="Expense" component={Expense} />
               <Tab.Screen name="Home" component={Home} />
+              <Tab.Screen name="Crypto" component={CryptocurrencyStack} />
               <Tab.Screen name="ETF" component={ETFStack} />
               <Tab.Screen name="Auth" component={Auth} />
             </Tab.Navigator>
