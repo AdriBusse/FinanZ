@@ -12,6 +12,7 @@ import DeleteIcon from '../shared/DeleteIcon';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Collapsible from 'react-native-collapsible';
 import { Colors1 } from '../../styles/color';
+import { IDeleteETFTransaction } from '../../queries/types/mutations/ETF/IDeleteETFTransaction';
 
 interface Props {
   transactions: Transaction[];
@@ -21,12 +22,15 @@ interface Props {
 const ETFDetailsCollabsible = ({ transactions, etfId }: Props) => {
   const [oTrans, setOTrans] = React.useState(true);
 
-  const [deleteTrans] = useMutation(DELETEETFTRANSACTION, {
-    refetchQueries: [{ query: GETETFDETAIL, variables: { id: etfId } }],
-    onError: (err: any) => {
-      console.log(err);
+  const [deleteTrans] = useMutation<boolean, IDeleteETFTransaction>(
+    DELETEETFTRANSACTION,
+    {
+      refetchQueries: [{ query: GETETFDETAIL, variables: { id: etfId } }],
+      onError: (err: any) => {
+        console.log(err);
+      },
     },
-  });
+  );
 
   const handleTransDelete = (deleteId: string) => {
     deleteTrans({

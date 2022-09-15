@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 export const UPDATESAVINGTRANSACTION = gql`
   mutation UPDATESAVINGTransaction(
     $id: Float!
@@ -19,10 +19,3 @@ export const UPDATESAVINGTRANSACTION = gql`
     }
   }
 `;
-
-export interface InputType {
-  id: number;
-  describtion?: string;
-  amount?: number;
-  date?: string;
-}

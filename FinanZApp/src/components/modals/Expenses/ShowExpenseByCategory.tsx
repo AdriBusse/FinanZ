@@ -1,6 +1,9 @@
 import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
-import { IExpenseByCategory } from '../../../queries/types/IGetExpense';
+import { FlatList, Pressable, StyleSheet, View } from 'react-native';
+import {
+  IExpenseByCategory,
+  ITransactions,
+} from '../../../queries/types/IGetExpense';
 import { globalStyles } from '../../../styles/global';
 import CCard from '../../shared/CCard';
 import CText from '../../shared/CText';
@@ -9,38 +12,64 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Colors1 } from '../../../styles/color';
 import { formatNumber } from '../../../helpers/formatNumber';
 import PieChartByCategory from '../../Charts/Expense/PieChartByCategory';
+import TransactionsByCategoryModal from './TransactionsByCategoryModal';
 
 interface Props {
   visible: boolean;
   toggle: CallableFunction;
   categories: IExpenseByCategory[];
+  transactions: ITransactions[];
   all: number;
 }
 function ShowExpenseByCategoryModal({
   visible,
   toggle,
   categories,
+  transactions,
   all,
 }: Props) {
+  const [showTransactions, setShowTransactions] = React.useState(false);
+  const [currentCategory, setCurrentCategory] = React.useState<
+    { name: string; sum: number } | undefined
+  >();
+
   return (
     <CModal size="full" visible={visible} onClose={toggle}>
+      {currentCategory && (
+        <TransactionsByCategoryModal
+          visible={showTransactions}
+          toggle={() => {
+            setShowTransactions(false);
+            setCurrentCategory(undefined);
+          }}
+          transactions={transactions}
+          name={currentCategory.name}
+          sum={currentCategory.sum}
+        />
+      )}
       <View style={styles.container}>
         <PieChartByCategory categories={categories} all={all} />
         <FlatList
           data={categories.slice().sort((a, b) => b.amount - a.amount)}
           renderItem={({ item }) => (
             <CCard>
-              <View
-                style={[
-                  styles.shadow,
-                  { shadowColor: item.color },
-                  globalStyles.transCard,
-                  styles.list,
-                ]}>
-                <Icon name={item.icon} color={item.color} />
-                <CText>{item.name}</CText>
-                <CText>{formatNumber(item.amount)}</CText>
-              </View>
+              <Pressable
+                onPress={() => {
+                  setCurrentCategory({ name: item.name, sum: item.amount });
+                  setShowTransactions(true);
+                }}>
+                <View
+                  style={[
+                    styles.shadow,
+                    { shadowColor: item.color },
+                    globalStyles.transCard,
+                    styles.list,
+                  ]}>
+                  <Icon name={item.icon} color={item.color} />
+                  <CText>{item.name}</CText>
+                  <CText>{formatNumber(item.amount)}</CText>
+                </View>
+              </Pressable>
             </CCard>
           )}
         />

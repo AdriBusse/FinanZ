@@ -21,12 +21,11 @@ import ShowExpenseByCategoryModal from '../../components/modals/Expenses/ShowExp
 import Spinner from '../../components/shared/Spinner';
 import { formatNumber } from '../../helpers/formatNumber';
 import { groupExpenseTransactions } from '../../helpers/groupExpenseTransactions';
-import { abs } from 'react-native-reanimated';
 import DeleteIcon from '../../components/shared/DeleteIcon';
-import CButton from '../../components/shared/CButton';
 import EmptyList from '../../components/shared/EmptyList';
+import { IDeleteExpenseTransaction } from '../../queries/types/mutations/Expense/IDeleteExpenseTransaction';
 
-export default function ExpenseDetails({ route }: any) {
+export default function ExpenseDetails({ route, navigation }: any) {
   const { expenseId } = route.params;
 
   const { data, loading, error } = useQuery<IGetExpense>(GETEXPENSE, {
@@ -46,15 +45,18 @@ export default function ExpenseDetails({ route }: any) {
     categoryId: string;
     createdAt: string;
   }>();
-  const [deleteTrans] = useMutation(DELETEEXPENSETRANSACTION, {
-    onError: err => {
-      console.log(err.message);
+  const [deleteTrans] = useMutation<boolean, IDeleteExpenseTransaction>(
+    DELETEEXPENSETRANSACTION,
+    {
+      onError: err => {
+        console.log(err.message);
+      },
+      refetchQueries: [
+        GETEXPENSES,
+        { query: GETEXPENSE, variables: { id: expenseId } },
+      ],
     },
-    refetchQueries: [
-      GETEXPENSES,
-      { query: GETEXPENSE, variables: { id: expenseId } },
-    ],
-  });
+  );
   const showUpdate = (
     id: string,
     amount: number,
@@ -120,6 +122,7 @@ export default function ExpenseDetails({ route }: any) {
           visible={showDetails}
           toggle={() => setShowDetails(false)}
           categories={expenseByCategory}
+          transactions={transactions}
           all={sum}
         />
       )}
@@ -142,6 +145,15 @@ export default function ExpenseDetails({ route }: any) {
         <View style={{ marginRight: 'auto' }}>
           <CText heading>{title + ':'}</CText>
         </View>
+        <Icon
+          onPress={() => {
+            navigation.navigate('Expense');
+          }}
+          name="chevron-left"
+          size={20}
+          color={Colors1.secondaryText}
+          style={{ marginRight: 20 }}
+        />
         <Icon
           onPress={() => {
             setShowUpdateExpense(true);

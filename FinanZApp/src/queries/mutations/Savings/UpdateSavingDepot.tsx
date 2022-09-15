@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 export const UPDATESAVINGDEPOT = gql`
   mutation UPDATESAVINGDEPOT($id: String!, $name: String, $short: String) {
     updateSavingDepot(id: $id, name: $name, short: $short) {
@@ -8,9 +8,3 @@ export const UPDATESAVINGDEPOT = gql`
     }
   }
 `;
-
-export interface InputType {
-  id: string;
-  name?: string;
-  short?: string;
-}

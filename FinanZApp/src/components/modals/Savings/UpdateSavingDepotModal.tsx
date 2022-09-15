@@ -1,16 +1,18 @@
-import {useMutation} from '@apollo/client';
-import React, {useState} from 'react';
-import {View} from 'react-native';
-import {GETDEPOT} from '../../../queries/GetDepot';
+import { useMutation } from '@apollo/client';
+import React, { useState } from 'react';
+import { View } from 'react-native';
+import { GETDEPOT } from '../../../queries/GetDepot';
 import {
   InputType,
   UPDATESAVINGDEPOT,
 } from '../../../queries/mutations/Savings/UpdateSavingDepot';
-import {globalStyles} from '../../../styles/global';
+import { globalStyles } from '../../../styles/global';
 import CButton from '../../shared/CButton';
 import CText from '../../shared/CText';
 import CModal from '../../shared/CModal';
 import CTextInput from '../../shared/CTextInput';
+import { IUpdateSavingDepot } from '../../../queries/types/mutations/Savings/IUpdateSavingDepot';
+import { IReturn } from '../../../queries/types/mutations/Expense/IUpdateExpense';
 
 interface Props {
   visible: boolean;
@@ -19,19 +21,22 @@ interface Props {
   name: string;
   short: string;
 }
-function UpdateSavingDepotModal({visible, toggle, id, name, short}: Props) {
+function UpdateSavingDepotModal({ visible, toggle, id, name, short }: Props) {
   const [newName, setNewName] = useState(name);
   const [newShort, setNewShort] = useState(short);
-  const [updateSavingDepot] = useMutation<any, InputType>(UPDATESAVINGDEPOT, {
-    onError: err => {
-      console.log(err);
+  const [updateSavingDepot] = useMutation<IReturn, IUpdateSavingDepot>(
+    UPDATESAVINGDEPOT,
+    {
+      onError: err => {
+        console.log(err);
+      },
+      refetchQueries: [{ query: GETDEPOT, variables: { id } }],
     },
-    refetchQueries: [{query: GETDEPOT, variables: {id}}],
-  });
+  );
   return (
     <CModal size="half" visible={visible} onClose={() => toggle(false)}>
       <View style={[globalStyles.container, globalStyles.scroll]}>
-        <View style={{paddingBottom: 5}}>
+        <View style={{ paddingBottom: 5 }}>
           <CText>Name:</CText>
           <CTextInput
             value={newName}
@@ -41,7 +46,7 @@ function UpdateSavingDepotModal({visible, toggle, id, name, short}: Props) {
             keyboardType={'default'}
           />
         </View>
-        <View style={{paddingBottom: 5}}>
+        <View style={{ paddingBottom: 5 }}>
           <CText>Short:</CText>
           <CTextInput
             value={newShort}

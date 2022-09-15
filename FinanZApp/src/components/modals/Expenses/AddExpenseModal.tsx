@@ -1,16 +1,20 @@
-import {useMutation} from '@apollo/client';
-import {Formik} from 'formik';
+import { useMutation } from '@apollo/client';
+import { Formik } from 'formik';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import * as yup from 'yup';
-import {GETEXPENSES} from '../../../queries/GetExpenses';
-import {CREATEEXPENSE} from '../../../queries/mutations/Expenses/CreateExpense';
-import {globalStyles} from '../../../styles/global';
+import { GETEXPENSES } from '../../../queries/GetExpenses';
+import { CREATEEXPENSE } from '../../../queries/mutations/Expenses/CreateExpense';
+import { globalStyles } from '../../../styles/global';
 import CButton from '../../shared/CButton';
 import ErrorAlert from '../../shared/ErrorAlert';
 import CText from '../../shared/CText';
 import CModal from '../../shared/CModal';
 import CTextInput from '../../shared/CTextInput';
+import {
+  ICreateExpense,
+  IReturn,
+} from '../../../queries/types/mutations/Expense/ICreateExpense';
 
 const transSchema = yup.object({
   title: yup.string().required(),
@@ -20,15 +24,15 @@ interface Props {
   visible: boolean;
   toggle: CallableFunction;
 }
-function AddExpenseModal({visible, toggle}: Props) {
-  const [addExpense] = useMutation(CREATEEXPENSE, {
-    refetchQueries: [{query: GETEXPENSES}],
+function AddExpenseModal({ visible, toggle }: Props) {
+  const [addExpense] = useMutation<IReturn, ICreateExpense>(CREATEEXPENSE, {
+    refetchQueries: [{ query: GETEXPENSES }],
   });
   return (
     <CModal size="half" visible={visible} onClose={toggle}>
       <View style={[globalStyles.container, globalStyles.scroll]}>
         <Formik
-          initialValues={{title: ''}}
+          initialValues={{ title: '' }}
           validationSchema={transSchema}
           onSubmit={values => {
             addExpense({

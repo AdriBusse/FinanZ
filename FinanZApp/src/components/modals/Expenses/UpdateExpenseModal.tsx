@@ -9,6 +9,10 @@ import CButton from '../../shared/CButton';
 import CText from '../../shared/CText';
 import CModal from '../../shared/CModal';
 import CTextInput from '../../shared/CTextInput';
+import {
+  IReturn,
+  IUpdateExpense,
+} from '../../../queries/types/mutations/Expense/IUpdateExpense';
 
 interface Props {
   visible: boolean;
@@ -29,15 +33,7 @@ function UpdateExpenseModal({
   const [newTitle, setNewTitle] = useState(title);
   const [newCurrency, setNewCurrency] = useState(currency);
   const [newArchived, setArchived] = useState(archived);
-  const [updateExpense] = useMutation<
-    any,
-    {
-      id: String;
-      title: String;
-      currency: String;
-      archived: Boolean;
-    }
-  >(UPDATEEXPENSE, {
+  const [updateExpense] = useMutation<IReturn, IUpdateExpense>(UPDATEEXPENSE, {
     onError: err => {
       console.log(err);
     },

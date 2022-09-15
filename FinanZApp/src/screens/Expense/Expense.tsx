@@ -17,6 +17,7 @@ import DeleteIcon from '../../components/shared/DeleteIcon';
 import Spinner from '../../components/shared/Spinner';
 import { formatNumber } from '../../helpers/formatNumber';
 import EmptyList from '../../components/shared/EmptyList';
+import { IDeleteExpense } from '../../queries/types/mutations/Expense/IDeleteExpense';
 
 const Expense = (props: {
   navigation: { navigate: (arg0: string, arg1: { expenseId: any }) => void };
@@ -27,7 +28,7 @@ const Expense = (props: {
     fetchPolicy: 'network-only',
   });
 
-  const [deleteExpense] = useMutation(DELETEEXPENSE, {
+  const [deleteExpense] = useMutation<boolean, IDeleteExpense>(DELETEEXPENSE, {
     refetchQueries: [{ query: GETEXPENSES }],
   });
   const handleDelete = (id: string) => {

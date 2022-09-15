@@ -5,18 +5,19 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import React, {ReactNode} from 'react';
-import {Colors1} from '../../styles/color';
+import React, { ReactNode } from 'react';
+import { Colors1 } from '../../styles/color';
 import CloseModal from '../modals/helper/CloseModal';
-import {globalStyles} from '../../styles/global';
+import { globalStyles } from '../../styles/global';
 
 interface Props {
   visible: boolean;
   onClose: CallableFunction;
   size: 'full' | 'half';
   children: ReactNode;
+  style?: Object;
 }
-const CModal = ({visible, size, onClose, children}: Props) => {
+const CModal = ({ visible, size, onClose, children, style }: Props) => {
   return (
     <Modal
       transparent={true}
@@ -25,7 +26,11 @@ const CModal = ({visible, size, onClose, children}: Props) => {
       onRequestClose={() => onClose(false)}
       animationType="slide">
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={[size === 'full' ? styles.modalFull : styles.modalHalf]}>
+        <View
+          style={[
+            size === 'full' ? styles.modalFull : styles.modalHalf,
+            style,
+          ]}>
           <CloseModal closeFunktion={() => onClose(false)} />
           <View style={globalStyles.modalContent}>{children}</View>
         </View>
