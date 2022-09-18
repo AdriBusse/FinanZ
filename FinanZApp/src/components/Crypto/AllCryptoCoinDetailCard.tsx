@@ -47,37 +47,41 @@ const AllCryptoCoinDetailCard = ({ item }: Props) => {
             <CText style={{ fontSize: 10 }}>{item.name}</CText>
           </View>
           <View style={{ justifyContent: 'center' }}>
-            <CText
-              style={{
-                fontSize: 16,
-                color:
-                  item.price_change_percentage_1h_in_currency >= 0
-                    ? Colors1.positive
-                    : Colors1.negative,
-              }}
-              bold>
-              {`${
-                item.current_price > 0.1
-                  ? item.current_price.toFixed(2)
-                  : item.current_price
-              }${symbol}`}
-            </CText>
+            {item.price_change_percentage_1h_in_currency ? (
+              <CText
+                style={{
+                  fontSize: 16,
+                  color:
+                    item.price_change_percentage_1h_in_currency >= 0
+                      ? Colors1.positive
+                      : Colors1.negative,
+                }}
+                bold>
+                {`${
+                  item.current_price > 0.1
+                    ? item.current_price.toFixed(2)
+                    : item.current_price
+                }${symbol}`}
+              </CText>
+            ) : null}
           </View>
           <View style={{ width: 50 }}>
             <View style={{ flexDirection: 'row' }}>
-              <CText
-                style={{
-                  fontSize: 10,
-                  marginRight: 5,
-                  color:
-                    item.price_change_percentage_1h_in_currency > 0
-                      ? Colors1.positive
-                      : Colors1.negative,
-                }}>
-                {`${
-                  item.price_change_percentage_1h_in_currency > 0 ? '+' : ''
-                }${item.price_change_percentage_1h_in_currency.toFixed(2)}%`}
-              </CText>
+              {item.price_change_percentage_1h_in_currency ? (
+                <CText
+                  style={{
+                    fontSize: 10,
+                    marginRight: 5,
+                    color:
+                      item.price_change_percentage_1h_in_currency > 0
+                        ? Colors1.positive
+                        : Colors1.negative,
+                  }}>
+                  {`${
+                    item.price_change_percentage_1h_in_currency > 0 ? '+' : ''
+                  }${item.price_change_percentage_1h_in_currency.toFixed(2)}%`}
+                </CText>
+              ) : null}
               <CText
                 style={{
                   fontSize: 10,
@@ -87,19 +91,21 @@ const AllCryptoCoinDetailCard = ({ item }: Props) => {
               </CText>
             </View>
             <View style={{ flexDirection: 'row' }}>
-              <CText
-                style={{
-                  fontSize: 10,
-                  marginRight: 5,
-                  color:
-                    item.price_change_percentage_24h > 0
-                      ? Colors1.positive
-                      : Colors1.negative,
-                }}>
-                {`${
-                  item.price_change_percentage_24h > 0 ? '+' : ''
-                }${item.price_change_percentage_24h.toFixed(2)}%`}
-              </CText>
+              {item.price_change_percentage_24h ? (
+                <CText
+                  style={{
+                    fontSize: 10,
+                    marginRight: 5,
+                    color:
+                      item.price_change_percentage_24h > 0
+                        ? Colors1.positive
+                        : Colors1.negative,
+                  }}>
+                  {`${
+                    item.price_change_percentage_24h > 0 ? '+' : ''
+                  }${item.price_change_percentage_24h.toFixed(2)}%`}
+                </CText>
+              ) : null}
               <CText
                 style={{
                   fontSize: 10,
@@ -109,19 +115,21 @@ const AllCryptoCoinDetailCard = ({ item }: Props) => {
               </CText>
             </View>
             <View style={{ flexDirection: 'row' }}>
-              <CText
-                style={{
-                  fontSize: 10,
-                  marginRight: 5,
-                  color:
-                    item.price_change_percentage_7d_in_currency > 0
-                      ? Colors1.positive
-                      : Colors1.negative,
-                }}>
-                {`${
-                  item.price_change_percentage_7d_in_currency > 0 ? '+' : ''
-                }${item.price_change_percentage_7d_in_currency.toFixed(2)}%`}
-              </CText>
+              {item.price_change_percentage_7d_in_currency ? (
+                <CText
+                  style={{
+                    fontSize: 10,
+                    marginRight: 5,
+                    color:
+                      item.price_change_percentage_7d_in_currency > 0
+                        ? Colors1.positive
+                        : Colors1.negative,
+                  }}>
+                  {`${
+                    item.price_change_percentage_7d_in_currency > 0 ? '+' : ''
+                  }${item.price_change_percentage_7d_in_currency.toFixed(2)}%`}
+                </CText>
+              ) : null}
               <CText
                 style={{
                   fontSize: 10,

@@ -40,8 +40,8 @@ export class CoinGeckoMarkets {
   @Field()
   low_24h: number;
 
-  @Field()
-  price_change_percentage_1h_in_currency: number;
+  @Field({ nullable: true })
+  price_change_percentage_1h_in_currency?: number;
 
   @Field()
   price_change_24h: number;

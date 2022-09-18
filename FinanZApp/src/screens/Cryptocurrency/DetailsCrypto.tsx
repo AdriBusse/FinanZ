@@ -85,8 +85,12 @@ const DetailsCrypto = props => {
         <View>
           <CText bold style={{ fontSize: 20 }}>
             {`${
-              data!.getCoinDetails.market_data.current_price > 0.1
-                ? formatNumber(data!.getCoinDetails.market_data.current_price)
+              data!.getCoinDetails.market_data.current_price > 0.2
+                ? formatNumber(
+                    parseFloat(
+                      data!.getCoinDetails.market_data.current_price.toFixed(2),
+                    ),
+                  )
                 : data!.getCoinDetails.market_data.current_price
             } ${symbol}`}
           </CText>

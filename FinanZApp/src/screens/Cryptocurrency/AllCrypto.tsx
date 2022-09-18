@@ -27,6 +27,9 @@ const AllCrypto = props => {
     InputType
   >(GETCRYPTOCURRENCYDATA, {
     nextFetchPolicy: 'network-only',
+    onError: error => {
+      console.log(error);
+    },
   });
 
   useEffect(() => {
