@@ -37,5 +37,4 @@ services:
       - CRON_SCHEDULE="*/1 * * * *"
     restart: on-failure
     depends_on:
-      finanzdb:
-        condition: service_healthy
+      - finanzdb
