@@ -15,6 +15,7 @@ services:
   finanz_backend:
     build:
       context: "./"
+      dockerfile: DockerFile
     restart: always
     depends_on:
       - finanzdb
