@@ -16,7 +16,7 @@ RUN yarn
 
 # Bundle app source
 COPY . .
-
+RUN make run-migrations
 RUN yarn compile
 EXPOSE 4000
 
