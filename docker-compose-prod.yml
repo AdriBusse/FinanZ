@@ -5,7 +5,7 @@ services:
     container_name: finanzdb
     restart: always
     ports:
-      - "${DB_PORT}:5432"
+      - "7788:5432"
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
