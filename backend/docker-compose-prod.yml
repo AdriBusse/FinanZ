@@ -2,38 +2,45 @@ version: "3.1"
 services:
   finanzdb:
     image: postgres
+    container_name: finanzdb
     restart: always
     ports:
-      - "5432:5432"
+      - "${DB_PORT}:5432"
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: finanz
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
     volumes:
-      - ./DockerdataProd/db:/var/lib/postgresql/data
+      - ./Finanz/db:/var/lib/postgresql/data
 
   finanz_backend:
-    build:
-      context: "./"
-      dockerfile: backend/Dockerfile
+    build: .
     restart: always
+    container_name: finanz_backend
     depends_on:
       - finanzdb
     ports:
       - "4200:4000"
+    environment:
+      - DB_Host=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+      - production=${production}
     links:
       - finanzdb
 
   dbbackups:
     image: kartoza/pg-backup
     volumes:
-      - ./backupdb:/backups
+      - ./Finanz/backupdb:/backups
     environment:
       - DUMPPREFIX=pgfinanz
-      - POSTGRES_HOST=finanzdb
-      - POSTGRES_USER=admin
-      - POSTGRES_PASS=admin123
-      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=${DB_HOST}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASS=${DB_PASSWORD}
+      - POSTGRES_PORT=${DB_PORT}
       - CRON_SCHEDULE="*/1 * * * *"
     restart: on-failure
     depends_on:

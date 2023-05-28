@@ -6,7 +6,7 @@
   "username": "admin",
   "password": "admin123",
   "database": "finanz",
-  "synchronize": true,
+  "synchronize": false,
   "logging": true,
   "entities": ["src/entity/*.*"],
   "migrations": ["src/migrations/*.*"],

@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -14,14 +23,14 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const user_1 = __importDefault(require("./modules/middleware/user"));
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config({ path: __dirname + "/../.env" });
-const start = async () => {
+const start = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        await (0, typeorm_1.createConnection)();
+        yield (0, typeorm_1.createConnection)();
     }
     catch (error) {
         console.log(error);
     }
-    const schema = await (0, createSchema_1.createSchema)();
+    const schema = yield (0, createSchema_1.createSchema)();
     const apolloServer = new apollo_server_express_1.ApolloServer({
         schema,
         plugins: [(0, apollo_server_core_1.ApolloServerPluginLandingPageGraphQLPlayground)()],
@@ -38,7 +47,7 @@ const start = async () => {
     app.get("/ping", (_, res) => {
         res.send("pong");
     });
-    await apolloServer.start();
+    yield apolloServer.start();
     apolloServer.applyMiddleware({
         app,
         cors: {
@@ -49,6 +58,6 @@ const start = async () => {
     app.listen(4000, () => {
         console.log("Server listen on port 4000");
     });
-};
+});
 start();
 //# sourceMappingURL=index.js.map
