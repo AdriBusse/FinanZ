@@ -8,7 +8,6 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import user from "./modules/middleware/user";
 import dotenv from "dotenv";
-import { log } from "console";
 
 dotenv.config({ path: __dirname + "/../.env" });
 
