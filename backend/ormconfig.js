@@ -11,6 +11,8 @@ module.exports = {
   entities: process.env.production
     ? ["./dist/entity/*.*"]
     : ["./src/entity/*.*"],
-  migrations: ["src/migrations/*.*"],
-  seeds: ["src/seeds/*.*"],
+  migrations: process.env.production
+    ? ["./dist/migrations/*.*"]
+    : ["src/migrations/*.*"],
+  seeds: process.env.production ? ["src/seeds/*.*"] : ["src/seeds/*.*"],
 };
