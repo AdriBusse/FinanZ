@@ -25,6 +25,7 @@ const start = async () => {
     schema,
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
     context: ({ req, res }: any) => ({ req, res }), // just for access the context
+    introspection: true,
   });
 
   const app = Express();
