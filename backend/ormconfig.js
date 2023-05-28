@@ -8,11 +8,9 @@ module.exports = {
   database: process.env.DB_DATABASE,
   synchronize: true,
   logging: true,
-  entities: process.env.production
-    ? ["./dist/entity/*.*"]
-    : ["./src/entity/*.*"],
-  migrations: process.env.production
+  entities: process.env.prod ? ["./dist/entity/*.*"] : ["./src/entity/*.*"],
+  migrations: process.env.prod
     ? ["./dist/migrations/*.*"]
     : ["src/migrations/*.*"],
-  seeds: process.env.production ? ["src/seeds/*.*"] : ["src/seeds/*.*"],
+  seeds: process.env.prod ? ["src/seeds/*.*"] : ["src/seeds/*.*"],
 };
