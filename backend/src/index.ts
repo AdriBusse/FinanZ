@@ -8,6 +8,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import user from "./modules/middleware/user";
 import dotenv from "dotenv";
+import { log } from "console";
 
 dotenv.config({ path: __dirname + "/../.env" });
 
@@ -43,7 +44,12 @@ const start = async () => {
     res.send("pong");
   });
 
-  await apolloServer.start();
+  await apolloServer
+    .start()
+    .then(() => console.log("GraphQL Server started"))
+    .catch((err) => {
+      console.error("ERROR:___" + err);
+    });
   apolloServer.applyMiddleware({
     app,
     cors: {
