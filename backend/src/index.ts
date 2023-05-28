@@ -13,7 +13,8 @@ dotenv.config({ path: __dirname + "/../.env" });
 
 const start = async () => {
   try {
-    await createConnection();
+    const con = await createConnection();
+    console.log(con);
   } catch (error) {
     console.log(error);
   }
