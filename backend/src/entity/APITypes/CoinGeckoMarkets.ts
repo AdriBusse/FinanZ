@@ -46,17 +46,17 @@ export class CoinGeckoMarkets {
   @Field()
   price_change_24h: number;
 
-  @Field()
-  price_change_percentage_7d_in_currency: number;
+  @Field({ nullable: true })
+  price_change_percentage_7d_in_currency?: number;
 
-  @Field()
-  price_change_percentage_24h: number;
+  @Field({ nullable: true })
+  price_change_percentage_24h?: number;
 
-  @Field()
-  market_cap_change_24h: number;
+  @Field({ nullable: true })
+  market_cap_change_24h?: number;
 
-  @Field()
-  market_cap_change_percentage_24h: number;
+  @Field({ nullable: true })
+  market_cap_change_percentage_24h?: number;
 
   @Field()
   circulating_supply: number;

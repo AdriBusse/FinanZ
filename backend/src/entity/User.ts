@@ -43,6 +43,10 @@ export class User extends BaseEntity {
 
   @Field({ nullable: true })
   @Column({ nullable: true })
+  middleName: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   lastName: string;
 
   @Column()
