@@ -12,12 +12,12 @@ import dotenv from "dotenv";
 dotenv.config({ path: __dirname + "/../.env" });
 
 const start = async () => {
-  cosnole.log(process.env.DB_HOST)
-  cosnole.log(process.env.DB_PORT)
-  cosnole.log(process.env.DB_USER)
-  cosnole.log(process.env.DB_PASSWORD)
-  cosnole.log(process.env.DB_DATABASE)
-  cosnole.log(process.env.prod)
+  console.log(process.env.DB_HOST)
+  console.log(process.env.DB_PORT)
+  console.log(process.env.DB_USER)
+  console.log(process.env.DB_PASSWORD)
+  console.log(process.env.DB_DATABASE)
+  console.log(process.env.prod)
   try {
     await createConnection();
   } catch (error) {
