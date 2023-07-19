@@ -53,7 +53,7 @@ export class ExpenseResolver implements ResolverInterface<Expense> {
       sum += expenseTransaction.amount;
     });
 
-    return sum;
+    return parseFloat(sum.toFixed(2));
   }
 
   @FieldResolver()
