@@ -14,7 +14,6 @@ dotenv.config({ path: __dirname + "/../.env" });
 const start = async () => {
   try {
     const con = await createConnection();
-    console.log(con);
   } catch (error) {
     console.log(error);
   }
@@ -58,7 +57,6 @@ const start = async () => {
       origin: "*",
     },
   });
-  console.log("new");
 
   app.listen(4000, () => {
     console.log("Server listen on port 4000");
