@@ -29,6 +29,10 @@ update-dump:
 load-dump:
 	gzip -k -d dump.sql.gz && docker exec -i backend-finanzdb-1 psql -U admin -d finanz < dump.sql
 	rm dump.sql
+
+#ausführen wenn relationen schon gesetzt sind
+insert-data:
+	docker exec -i backend-finanzdb-1 pg_restore -U admin -C -f dump.sql
 	
 init-frontend:
 	yarn install --force
