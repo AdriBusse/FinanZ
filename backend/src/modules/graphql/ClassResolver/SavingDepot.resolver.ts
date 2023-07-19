@@ -52,6 +52,6 @@ export class SavingDepotResolver implements ResolverInterface<SavingDepot> {
       sum += savingTransaction.amount;
     });
 
-    return sum;
+    return parseFloat(sum.toFixed(2));
   }
 }
