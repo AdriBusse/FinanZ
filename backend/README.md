@@ -1,8 +1,3 @@
-# In Prod set following ENV Variables:
+#start dev
 
-- DB_HOST (belog to docker-compose)
-- DB_PORT
-- DB_USER
-- DB_PASSWORD
-- DB_DATABASE
-- production
+`make run-dev`
