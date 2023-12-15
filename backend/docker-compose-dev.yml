@@ -9,4 +9,6 @@ services:
       POSTGRES_PASSWORD: admin123
       POSTGRES_DB: finanz
     volumes:
-      - ./Dockerdata/db:/var/lib/postgresql/data
+      - pgFinanz:/var/lib/postgresql/data
+volumes:
+    pgFinanz:

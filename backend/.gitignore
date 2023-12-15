@@ -2,7 +2,9 @@ node_modules
 .env
 Dockerdata
 DockerdataProd
-dist/
+/dist
+
+dump.sql
 
 Finanz/
 ../FinanZApp/.watchman-cookie-Adrians-Air-2711-4031
